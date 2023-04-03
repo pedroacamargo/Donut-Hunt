@@ -1,6 +1,4 @@
-<p>To create the ./game executable: </p><br>
-    <code>make build</code> or just <code>make</code>
-<br>
+<h1><samp>LA Project<samp></h1>
 
-<p>To reset all files and delete the executable:</p><br>
-    <code>make clean</code>
+<p><samp>To create the ./play executable: <code><strong>make build</strong></code> or just <code><strong>make</strong></code></samp> <br>
+<samp>To reset all files and delete the executable:  </samp><code><strong>make clean</strong></code> </p> 

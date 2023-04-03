@@ -12,7 +12,7 @@ SRC = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))
 # src/main.c -> build/main.o
 #------------------------------------------------
-PROGRAM = game
+PROGRAM = play
 #================================================
 .DEFAULT_GOAL = build
 

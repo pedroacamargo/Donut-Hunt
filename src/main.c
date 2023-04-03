@@ -4,6 +4,8 @@
 #include <ncurses.h>
 #include <time.h>
 
+#include "example.h"
+
 /**
  *
  * Falta muita coisa, incluindo por exemplo:
