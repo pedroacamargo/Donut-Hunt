@@ -16,10 +16,12 @@ for (int j = 0; j <= height; j++) {
 
 int createMap(int *cols, int *rows, Player * user) {
   srand(time(NULL)); // create a random number based in local time
-  int randomNumberY = rand() % *rows + 1;
-  int randomNumberX = rand() % *cols + 1;
   int width = rand() % 10 + 10;
   int height = rand() % 10 + 4;
+
+  int randomNumberY = (rand() % (*rows - height)) + 1;
+  int randomNumberX = (rand() % (*cols - width)) + 1;
+
 
   printw("cols:%d rows:%d  \nx:%d y:%d",*cols, *rows, randomNumberX, randomNumberY); 
   createMainRoom(randomNumberY,randomNumberX,height,width);

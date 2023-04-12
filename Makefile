@@ -37,7 +37,6 @@ clean:
 	@-rm -r $(BUILD_DIR)
 	@-rm $(PROGRAM)
 
-
 # O - antes do comando significa que se o comando falhar, ele é ignorado
 # O @ antes do comando significa que quando o comando for acionado, irá omitir  todos comandos acionados
 
