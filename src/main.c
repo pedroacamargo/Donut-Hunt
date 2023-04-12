@@ -23,15 +23,14 @@ int main() {
 	createMap(&cols,&rows,user);
 	
 	mvprintw(user->playerY,user->playerX,"@");
-	// st.playerX = middle[0];
-	// st.playerY = middle[1];
+  move(user->playerY,user->playerX);
 
 	while(1) {
 		int ch = getch();
 
+		getInput(ch,user);
+
 		switch (ch) {
-			case 'w':
-				break;
 			case 'q':
 				refresh();
 				endwin();
