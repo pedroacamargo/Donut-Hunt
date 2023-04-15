@@ -1,6 +1,6 @@
-#include "player.h"
 #include <stdlib.h>
 #include <ncurses.h>
+#include "main.h"
 
 Player *playerSetUp() {
   Player *newPlayer;
