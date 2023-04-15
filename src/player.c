@@ -9,7 +9,10 @@ Player * playerSetUp() {
   return newPlayer;
 }
 
-void getInput(int key, Player *user) {
+
+
+
+void getInput(int key, Player *user,int *cols, int *rows) {
   switch (key) {
   case 'w':
   case 'W':
@@ -31,10 +34,20 @@ void getInput(int key, Player *user) {
   case 'Q':
     refresh();
     endwin();
+    break;
+  case 'P':
+  case 'p':
+    clear();
+    createMap(cols, rows, user);
+    updatePlayerPosition(user);
+    break;
   default:
     break;
   }
 }
+
+
+
 
 void playerMove(int y, int x, Player *user) {
 
@@ -45,15 +58,24 @@ void playerMove(int y, int x, Player *user) {
   
   switch (mvinch(newY,newX)) {
     case '#':
+    case '|':
+    case '-':
       move(user->pos.y,user->pos.x);
       break;
     case '.':
       mvprintw(user->pos.y, user->pos.x, ".");
       user->pos.x += x;
       user->pos.y += y;
-      mvprintw(user->pos.y, user->pos.x, "@");
-      move(user->pos.y, user->pos.x);
+      updatePlayerPosition(user);
       break;
   }
-  // fazer checkPosition()
+}
+
+
+
+
+
+void updatePlayerPosition(Player *user) {
+  mvprintw(user->pos.y, user->pos.x, "@");
+  move(user->pos.y,user->pos.x);
 }
