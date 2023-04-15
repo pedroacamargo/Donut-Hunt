@@ -26,8 +26,8 @@ int createMap(int *cols, int *rows, Player * user) {
   printw("cols:%d rows:%d  \nx:%d y:%d",*cols, *rows, randomNumberX, randomNumberY); 
   createMainRoom(randomNumberY,randomNumberX,height,width);
 
-  user->playerY = randomNumberY + (height/2);
-  user->playerX = randomNumberX + (width/2);
+  user->pos.y = randomNumberY + (height/2);
+  user->pos.x = randomNumberX + (width/2);
 
   return 0;
 }

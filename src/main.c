@@ -7,10 +7,10 @@
 
 int main() {
 	Player * user;
+	WINDOW *wnd = initscr();
 
 
 	// Window Setup
-	WINDOW *wnd = initscr();
 	int cols, rows;
 	getmaxyx(wnd,rows,cols);
 	raw();
@@ -22,8 +22,8 @@ int main() {
 
 	createMap(&cols,&rows,user);
 	
-	mvprintw(user->playerY,user->playerX,"@");
-  move(user->playerY,user->playerX);
+	mvprintw(user->pos.y,user->pos.x,"@");
+  move(user->pos.y,user->pos.x);
 
 	while(1) {
 		int ch = getch();
