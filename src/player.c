@@ -2,8 +2,8 @@
 #include <ncurses.h>
 #include "main.h"
 
-Player *playerSetUp() {
-  Player *newPlayer;
+Player * playerSetUp() {
+  Player * newPlayer;
   newPlayer = malloc(sizeof(Player));
 
   return newPlayer;
@@ -40,19 +40,19 @@ void playerMove(int y, int x, Player *user) {
 
   int newX, newY;
 
-  newY = y + user->playerY;
-  newX = x + user->playerX;
+  newY = y + user->pos.y;
+  newX = x + user->pos.x;
   
   switch (mvinch(newY,newX)) {
     case '#':
-      move(user->playerY,user->playerX);
+      move(user->pos.y,user->pos.x);
       break;
     case '.':
-      mvprintw(user->playerY, user->playerX, ".");
-      user->playerX += x;
-      user->playerY += y;
-      mvprintw(user->playerY, user->playerX, "@");
-      move(user->playerY, user->playerX);
+      mvprintw(user->pos.y, user->pos.x, ".");
+      user->pos.x += x;
+      user->pos.y += y;
+      mvprintw(user->pos.y, user->pos.x, "@");
+      move(user->pos.y, user->pos.x);
       break;
   }
   // fazer checkPosition()
