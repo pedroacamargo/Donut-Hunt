@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <ncurses.h>
-#include "map.h"
+#include "main.h"
 
 void createMainRoom(int randomNumberY, int randomNumberX, int height, int width) {
 for (int j = 0; j <= height; j++) {

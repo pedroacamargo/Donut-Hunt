@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <ncurses.h>
 #include <time.h>
-#include "map.h"
+#include "main.h"
 
 int main() {
 	Player * user;
@@ -31,9 +31,7 @@ int main() {
 		getInput(ch,user);
 
 		switch (ch) {
-			case 'q':
-				refresh();
-				endwin();
+			
 		}
 	}
 
