@@ -17,22 +17,17 @@ int main() {
 	noecho();
 	keypad(stdscr,true);
 	refresh();
-
-	user = playerSetUp();
-
-	createMap(&cols,&rows,user);
+	clear();
 	
-	mvprintw(user->pos.y,user->pos.x,"@");
-  move(user->pos.y,user->pos.x);
+	// player and first map setups
+	user = playerSetUp();
+	createMap(&cols,&rows,user);
+	updatePlayerPosition(user);
 
+	// game loop
 	while(1) {
 		int ch = getch();
-
-		getInput(ch,user);
-
-		switch (ch) {
-			
-		}
+		getInput(ch, user, &cols, &rows);
 	}
 
 	return 0;

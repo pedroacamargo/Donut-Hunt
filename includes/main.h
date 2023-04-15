@@ -5,6 +5,6 @@
 #include "player.h"
 #include "map.h"
 
-/* This main.h needs to be in the correct order for the game works as expected */
+/* This main.h needs to be in the correct order for the game works properly */
 
 #endif
