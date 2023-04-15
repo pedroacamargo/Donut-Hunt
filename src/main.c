@@ -31,9 +31,7 @@ int main() {
 		getInput(ch,user);
 
 		switch (ch) {
-			case 'q':
-				refresh();
-				endwin();
+			
 		}
 	}
 
