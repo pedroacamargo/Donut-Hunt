@@ -13,7 +13,9 @@ typedef struct NormalRoom {
 	int height;
 	int width;
 	// int doors;
+	// int loot; 1-rara 2-comum 
 	// int monsters;
+	// int difficulty;
 } NormalRoom;
 // Normal room stats
 
@@ -21,6 +23,7 @@ typedef struct NormalRoom {
 typedef struct Player {
 	Position pos;
 	int life;
+	// floor
 } Player;
 // Player stats
 

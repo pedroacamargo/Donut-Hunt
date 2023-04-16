@@ -6,3 +6,5 @@ room.doors = x
 
 
 MAP COLORS :3
+
+seeds -> mapa
