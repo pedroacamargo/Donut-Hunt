@@ -30,7 +30,8 @@ void createMap(int *cols, int *rows, Player * user) {
 
 }
 
-
+// seed: numero-4/tamanho/tamanho/tam..
+// seed: 42864730929377809238923
 
 
 NormalRoom * createNormalRoom(int *rows, int *cols) {
@@ -51,23 +52,42 @@ NormalRoom * createNormalRoom(int *rows, int *cols) {
 
 
 
-
+// 
 void drawRoom(NormalRoom * room) {
   // draw top and bottom
-  for (int x = room->pos.x; x < room->pos.x + room->width; x++) {
-    mvprintw(room->pos.y, x, "-");
-    mvprintw(room->pos.y + room->height, x, "-");
+  for (int x = room->pos.x + 1; x < room->pos.x + room->width - 1; x++) {
+    if (mvinch(room->pos.y,x) == '.') {
+      mvprintw(room->pos.y,x,"."); // overwrite rooms
+    } else {
+      mvprintw(room->pos.y,x, "#");
+    }
+     
+    if (mvinch(room->pos.y + room->height,x) == '.') {
+      mvprintw(room->pos.y + room->height,x,"."); // overwrite rooms
+    } else {
+      mvprintw(room->pos.y + room->height, x, "#");
+    }
   }
 
   // draw side walls / floor
-  for (int y = room->pos.y + 1; y < room->pos.y + room->height; y++) {
+  for (int y = room->pos.y; y <= room->pos.y + room->height; y++) {
     // draw side walls
-    mvprintw(y,room->pos.x,"|");
-    mvprintw(y,room->pos.x + room->width - 1, "|");
+    if (mvinch(y,room->pos.x) == '.') {
+      mvprintw(y,room->pos.x,"."); // overwrite rooms
+    } else {
+      mvprintw(y,room->pos.x,"#");
+    }
+
+    if (mvinch(y,room->pos.x + room->width) == '.') {
+      mvprintw(y,room->pos.x + room->width, ".");
+    } else {
+      mvprintw(y,room->pos.x + room->width - 1, "#");
+    }
 
     // draw floors
     for (int x = room->pos.x + 1; x < room->pos.x + room->width - 1; x++) {
-      mvprintw(y,x,".");
+      if (y >= room->pos.y + room->height - 1) break; 
+      mvprintw(y + 1,x,".");
     }    
   }
 
