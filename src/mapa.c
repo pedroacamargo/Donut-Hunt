@@ -27,7 +27,6 @@ void createMap(int *cols, int *rows, Player * user) {
   user->pos.y = normalRooms[0]->pos.y + (normalRooms[0]->height/2);
   user->pos.x = normalRooms[0]->pos.x + (normalRooms[0]->width/2);
   updatePlayerPosition(user);
-
 }
 
 // seed: numero-4/tamanho/tamanho/tam..

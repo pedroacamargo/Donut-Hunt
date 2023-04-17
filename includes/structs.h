@@ -12,7 +12,7 @@ typedef struct NormalRoom {
 	Position pos;
 	int height;
 	int width;
-	// int doors;
+	int doors;
 	// int loot; 1-rara 2-comum 
 	// int monsters;
 	// int difficulty;
