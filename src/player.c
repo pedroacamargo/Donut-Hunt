@@ -2,49 +2,17 @@
 #include <ncurses.h>
 #include "main.h"
 
-Player * playerSetUp() {
+Player * playerSetUp(NormalRoom * firstRoom) {
   Player * newPlayer;
   newPlayer = malloc(sizeof(Player));
+
+  newPlayer->pos.x = firstRoom->pos.x + (firstRoom->width / 2);
+  newPlayer->pos.y = firstRoom->pos.y + (firstRoom->height / 2);
 
   return newPlayer;
 }
 
 
-
-
-void getInput(int key, Player *user,int *cols, int *rows) {
-  switch (key) {
-  case 'w':
-  case 'W':
-    playerMove(-1, 0, user);
-    break;
-  case 'd':
-  case 'D':
-    playerMove(0, +1, user);
-    break;
-  case 'a':
-  case 'A':
-    playerMove(0, -1, user);
-    break;
-  case 's':
-  case 'S':
-    playerMove(+1, 0, user);
-    break;
-  case 'q':
-  case 'Q':
-    refresh();
-    endwin();
-    break;
-  case 'P':
-  case 'p':
-    clear();
-    createMap(cols, rows, user);
-    updatePlayerPosition(user);
-    break;
-  default:
-    break;
-  }
-}
 
 
 
@@ -77,5 +45,6 @@ void playerMove(int y, int x, Player *user) {
 
 void updatePlayerPosition(Player *user) {
   mvprintw(user->pos.y, user->pos.x, "@");
+  mvprintw(0,0,"y: %d | x: %d",user->pos.y, user->pos.x);
   move(user->pos.y,user->pos.x);
 }
