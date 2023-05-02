@@ -7,10 +7,13 @@ BIN_DIR = bin
 BUILD_DIR = build
 INCLUDES_DIR = includes
 SRC_DIR = src
+MAP_DIR = src/map
 #------------------------------------------------
-SRC = $(wildcard $(SRC_DIR)/*.c) 
+SRC = $(wildcard $(SRC_DIR)/*.c)
+MAP = $(wildcard $(MAP_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))
 # src/main.c -> build/main.o
+MAP_OBJ = $(patsubst $(SRC_DIR)/$(MAP_DIR)/%.c,$(BUILD_DIR)/%.o,$(MAP))
 #------------------------------------------------
 PROGRAM = play
 #================================================
@@ -19,7 +22,7 @@ PROGRAM = play
 build: setup $(PROGRAM)
 
 # This will create the ./game in the project root folder
-$(PROGRAM): $(OBJS)
+$(PROGRAM): $(OBJS) $(MAP_OBJ)
 	$(CC) -I $(INCLUDES_DIR) $(CFLAGS) -o $@ $^ $(LIBS)
 
 # This will create the .o files in LA-Project/build
@@ -34,8 +37,10 @@ setup:
 
 .PHONY: clean
 clean:
-	@-rm -r $(BUILD_DIR)
-	@-rm $(PROGRAM)
+	@echo "Removing everything..."
+	-rm -r $(BUILD_DIR)
+	-rm $(PROGRAM)
+	@echo "The executable was deleted successfully"
 
 # O - antes do comando significa que se o comando falhar, ele é ignorado
 # O @ antes do comando significa que quando o comando for acionado, irá omitir  todos comandos acionados
