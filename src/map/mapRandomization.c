@@ -120,7 +120,7 @@ NormalRoom * randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row,
     if (newRoom->pos.x == room->pos.x && newRoom->pos.y == room->pos.y) return room;
     newRoom = makeDoor(first, newRoom);
     drawDoor(room);
-    // drawHallway(newRoom,room,wnd);
+    drawHallway(newRoom,room);
     return newRoom;
   }
 }

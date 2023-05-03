@@ -32,7 +32,7 @@ NormalRoom * createNormalRoom(int *rows, int *cols) {
 
 void drawRoom(NormalRoom * room) {
   // draw top and bottom
-  for (int x = room->pos.x + 1; x < room->pos.x + room->width - 1; x++) {
+  for (int x = room->pos.x + 1; x < room->pos.x + room->width; x++) {
     if (mvinch(room->pos.y,x) == '.') {
       mvprintw(room->pos.y,x,"."); // overwrite rooms
     } else if(mvinch(room->pos.y,x) == '+') {
@@ -65,12 +65,12 @@ void drawRoom(NormalRoom * room) {
       mvprintw(y,room->pos.x + room->width, ".");
     } else if(mvinch(y,room->pos.x + room->width) == '+') {
       mvaddch(y,room->pos.x + room->width,'+');
-    } else {
-      mvprintw(y,room->pos.x + room->width - 1, "#");
+    } else if(mvinch(y,room->pos.x + room->width) == ' '){
+      mvprintw(y,room->pos.x + room->width, "#");
     }
 
     // draw floors
-    for (int x = room->pos.x + 1; x < room->pos.x + room->width - 1; x++) {
+    for (int x = room->pos.x + 1; x < room->pos.x + room->width; x++) {
       if (y >= room->pos.y + room->height - 1) break; 
       mvprintw(y + 1,x,".");
     }    
@@ -78,3 +78,15 @@ void drawRoom(NormalRoom * room) {
 }
 
 
+void createMap(WINDOW * wnd,NormalRoom * firstRoom,NormalRoom * arrayRooms[], int maxRooms, int firstPosition,int cols, int rows) {
+  int rooms = 0;
+  while (rooms <= maxRooms) {
+    rooms++;
+    arrayRooms[rooms] = randomizePosition(wnd,firstRoom,cols,rows,firstPosition,0);
+    firstRoom = arrayRooms[rooms];
+    if (!(mvinch(firstRoom->pos.y,firstRoom->pos.x) == '#' || mvinch(firstRoom->pos.y,firstRoom->pos.x) == '.')) {
+        drawRoom(arrayRooms[rooms]);
+        drawDoor(arrayRooms[rooms]);
+    }
+  }
+}
