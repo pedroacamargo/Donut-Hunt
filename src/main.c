@@ -87,21 +87,12 @@ int main() {
 
 	NormalRoom * room = roomsArray[0];
 
+  createMap(wnd,room,roomsArray,maxRooms,firstPosition,cols,rows);
+
 	// game loop
 	while(1) {
 		if (roomsAmount == maxRooms) break;
 		int ch = getch();
-		if(ch == 'p' || ch == 'P') {
-			roomsAmount++;
-			roomsArray[roomsAmount] = randomizePosition(wnd,room,cols,rows,firstPosition,0);
-			room = roomsArray[roomsAmount];
-			if (!(mvinch(room->pos.y,room->pos.x) == '#' || mvinch(room->pos.y,room->pos.x) == '.')) {
-        drawRoom(roomsArray[roomsAmount]);
-        drawDoor(roomsArray[roomsAmount]);
-      }
-
-			continue;
-		}
 		getInput(wnd, ch, user, &cols, &rows);
 	}
 

@@ -11,6 +11,6 @@ NormalRoom * createNormalRoom(int *rows, int *cols);
 void drawRoom(NormalRoom * room);
 // This function will write in the window the given room at the given position, with it's door in a random position
 
-// void createMap(NormalRoom * firstRoom, int maxRooms, int firstPosition);
+void createMap(WINDOW * wnd, NormalRoom * firstRoom, NormalRoom * arrayRooms[], int maxRooms, int firstPosition, int cols, int rows);
 
 #endif

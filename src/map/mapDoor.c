@@ -17,7 +17,7 @@ NormalRoom * makeDoor(int first,NormalRoom * room) {
     room->doorAxis = 'x';
   } else if (first == 12 || first == 11) {
     // right
-    room->door.x = room->pos.x + room->width - 1; // stay in the wall and don't overflow
+    room->door.x = room->pos.x + room->width;
     room->door.y = randomY + room->pos.y;
     room->doorAxis = 'y';
   } else if (first == 1 || first == 2 || first == 3 || first == 4) {

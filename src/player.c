@@ -36,6 +36,12 @@ void playerMove(int y, int x, Player *user) {
       user->pos.y += y;
       updatePlayerPosition(user);
       break;
+    case '+':
+      mvprintw(user->pos.y, user->pos.x, "+");
+      user->pos.x += x;
+      user->pos.y += y;
+      updatePlayerPosition(user);
+      break;
   }
 }
 
