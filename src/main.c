@@ -15,7 +15,7 @@ void windowSetUp(int * cols, int * rows, WINDOW * wnd) {
 	clear();
 }
 
-void getInput(WINDOW * wnd,int key, Player *user,int *cols, int *rows) {
+void getInput(int key, Player *user) {
   switch (key) {
   case 'w':
   case 'W':
@@ -85,15 +85,15 @@ int main() {
 	roomsArray[roomsAmount] = firstRoom;
 	updatePlayerPosition(user);
 
+  // create the whole map
 	NormalRoom * room = roomsArray[0];
-
   createMap(wnd,room,roomsArray,maxRooms,firstPosition,cols,rows);
 
 	// game loop
 	while(1) {
 		if (roomsAmount == maxRooms) break;
 		int ch = getch();
-		getInput(wnd, ch, user, &cols, &rows);
+		getInput(ch, user);
 	}
 
 	endwin();
