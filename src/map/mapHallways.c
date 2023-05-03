@@ -15,7 +15,6 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room) {
   drawRoom(newRoom);
 
   while (distance != 0) {
-    getch();
     // Loop scope variables
     int xDist = calculateDistanceXAxis(&newRoom->door,&room->door,0); // Distance in x axis in manhattan distance
     int yDist = calculateDistanceYAxis(&newRoom->door,&room->door,0); // Distance in y axis in manhattan distance
