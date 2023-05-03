@@ -6,6 +6,7 @@
 #include "map.h"
 #include "mapDoor.h"
 #include "mapRandomization.h"
+#include "mapHallwaysWalls.h"
 #include "mapHallways.h"
 #include "brightness.h"
 

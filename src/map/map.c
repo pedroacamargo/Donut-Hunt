@@ -89,4 +89,9 @@ void createMap(WINDOW * wnd,NormalRoom * firstRoom,NormalRoom * arrayRooms[], in
         drawDoor(arrayRooms[rooms]);
     }
   }
+
+  // This is to connect randomic rooms in the map (just to give some randomization instead of a linear map)
+  int random1 = (rand() % (rooms - 5)) + 5;
+  drawHallway(arrayRooms[0],arrayRooms[random1]);
+  drawHallway(arrayRooms[2],arrayRooms[random1]);
 }

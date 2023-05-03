@@ -43,8 +43,10 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room) {
         // buildWalls(room,axis,isFirst,axisSwap);
         if (axis == 'x') {
           isWall(&room->door,1,'x');
+          buildWalls(room,axis,isFirst,axisSwap);
         } else if (axis == 'y') {
           isWall(&room->door,1,'y');
+          buildWalls(room,axis,isFirst,axisSwap);
         }
         isFirst = 0;
         break;
@@ -133,19 +135,22 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room) {
       }
     }
 
+    buildWalls(room,axis,isFirst,axisSwap);
     axisSwap = 0;
     distance = calculateDistance(newRoom,room,0,axis); // update the distance between two doors
   }
 }
 
-// This function will return 0 if in the given tile there is a floor ('.'), otherwise will return 1.
-// door -> Needs to be a Position typedef
+
+
 int isFloor(Position * door) {
   if (mvinch(door->y,door->x) == '.') {
     return 0;
   }
   return 1;
 }
+
+
 
 int isWall(Position * door, int displacement, char axis) {
   if (axis == 'x') {
@@ -184,6 +189,8 @@ int isWall(Position * door, int displacement, char axis) {
 
 
 // ############## Distance calc functions ####################
+
+
 int calculateDistance(NormalRoom * newRoom, NormalRoom * room, int displacement, char axis) {
   if (axis == 'y') {
     int xDistance = calculateDistanceXAxis(&newRoom->door,&room->door,0);
