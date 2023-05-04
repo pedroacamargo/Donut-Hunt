@@ -13,9 +13,10 @@ SRC = $(wildcard $(SRC_DIR)/*.c)
 MAP = $(wildcard $(MAP_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))
 # src/main.c -> build/main.o
-MAP_OBJ = $(patsubst $(SRC_DIR)/$(MAP_DIR)/%.c,$(BUILD_DIR)/%.o,$(MAP))
+MAP_OBJ = $(patsubst $(MAP_DIR)/%.c,$(BUILD_DIR)/%.o,$(MAP))
 #------------------------------------------------
 PROGRAM = play
+PROGRAM_MAP = map
 #================================================
 .DEFAULT_GOAL = build
 
@@ -24,6 +25,9 @@ build: setup $(PROGRAM)
 # This will create the ./game in the project root folder
 $(PROGRAM): $(OBJS) $(MAP_OBJ)
 	$(CC) -I $(INCLUDES_DIR) $(CFLAGS) -o $@ $^ $(LIBS)
+
+$(BUILD_DIR)/%.o: $(MAP_DIR)/%.c
+	$(CC) -c -I $(INCLUDES_DIR) $(CFLAGS) -o $@ $^ $(LIBS)
 
 # This will create the .o files in LA-Project/build
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
