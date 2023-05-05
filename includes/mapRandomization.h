@@ -1,7 +1,7 @@
 #ifndef __MAPRANDOMIZATION_H__
 #define __MAPRANDOMIZATION_H__
 
-NormalRoom * randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, int first, int iterations);
+NormalRoom * randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, int first, int iterations, Tile ** map);
 // This is a recusive function that will randomize the position of a brand new room following the rule:
 /*
   The room will try to be generated anywhere of these points (1-12)

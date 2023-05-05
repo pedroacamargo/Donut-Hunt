@@ -4,13 +4,26 @@
 #include <ncurses.h>
 #include "main.h"
 
-NormalRoom * createRoom(int col, int row) {
+Tile ** matrixSetup(int rows, int cols) {
+  Tile **map = (Tile **) calloc(rows, sizeof(Tile *));
+  for(int R = 0; R < rows; R++)
+    map[R] = (Tile *) calloc(cols, sizeof(Tile));
+  
+
+  return map;
+}
+
+
+
+NormalRoom * createRoom(int col, int row, Tile ** map) {
 
   NormalRoom * room = createNormalRoom(&col,&row);
-  drawRoom(room);
+  drawRoom(room,map);
 
   return room;
 }
+
+
 
 NormalRoom * createNormalRoom(int *rows, int *cols) {
   NormalRoom * newRoom;
@@ -30,68 +43,83 @@ NormalRoom * createNormalRoom(int *rows, int *cols) {
   return newRoom;
 }
 
-void drawRoom(NormalRoom * room) {
+void drawRoom(NormalRoom * room, Tile ** map) {
   // draw top and bottom
   for (int x = room->pos.x + 1; x < room->pos.x + room->width; x++) {
-    if (mvinch(room->pos.y,x) == '.') {
-      mvprintw(room->pos.y,x,"."); // overwrite rooms
-    } else if(mvinch(room->pos.y,x) == '+') {
-      mvprintw(room->pos.y,x,"+");
+    if (map[room->pos.y][x].ch == '.') {
+      map[room->pos.y][x].ch = '.'; // overwrite rooms
+      map[room->pos.y][x].walkable = true;
+    } else if(map[room->pos.y][x].ch == '+') {
+      map[room->pos.y][x].ch = '+';
+      map[room->pos.y][x].walkable = true;
     } else {
-      mvprintw(room->pos.y,x, "#");
+      map[room->pos.y][x].ch = '#';
+      map[room->pos.y][x].walkable = false;
     }
-     
-    if (mvinch(room->pos.y + room->height,x) == '.') {
-      mvprintw(room->pos.y + room->height,x,"."); // overwrite rooms
-    } else if(mvinch(room->pos.y + room->height,x) == '+') {
-      mvprintw(room->pos.y + room->height,x,"+");
+
+
+    if (map[room->pos.y + room->height][x].ch == '.') {
+      map[room->pos.y + room->height][x].ch = '.'; // overwrite rooms
+      map[room->pos.y + room->height][x].walkable = true;
+    } else if(map[room->pos.y + room->height][x].ch == '+') {
+      map[room->pos.y + room->height][x].ch = '+';
+      map[room->pos.y + room->height][x].walkable = true;
     } else {
-      mvprintw(room->pos.y + room->height, x, "#");
+      map[room->pos.y + room->height][x].ch = '#';
+      map[room->pos.y + room->height][x].walkable = false;
     }
   }
 
   // draw side walls / floor
   for (int y = room->pos.y; y <= room->pos.y + room->height; y++) {
     // draw side walls
-    if (mvinch(y,room->pos.x) == '.') {
-      mvprintw(y,room->pos.x,"."); // overwrite rooms
-    } else if(mvinch(y,room->pos.x) != '+') {
-      mvprintw(y,room->pos.x,"#");
+    if (map[y][room->pos.x].ch == '.') {
+      map[y][room->pos.x].ch = '.'; // overwrite rooms
+      map[y][room->pos.x].walkable = true;
+    } else if(map[y][room->pos.x].ch != '+') {
+      map[y][room->pos.x].ch = '#';
+      map[y][room->pos.x].walkable = false;
     } else {
-      mvprintw(y,room->pos.x,"+");
+      map[y][room->pos.x].ch = '+';
+      map[y][room->pos.x].walkable = true;
     }
 
-    if (mvinch(y,room->pos.x + room->width) == '.') {
-      mvprintw(y,room->pos.x + room->width, ".");
-    } else if(mvinch(y,room->pos.x + room->width) == '+') {
-      mvaddch(y,room->pos.x + room->width,'+');
-    } else if(mvinch(y,room->pos.x + room->width) == ' '){
-      mvprintw(y,room->pos.x + room->width, "#");
+    if (map[y][room->pos.x + room->width].ch == '.') {
+      map[y][room->pos.x + room->width].ch = '.'; // overwrite rooms
+      map[y][room->pos.x + room->width].walkable = true;
+    } else if(map[y][room->pos.x + room->width].ch != '+') {
+      map[y][room->pos.x + room->width].ch = '#';
+      map[y][room->pos.x + room->width].walkable = false;
+    } else {
+      map[y][room->pos.x + room->width].ch = '+';
+      map[y][room->pos.x + room->width].walkable = true;
     }
 
     // draw floors
     for (int x = room->pos.x + 1; x < room->pos.x + room->width; x++) {
       if (y >= room->pos.y + room->height - 1) break; 
-      mvprintw(y + 1,x,".");
+      map[y+1][x].ch = '.';
+      map[y+1][x].walkable = true;
     }    
   }
 }
 
 
-void createMap(WINDOW * wnd,NormalRoom * firstRoom,NormalRoom * arrayRooms[], int maxRooms, int firstPosition,int cols, int rows) {
+void createMap(WINDOW * wnd,NormalRoom * firstRoom,NormalRoom * arrayRooms[], int maxRooms, int firstPosition,int cols, int rows,Tile ** map) {
   int rooms = 0;
   while (rooms <= maxRooms) {
     rooms++;
-    arrayRooms[rooms] = randomizePosition(wnd,firstRoom,cols,rows,firstPosition,0);
+    arrayRooms[rooms] = randomizePosition(wnd,firstRoom,cols,rows,firstPosition,0,map);
     firstRoom = arrayRooms[rooms];
     if (!(mvinch(firstRoom->pos.y,firstRoom->pos.x) == '#' || mvinch(firstRoom->pos.y,firstRoom->pos.x) == '.')) {
-        drawRoom(arrayRooms[rooms]);
+        drawRoom(arrayRooms[rooms],map);
         drawDoor(arrayRooms[rooms]);
     }
   }
 
   // This is to connect randomic rooms in the map (just to give some randomization instead of a linear map)
   int random1 = (rand() % (rooms - 5)) + 5;
-  drawHallway(arrayRooms[0],arrayRooms[random1]);
-  drawHallway(arrayRooms[2],arrayRooms[random1]);
+  drawHallway(arrayRooms[0],arrayRooms[random1],map);
+  drawHallway(arrayRooms[2],arrayRooms[random1],map);
+  
 }

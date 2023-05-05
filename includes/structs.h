@@ -8,6 +8,11 @@ typedef struct Position
 } Position;
 // Position in X/Y axis for player, rooms...
 
+typedef struct {
+	char ch;
+	bool walkable;
+} Tile;
+
 typedef struct NormalRoom
 {
 	Position pos;

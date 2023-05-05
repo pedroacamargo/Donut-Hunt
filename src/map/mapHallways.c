@@ -5,16 +5,17 @@
 #include <math.h>
 #include "main.h"
 
-void drawHallway(NormalRoom * newRoom, NormalRoom * room) {
+void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map) {
   // Function scope variables
   int distance = calculateDistance(newRoom,room,0,'x'); // distance between room doors in manhattan distance
   char axis = 'x'; // gives the axis 'x' || 'y' 
   int axisSwap = 0; // 1 = Hallway axis changes | 0 = Hallway axis didn't change
   int isFirst = 1; // 1 = It's the first call of the function drawHallway() // 0 = != 1st call
   drawDoor(newRoom);
-  drawRoom(newRoom);
+  drawRoom(newRoom,map);
 
   while (distance != 0) {
+    
     // Loop scope variables
     int xDist = calculateDistanceXAxis(&newRoom->door,&room->door,0); // Distance in x axis in manhattan distance
     int yDist = calculateDistanceYAxis(&newRoom->door,&room->door,0); // Distance in y axis in manhattan distance

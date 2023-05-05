@@ -3,7 +3,7 @@
 
 // The main function for the hallways creation, every auxiliar function created inside this file is performing some role in this function
 // If you give 2 rooms, the 2 rooms will be connected
-void drawHallway(NormalRoom * newRoom, NormalRoom * room);
+void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map);
 
 // This function will return 0 if in the given tile there is a floor ('.'), otherwise will return 1.
 // door -> Needs to be a Position typedef

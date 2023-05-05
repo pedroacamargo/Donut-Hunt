@@ -70,24 +70,25 @@ int main() {
 	srand(time(NULL));
 
 	// Variables
-	int cols, rows;
-	int roomsAmount = 0;
-	int maxRooms = 30; // Max rooms in the map
+	int cols, rows, roomsAmount = 0, maxRooms = 30;
 	int firstPosition = rand() % 12 + 1; // first testing position for the room creation
 
 	// Setup ncurses window in CLI
 	windowSetUp(&cols, &rows, wnd);
-	
+
+  // map matrix setup
+  Tile ** map = matrixSetup(rows, cols);
+
 	// player and map setups
-	NormalRoom * roomsArray[10];
-	NormalRoom * firstRoom = createRoom(cols,rows);
+	NormalRoom * roomsArray[maxRooms];
+	NormalRoom * firstRoom = createRoom(cols,rows,map);
 	user = playerSetUp(firstRoom);
 	roomsArray[roomsAmount] = firstRoom;
 	updatePlayerPosition(user);
 
   // create the whole map
 	NormalRoom * room = roomsArray[0];
-  createMap(wnd,room,roomsArray,maxRooms,firstPosition,cols,rows);
+  createMap(wnd,room,roomsArray,maxRooms,firstPosition,cols,rows,map);
 
 	// game loop
 	while(1) {

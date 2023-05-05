@@ -4,7 +4,7 @@
 #include <ncurses.h>
 #include "main.h"
 
-NormalRoom * randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, int first, int iterations) {
+NormalRoom * randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, int first, int iterations, Tile ** map) {
 
   // Variables
   int top = 10, right = 12, bottom = 3, left = 6; // doors positioning
@@ -113,14 +113,14 @@ NormalRoom * randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row,
   if (has == 1) {
     free(newRoom);
     if (first == 12) first = 1;
-    return randomizePosition(wnd,room,col,row,first,iterations); // recursion
+    return randomizePosition(wnd,room,col,row,first,iterations,map); // recursion
   } else {
     newRoom->pos.x = x;
     newRoom->pos.y = y;
     if (newRoom->pos.x == room->pos.x && newRoom->pos.y == room->pos.y) return room;
     newRoom = makeDoor(first, newRoom);
     drawDoor(room);
-    drawHallway(newRoom,room);
+    drawHallway(newRoom,room,map);
     return newRoom;
   }
 }
