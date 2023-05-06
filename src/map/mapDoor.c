@@ -4,10 +4,10 @@
 #include <ncurses.h>
 #include "main.h"
 
-NormalRoom * makeDoor(int first,NormalRoom * room) {
+NormalRoom makeDoor(int first,NormalRoom * room) {
   first--;
   if (first == 0) first = 1;
-  mvprintw(2,4,"Direction:%d  ",first);
+  // mvprintw(2,4,"Direction:%d  ",first);
   int randomX = rand() % (room->width - 2) + 1; // 1 - width
   int randomY = rand() % (room->height - 1) + 1; // 1 - height
   if (first == 10 || first == 9 || first == 8 || first == 7) {
@@ -31,11 +31,11 @@ NormalRoom * makeDoor(int first,NormalRoom * room) {
     room->door.y = randomY + room->pos.y;
     room->doorAxis = 'y';
   }
-  return room;
+  return *room;
 }
 
 
 
-void drawDoor(NormalRoom * room) {
-  mvprintw(room->door.y,room->door.x,"+");
+void drawDoor(NormalRoom * room, Tile ** map) {
+  map[room->door.y][room->door.x].ch = '+';
 }

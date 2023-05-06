@@ -5,7 +5,7 @@
 #include <math.h>
 #include "main.h"
 
-void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap) {
+void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap, Tile ** map) {
   
   int roomX = room->door.x;
   int roomY = room->door.y;
@@ -13,24 +13,24 @@ void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap) {
     for (int y = roomY - 1; y <= roomY + 1; y++) {
 
       if (axisSwap == 1) {
-        if ((x == roomX && y == roomY) || (mvinch(y,x) == '+')) mvaddch(y,x,'+');
-        else if (mvinch(y,x) != '#' || mvinch(y,x) != '.' || mvinch(y,x) != '+') mvaddch(y,x,'#');
+        if ((x == roomX && y == roomY) || map[y][x].ch == '+') map[y][x].ch = '+';
+        else if (map[y][x].ch != '#' || map[y][x].ch != '.' || map[y][x].ch != '+') map[y][x].ch = '#';
       }
 
       if (isFirst == 1 && axis == 'x') {
 
-        if (mvinch(y,x) != '#' && mvinch(y,x) != '.' && mvinch(y,x) != '+') mvaddch(y,x,'#');
+        if (map[y][x].ch != '#' && map[y][x].ch != '.' && map[y][x].ch != '+') map[y][x].ch = '#';
 
       } else if ( axis == 'x' ) {
 
-        if (mvinch(y,x) != '.' && mvinch(y,x) != '#' && mvinch(y,x) != '+') {
-          mvaddch(y,x,'#');
+        if (map[y][x].ch != '.' && map[y][x].ch != '#' && map[y][x].ch != '+') {
+          map[y][x].ch = '#';
         }
 
       } else if ( axis == 'y' ) {
 
-        if (mvinch(y,x) != '#' && mvinch(y,x) != '+' && mvinch(y,x) != '.') {
-          mvaddch(y,x,'#');
+        if (map[y][x].ch != '#' && map[y][x].ch != '+' && map[y][x].ch != '.') {
+          map[y][x].ch = '#';
         }
       }
     }

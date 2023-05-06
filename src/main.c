@@ -6,32 +6,39 @@
 #include "main.h"
 
 void windowSetUp(int * cols, int * rows, WINDOW * wnd) {
-	// Window Setup
-	getmaxyx(wnd,*cols,*rows);
-	raw();
+	// Initialize ncurses window
 	noecho();
-	keypad(stdscr,true);
-	refresh();
-	clear();
+	keypad(wnd,TRUE);
+	curs_set(FALSE);
+	start_color();
+
+	// Get screen dimensions
+	getmaxyx(stdscr, *rows, *cols);
+
+	// Set up ncurses window to use entire screen
+	wnd = newwin(*rows, *cols, 0, 0);
+	box(wnd, 0, 0);
+	wrefresh(wnd);
+  mvprintw(0,0,"rows:%d,cols:%d",*rows,*cols);
 }
 
-void getInput(int key, Player *user) {
+void getInput(int key, Player *user, Tile ** map) {
   switch (key) {
   case 'w':
   case 'W':
-    playerMove(-1, 0, user);
+    playerMove(-1, 0, user, map);
     break;
   case 'd':
   case 'D':
-    playerMove(0, +1, user);
+    playerMove(0, +1, user, map);
     break;
   case 'a':
   case 'A':
-    playerMove(0, -1, user);
+    playerMove(0, -1, user, map);
     break;
   case 's':
   case 'S':
-    playerMove(+1, 0, user);
+    playerMove(+1, 0, user, map);
     break;
   case 'q':
   case 'Q':
@@ -42,7 +49,7 @@ void getInput(int key, Player *user) {
   case 'p':
     // prevRoom[*roomsAmount] = *randomizePosition(wnd, &prevRoom[*roomsAmount - 1],*rows,*cols,firstPosition,0);
     // *roomsAmount++;
-    updatePlayerPosition(user);
+    updatePlayerPosition(user, map);
     break;
   default:
     break;
@@ -78,23 +85,23 @@ int main() {
 
   // map matrix setup
   Tile ** map = matrixSetup(rows, cols);
-
 	// player and map setups
-	NormalRoom * roomsArray[maxRooms];
-	NormalRoom * firstRoom = createRoom(cols,rows,map);
-	user = playerSetUp(firstRoom);
-	roomsArray[roomsAmount] = firstRoom;
-	updatePlayerPosition(user);
+	NormalRoom firstRoom = createRoom(cols,rows,map);
+  drawRoom(firstRoom,map,cols,rows);
+  drawDoor(&firstRoom,map);
+	user = playerSetUp(&firstRoom);
+	updatePlayerPosition(user,map);
+  printMap(rows,cols,map);
+  mvprintw(2,2,"cols:%d | rows:%d",cols,rows);
 
   // create the whole map
-	NormalRoom * room = roomsArray[0];
-  createMap(wnd,room,roomsArray,maxRooms,firstPosition,cols,rows,map);
-
+  createMap(wnd,firstRoom,maxRooms,firstPosition,cols,rows,map);
 	// game loop
 	while(1) {
+    printMap(rows,cols,map);
 		if (roomsAmount == maxRooms) break;
 		int ch = getch();
-		getInput(ch, user);
+		getInput(ch, user, map);
 	}
 
 	endwin();
