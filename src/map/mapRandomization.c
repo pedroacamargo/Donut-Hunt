@@ -108,12 +108,10 @@ NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, i
   }
   
   // check if something is overwritten
-  getch();
   int has = checkPos(room,y,x,row,col,map);
   mvprintw(21,0,"has: %d",has);
   mvprintw(22,0,"direction: %d",first);
   mvprintw(23,0,"y: %d x:%d",y,x);
-  getch();
 
 
   if (has == 1) {
