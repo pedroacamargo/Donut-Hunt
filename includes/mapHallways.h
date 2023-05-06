@@ -3,16 +3,16 @@
 
 // The main function for the hallways creation, every auxiliar function created inside this file is performing some role in this function
 // If you give 2 rooms, the 2 rooms will be connected
-void drawHallway(NormalRoom * newRoom, NormalRoom * room);
+void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, int rows);
 
 // This function will return 0 if in the given tile there is a floor ('.'), otherwise will return 1.
 // door -> Needs to be a Position typedef
-int isFloor(Position * door);
+int isFloor(Position * door, Tile ** map);
 
 // This function is in case the first iteration and the door is in the top/bottom of the room, if this happens, 
 // the door will go a pixel above/below and undo the repositioning of the door in X axis, 
 // just to don't overwrite the room walls and happens to have a hallway inside the wall.
-int isWall(Position * door, int displacement, char axis);
+int isWall(Position * door, int displacement, char axis, Tile ** map);
 
 
 

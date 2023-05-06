@@ -17,30 +17,31 @@ Player * playerSetUp(NormalRoom * firstRoom) {
 
 
 
-void playerMove(int y, int x, Player *user) {
+void playerMove(int y, int x, Player *user, Tile ** map) {
 
   int newX, newY;
 
   newY = y + user->pos.y;
   newX = x + user->pos.x;
   
-  switch (mvinch(newY,newX)) {
+  switch (map[newY][newX].ch) {
     case '#':
     case '|':
     case '-':
       move(user->pos.y,user->pos.x);
       break;
     case '.':
-      mvprintw(user->pos.y, user->pos.x, ".");
+      map[user->pos.y][user->pos.x].ch = '.';
       user->pos.x += x;
       user->pos.y += y;
-      updatePlayerPosition(user);
+      updatePlayerPosition(user,map);
       break;
     case '+':
-      mvprintw(user->pos.y, user->pos.x, "+");
+    case ' ':
+      map[user->pos.y][user->pos.x].ch = '+';
       user->pos.x += x;
       user->pos.y += y;
-      updatePlayerPosition(user);
+      updatePlayerPosition(user,map);
       break;
   }
 }
@@ -49,8 +50,8 @@ void playerMove(int y, int x, Player *user) {
 
 
 
-void updatePlayerPosition(Player *user) {
-  mvprintw(user->pos.y, user->pos.x, "@");
-  mvprintw(0,0,"y: %d | x: %d",user->pos.y, user->pos.x);
+void updatePlayerPosition(Player *user, Tile ** map) {
+  map[user->pos.y][user->pos.x].ch = '@';
+  // mvprintw(0,0,"y: %d | x: %d",user->pos.y, user->pos.x);
   move(user->pos.y,user->pos.x);
 }
