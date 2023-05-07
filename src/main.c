@@ -75,6 +75,10 @@ int main() {
 	Player * user;
 	WINDOW *wnd = initscr();
 	srand(time(NULL));
+  start_color();
+
+  init_pair(1, COLOR_BLUE, COLOR_BLACK);  // primeiro temos a cor  primário e depois a cor de fundo 
+  init_pair (2, COLOR_WHITE, COLOR_BLACK);
 
 	// Variables
 	int cols, rows, roomsAmount = 0, maxRooms = 30;

@@ -68,6 +68,7 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
             room->door.x -= 1;
           } else if (map[room->door.y][room->door.x].ch == '#') {
             map[room->door.y][room->door.x].ch = '+';
+            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
           }
         } else if (distanceX < newDistanceX) {
           room->door.x -= 1;
@@ -75,6 +76,7 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
             room->door.x += 1;
           } else if (map[room->door.y][room->door.x].ch == '#') {
             map[room->door.y][room->door.x].ch = '+';
+            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
           }
         }
 
@@ -88,19 +90,24 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
         if (yDist == 0) {
           axis = 'x';
           axisSwap = 1;
+
         } else if (distanceY > newDistanceY) {
           room->door.y += 1;
           if (isFloor(&room->door, map) == 1) {
             room->door.y -= 1;
+            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
           } else if (map[room->door.y][room->door.x].ch == '#') {
             map[room->door.y][room->door.x].ch = '+';
+            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
           }
         } else if (distanceY < newDistanceY) {
           room->door.y -= 1;
           if (isFloor(&room->door, map) == 1) {
             room->door.y += 1;
+            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
           } else if (map[room->door.y][room->door.x].ch == '#') {
             map[room->door.y][room->door.x].ch = '+';
+            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
           }
         }
       }
@@ -118,21 +125,29 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
       if (axis == 'x') {
         // go left
         room->door.x -= 1;
-        if (isFloor(&room->door, map) != 0) map[room->door.y][room->door.x].ch = '+';
+        if (isFloor(&room->door, map) != 0) 
+        map[room->door.y][room->door.x].ch = '+';
+        map[room->door.y][room->door.x].color = COLOR_PAIR(2);
       } else if (axis == 'y') {
         // go up
         room->door.y -= 1;
-        if (isFloor(&room->door, map) != 0) map[room->door.y][room->door.x].ch = '+';
+        if (isFloor(&room->door, map) != 0) 
+        map[room->door.y][room->door.x].ch = '+';
+       map[room->door.y][room->door.x].color = COLOR_PAIR(2);
       }
     } else if (distance > newDistance) {
       if (axis == 'x') {
         // go right
         room->door.x += 1;
-        if (isFloor(&room->door, map) != 0) map[room->door.y][room->door.x].ch = '+';
+        if (isFloor(&room->door, map) != 0) 
+        map[room->door.y][room->door.x].ch = '+';
+        map[room->door.y][room->door.x].color = COLOR_PAIR(2);
       } else if (axis == 'y') {
         // go down
         room->door.y += 1;
-        if (isFloor(&room->door, map) != 0) map[room->door.y][room->door.x].ch = '+';
+        if (isFloor(&room->door, map) != 0)
+        map[room->door.y][room->door.x].ch = '+';
+        map[room->door.y][room->door.x].color = COLOR_PAIR(2);
       }
     }
 
@@ -161,10 +176,12 @@ int isWall(Position * door, int displacement, char axis, Tile ** map) {
       if (map[door->y + displacement][door->x].ch != '.' && map[door->y + displacement][door->x].ch != '#') {
         door->y += 1;
         map[door->y][door->x].ch = '+';
+        map[door->y][door->x].color = COLOR_PAIR(2);
         return 0;
       } else if (map[door->y - displacement][door->x].ch != '.' && map[door->y - displacement][door->x].ch != '#') {
         door->y -= 1;
         map[door->y][door->x].ch = '+';
+        map[door->y][door->x].color = COLOR_PAIR(2);
         return 0;
       }
     }
@@ -176,10 +193,14 @@ int isWall(Position * door, int displacement, char axis, Tile ** map) {
       if (map[door->y][door->x + displacement].ch != '.' && map[door->y][door->x + displacement].ch != '#') {
         door->x += 1;
         map[door->y][door->x].ch = '+'; 
+        map[door->y][door->x].color = COLOR_PAIR(2);
+        
         return 0;
       } else if (map[door->y][door->x - displacement].ch  != '.' || map[door->y][door->x - displacement].ch  != '#') {
         door->x -= 1;
         map[door->y][door->x].ch = '+'; 
+        map[door->y][door->x].color = COLOR_PAIR(2);
+        
         return 0;
       }
     }

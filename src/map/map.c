@@ -21,7 +21,7 @@ Tile ** matrixSetup(int rows, int cols) {
 void printMap(int rows, int cols, Tile ** map){
   for (int i = 0; i < rows; i++)
     for (int j = 0; j < cols; j++)
-      mvaddch(i,j,map[i][j].ch);
+      mvaddch(i,j,map[i][j].ch | map[i][j].color);
 }
 
 
@@ -63,24 +63,30 @@ void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
     if (x > cols || room.pos.y > rows) break;
     if (map[room.pos.y][x].ch == '.') {
       map[room.pos.y][x].ch = '.'; // overwrite rooms
+      map[room.pos.y][x].color = COLOR_PAIR(2);
       map[room.pos.y][x].walkable = true;
     } else if(map[room.pos.y][x].ch == '+') {
       map[room.pos.y][x].ch = '+';
+      map[room.pos.y][x].color = COLOR_PAIR(2);
       map[room.pos.y][x].walkable = true;
     } else {
       map[room.pos.y][x].ch = '#';
+      map[room.pos.y][x].color = COLOR_PAIR(1);
       map[room.pos.y][x].walkable = false;
     }
 
 
     if (map[room.pos.y + room.height][x].ch == '.') {
       map[room.pos.y + room.height][x].ch = '.'; // overwrite rooms
+      map[room.pos.y + room.height][x].color = COLOR_PAIR(2);
       map[room.pos.y + room.height][x].walkable = true;
     } else if(map[room.pos.y + room.height][x].ch == '+') {
       map[room.pos.y + room.height][x].ch = '+';
+      map[room.pos.y + room.height][x].color = COLOR_PAIR(2);
       map[room.pos.y + room.height][x].walkable = true;
     } else {
       map[room.pos.y + room.height][x].ch = '#';
+      map[room.pos.y + room.height][x].color = COLOR_PAIR(1);
       map[room.pos.y + room.height][x].walkable = false;
     }
   }
@@ -91,23 +97,29 @@ void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
     // draw side walls
     if (map[y][room.pos.x].ch == '.') {
       map[y][room.pos.x].ch = '.'; // overwrite rooms
+      map[y][room.pos.x].color = COLOR_PAIR(2);
       map[y][room.pos.x].walkable = true;
     } else if(map[y][room.pos.x].ch != '+') {
       map[y][room.pos.x].ch = '#';
+      map[y][room.pos.x].color = COLOR_PAIR(1);
       map[y][room.pos.x].walkable = false;
     } else {
       map[y][room.pos.x].ch = '+';
+      map[y][room.pos.x].color = COLOR_PAIR(2);
       map[y][room.pos.x].walkable = true;
     }
 
     if (map[y][room.pos.x + room.width].ch == '.') {
       map[y][room.pos.x + room.width].ch = '.'; // overwrite rooms
+      map[y][room.pos.x + room.width].color = COLOR_PAIR(2);
       map[y][room.pos.x + room.width].walkable = true;
     } else if(map[y][room.pos.x + room.width].ch == '+') {
       map[y][room.pos.x + room.width].ch = '+';
+      map[y][room.pos.x + room.width].color = COLOR_PAIR(2);
       map[y][room.pos.x + room.width].walkable = false;
     } else {
       map[y][room.pos.x + room.width].ch = '#';
+      map[y][room.pos.x + room.width].color = COLOR_PAIR(1);
       map[y][room.pos.x + room.width].walkable = true;
     }
 
@@ -116,6 +128,7 @@ void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
       if (y > rows || x > cols) break;
       if (y >= room.pos.y + room.height - 1) break; 
       map[y+1][x].ch = '.';
+      map[y+1][x].color = COLOR_PAIR(2);
       map[y+1][x].walkable = true;
     }    
   }

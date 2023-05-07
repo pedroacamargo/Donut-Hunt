@@ -1,6 +1,11 @@
 #ifndef __STRUCTS_H__
 #define __STRUCTS_H__
 
+#define VISIBLE_COlOR 1
+#define SEEN_COLOR 2
+
+
+
 typedef struct Position
 {
 	int x;
@@ -10,7 +15,11 @@ typedef struct Position
 
 typedef struct {
 	char ch;
+	int color;
 	bool walkable;
+	bool transparent;  // usado para a função lineOfSight()
+	bool visible; // usado para o makeFOV()
+	bool seen;  // usado para o clearFOV()
 } Tile;
 
 typedef struct NormalRoom
@@ -29,9 +38,14 @@ typedef struct NormalRoom
 typedef struct Player
 {
 	Position pos;
+	int color;
 	int life;
 	// floor
 } Player;
 // Player stats
+
+//variaveis globais 
+extern Player* user;
+
 
 #endif
