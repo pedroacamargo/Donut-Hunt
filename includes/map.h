@@ -7,6 +7,9 @@ Tile ** matrixSetup(int rows, int cols);
 // Print the whole matrix
 void printMap(int rows, int cols, Tile ** map);
 
+void resetMap(int rows, int cols, Tile ** map);
+
+
 NormalRoom createRoom(int col, int row, Tile ** map);
 // This function will create a single room, draw it in the screen and return the created room
 // To create a room, the function create() will call createNormalRoom() inside of it
@@ -17,6 +20,6 @@ NormalRoom createNormalRoom(int *rows, int *cols);
 void drawRoom(NormalRoom room,Tile ** map,int cols, int rows);
 // This function will write in the window the given room at the given position, with it's door in a random position
 
-void createMap(WINDOW * wnd, NormalRoom firstRoom, int maxRooms, int firstPosition, int cols, int rows, Tile ** map);
+Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition, int cols, int rows, Player * user);
 
 #endif

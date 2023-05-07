@@ -1,7 +1,7 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H_
 
-Player * playerSetUp(NormalRoom * firstRoom);
+Player * playerSetUp();
 // playerSetUp() will just setup the user and allocate memory in the stack for the Player
 
 
