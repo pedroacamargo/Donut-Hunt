@@ -27,7 +27,8 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
     } else {
       xDist--;
     }
-
+    getch();
+    printMap(rows,cols,map);
     if ((yDist + xDist) == 0) break;
 
     mvprintw(2,5,"xDist: %d | yDist: %d | xDist + yDist = %d",xDist,yDist,((xDist + yDist)));
@@ -44,9 +45,11 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
         // buildWalls(room,axis,isFirst,axisSwap);
         if (axis == 'x') {
           isWall(&room->door,1,'x',map);
+          map[room->door.y][room->door.x].color = COLOR_PAIR(2);
           buildWalls(room,axis,isFirst,axisSwap,map);
         } else if (axis == 'y') {
           isWall(&room->door,1,'y',map);
+          map[room->door.y][room->door.x].color = COLOR_PAIR(2);
           buildWalls(room,axis,isFirst,axisSwap,map);
         }
         isFirst = 0;
@@ -194,18 +197,16 @@ int isWall(Position * door, int displacement, char axis, Tile ** map) {
         door->x += 1;
         map[door->y][door->x].ch = '+'; 
         map[door->y][door->x].color = COLOR_PAIR(2);
-        
         return 0;
       } else if (map[door->y][door->x - displacement].ch  != '.' || map[door->y][door->x - displacement].ch  != '#') {
         door->x -= 1;
         map[door->y][door->x].ch = '+'; 
         map[door->y][door->x].color = COLOR_PAIR(2);
-        
         return 0;
       }
     }
   }
-
+  map[door->y][door->x].color = COLOR_PAIR(2);
   return 1;
 }
 

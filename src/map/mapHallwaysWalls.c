@@ -13,15 +13,23 @@ void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap, Tile **
     for (int y = roomY - 1; y <= roomY + 1; y++) {
 
       if (axisSwap == 1) {
-        if ((x == roomX && y == roomY) || map[y][x].ch == '+') map[y][x].ch = '+';
-        else if (map[y][x].ch != '#' || map[y][x].ch != '.' || map[y][x].ch != '+') map[y][x].ch = '#';
-        map[y][x].color = COLOR_PAIR(1);
+        if ((x == roomX && y == roomY) || map[y][x].ch == '+') {
+          map[y][x].ch = '+';
+          map[y][x].color = COLOR_PAIR(2);
+
+        }
+        else if (map[y][x].ch != '#' || map[y][x].ch != '.' || map[y][x].ch != '+') {
+          map[y][x].ch = '#';
+          map[y][x].color = COLOR_PAIR(1);
+        } 
       }
 
       if (isFirst == 1 && axis == 'x') {
 
-        if (map[y][x].ch != '#' && map[y][x].ch != '.' && map[y][x].ch != '+') map[y][x].ch = '#';
-        map[y][x].color = COLOR_PAIR(1);
+        if (map[y][x].ch != '#' && map[y][x].ch != '.' && map[y][x].ch != '+') {
+          map[y][x].ch = '#';
+          map[y][x].color = COLOR_PAIR(1);
+        }
 
       } else if ( axis == 'x' ) {
 
