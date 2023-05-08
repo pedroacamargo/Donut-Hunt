@@ -22,16 +22,22 @@ void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap, Tile **
         if (map[y][x].ch != '#' && map[y][x].ch != '.' && map[y][x].ch != '+') map[y][x].ch = '#';
 
       } else if ( axis == 'x' ) {
-
-        if (map[y][x].ch != '.' && map[y][x].ch != '#' && map[y][x].ch != '+') {
+        if (map[y][x].ch == '.') map[y][x].ch = '.';
+        else if (map[y][x].ch == '+') map[y][x].ch = '+';
+        else if (map[y][x].ch != '.' && map[y][x].ch != '#' && map[y][x].ch != '+') {
           map[y][x].ch = '#';
         }
+
+
 
       } else if ( axis == 'y' ) {
 
-        if (map[y][x].ch != '#' && map[y][x].ch != '+' && map[y][x].ch != '.') {
+        if (map[y][x].ch == '.') map[y][x].ch = '.';
+        else if (map[y][x].ch == '+') map[y][x].ch = '+';
+        else if (map[y][x].ch != '.' && map[y][x].ch != '#' && map[y][x].ch != '+') {
           map[y][x].ch = '#';
         }
+
       }
     }
   }

@@ -9,6 +9,7 @@ void printMap(int rows, int cols, Tile ** map);
 
 void resetMap(int rows, int cols, Tile ** map);
 
+int checkScreenSize(int cols, int rows);
 
 NormalRoom createRoom(int col, int row, Tile ** map);
 // This function will create a single room, draw it in the screen and return the created room

@@ -22,7 +22,7 @@ void windowSetUp(int * cols, int * rows, WINDOW * wnd) {
   mvprintw(0,0,"rows:%d,cols:%d",*rows,*cols);
 }
 
-void getInput(int key, Player *user, Tile ** map) {
+void getInput(WINDOW * wnd,int key, Player *user, Tile ** map) {
   switch (key) {
   case 'w':
   case 'W':
@@ -97,7 +97,7 @@ int main() {
 		if (roomsAmount == maxRooms) break;
 		int ch = getch();
     if (ch == 'q') break;
-		getInput(ch, user, map);
+		getInput(wnd, ch, user, map);
 	}
 
 	endwin();
