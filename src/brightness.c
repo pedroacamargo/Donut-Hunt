@@ -4,11 +4,9 @@
 #include <ncurses.h>
 #include <math.h>
 #include "main.h"
-#include "structs.h"
 
-/*
-void MakeFov (Player *user, int cols, int rows, Tile** map){
-    int y, x , raio = 10, distancia;
+void makeFov (Player *user, int cols, int rows, Tile** map){
+    int y, x , raio = 3, distancia;
     Position target; // usado para pegar as coordenadas do y e do x
 
     map[user->pos.y][user->pos.x].visible = true;
@@ -48,8 +46,8 @@ bool InMap(int y , int x, int cols , int rows){
     return false;
 }
 
-bool lineOfSight (Position origin, Position target, Tile** map){
-
+bool lineOfSight(Position origin, Position target, Tile** map)
+{
     int y = origin.y;
     int x = origin.x;
     int abs_y = abs(target.y - origin.y);
@@ -58,7 +56,7 @@ bool lineOfSight (Position origin, Position target, Tile** map){
     int sign_x = (origin.x < target.x) ? 1 : -1;
     int error = abs_x - abs_y;
 
-    while (x != target.x && y != target.y){
+    while (x != target.x || y != target.y){
         if(!map[y][x].transparent){
             return false;
         }
@@ -75,4 +73,12 @@ bool lineOfSight (Position origin, Position target, Tile** map){
     return true;
 }
 
-*/
+void clearFov (Player * user, int cols, int rows, Tile** map){
+    int y, x, raio = 5;
+
+    for (y = user->pos.y - raio; y < user->pos.y + raio; y++ ){
+        for (x = user->pos.x - raio; x < user->pos.x + raio; x++){
+            if (InMap(y, x, cols, rows)) map[y][x].visible = false;
+        }
+    }
+}

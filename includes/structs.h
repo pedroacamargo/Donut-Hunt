@@ -1,10 +1,8 @@
 #ifndef __STRUCTS_H__
 #define __STRUCTS_H__
 
-#define VISIBLE_COlOR 1
-#define SEEN_COLOR 2
-
-
+#define VISIBLE 1
+#define SEEN 2
 
 typedef struct Position
 {

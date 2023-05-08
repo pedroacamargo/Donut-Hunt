@@ -27,8 +27,6 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
     } else {
       xDist--;
     }
-    getch();
-    printMap(rows,cols,map);
     if ((yDist + xDist) == 0) break;
 
     mvprintw(2,5,"xDist: %d | yDist: %d | xDist + yDist = %d",xDist,yDist,((xDist + yDist)));
@@ -45,11 +43,13 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
         // buildWalls(room,axis,isFirst,axisSwap);
         if (axis == 'x') {
           isWall(&room->door,1,'x',map);
-          map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+          map[room->door.y][room->door.x].walkable = true;
+          map[room->door.y][room->door.x].transparent = true;
           buildWalls(room,axis,isFirst,axisSwap,map);
         } else if (axis == 'y') {
           isWall(&room->door,1,'y',map);
-          map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+          map[room->door.y][room->door.x].walkable = true;
+          map[room->door.y][room->door.x].transparent = true;
           buildWalls(room,axis,isFirst,axisSwap,map);
         }
         isFirst = 0;
@@ -71,7 +71,8 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
             room->door.x -= 1;
           } else if (map[room->door.y][room->door.x].ch == '#') {
             map[room->door.y][room->door.x].ch = '+';
-            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = true;
           }
         } else if (distanceX < newDistanceX) {
           room->door.x -= 1;
@@ -79,7 +80,8 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
             room->door.x += 1;
           } else if (map[room->door.y][room->door.x].ch == '#') {
             map[room->door.y][room->door.x].ch = '+';
-            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = true;
           }
         }
 
@@ -98,19 +100,21 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
           room->door.y += 1;
           if (isFloor(&room->door, map) == 1) {
             room->door.y -= 1;
-            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
           } else if (map[room->door.y][room->door.x].ch == '#') {
             map[room->door.y][room->door.x].ch = '+';
-            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = true;
           }
         } else if (distanceY < newDistanceY) {
           room->door.y -= 1;
           if (isFloor(&room->door, map) == 1) {
             room->door.y += 1;
-            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = true;
           } else if (map[room->door.y][room->door.x].ch == '#') {
             map[room->door.y][room->door.x].ch = '+';
-            map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = true;
           }
         }
       }
@@ -130,13 +134,15 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
         room->door.x -= 1;
         if (isFloor(&room->door, map) != 0) 
         map[room->door.y][room->door.x].ch = '+';
-        map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+        map[room->door.y][room->door.x].walkable = true;
+        map[room->door.y][room->door.x].transparent = true;
       } else if (axis == 'y') {
         // go up
         room->door.y -= 1;
         if (isFloor(&room->door, map) != 0) 
         map[room->door.y][room->door.x].ch = '+';
-       map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+        map[room->door.y][room->door.x].walkable = true;
+        map[room->door.y][room->door.x].transparent = true;
       }
     } else if (distance > newDistance) {
       if (axis == 'x') {
@@ -144,16 +150,17 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
         room->door.x += 1;
         if (isFloor(&room->door, map) != 0) 
         map[room->door.y][room->door.x].ch = '+';
-        map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+        map[room->door.y][room->door.x].walkable = true;
+        map[room->door.y][room->door.x].transparent = true;
       } else if (axis == 'y') {
         // go down
         room->door.y += 1;
         if (isFloor(&room->door, map) != 0)
         map[room->door.y][room->door.x].ch = '+';
-        map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+        map[room->door.y][room->door.x].walkable = true;
+        map[room->door.y][room->door.x].transparent = true;
       }
     }
-
     buildWalls(room,axis,isFirst,axisSwap,map);
     axisSwap = 0;
     distance = calculateDistance(newRoom,room,0,axis); // update the distance between two doors
@@ -179,12 +186,14 @@ int isWall(Position * door, int displacement, char axis, Tile ** map) {
       if (map[door->y + displacement][door->x].ch != '.' && map[door->y + displacement][door->x].ch != '#') {
         door->y += 1;
         map[door->y][door->x].ch = '+';
-        map[door->y][door->x].color = COLOR_PAIR(2);
+        map[door->y][door->x].walkable = true;
+        map[door->y][door->x].transparent = true;
         return 0;
       } else if (map[door->y - displacement][door->x].ch != '.' && map[door->y - displacement][door->x].ch != '#') {
         door->y -= 1;
         map[door->y][door->x].ch = '+';
-        map[door->y][door->x].color = COLOR_PAIR(2);
+        map[door->y][door->x].walkable = true;
+        map[door->y][door->x].transparent = true;
         return 0;
       }
     }
@@ -196,17 +205,21 @@ int isWall(Position * door, int displacement, char axis, Tile ** map) {
       if (map[door->y][door->x + displacement].ch != '.' && map[door->y][door->x + displacement].ch != '#') {
         door->x += 1;
         map[door->y][door->x].ch = '+'; 
-        map[door->y][door->x].color = COLOR_PAIR(2);
+        map[door->y][door->x].walkable = true;
+        map[door->y][door->x].transparent = true;
+
         return 0;
       } else if (map[door->y][door->x - displacement].ch  != '.' || map[door->y][door->x - displacement].ch  != '#') {
         door->x -= 1;
         map[door->y][door->x].ch = '+'; 
-        map[door->y][door->x].color = COLOR_PAIR(2);
+        map[door->y][door->x].walkable = true;
+        map[door->y][door->x].transparent = true;
         return 0;
       }
     }
   }
-  map[door->y][door->x].color = COLOR_PAIR(2);
+  map[door->y][door->x].walkable = true;
+  map[door->y][door->x].transparent = true;
   return 1;
 }
 

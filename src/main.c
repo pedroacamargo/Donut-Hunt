@@ -22,23 +22,23 @@ void windowSetUp(int * cols, int * rows, WINDOW * wnd) {
   mvprintw(0,0,"rows:%d,cols:%d",*rows,*cols);
 }
 
-void getInput(int key, Player *user, Tile ** map) {
+void getInput(int key, Player *user, int cols, int rows, Tile ** map) {
   switch (key) {
   case 'w':
   case 'W':
-    playerMove(-1, 0, user, map);
+    playerMove(-1, 0, cols, rows, user, map);
     break;
   case 'd':
   case 'D':
-    playerMove(0, +1, user, map);
+    playerMove(0, +1, cols, rows, user, map);
     break;
   case 'a':
   case 'A':
-    playerMove(0, -1, user, map);
+    playerMove(0, -1, cols, rows , user, map);
     break;
   case 's':
   case 'S':
-    playerMove(+1, 0, user, map);
+    playerMove(+1, 0, cols, rows, user, map);
     break;
   case 'q':
   case 'Q':
@@ -49,7 +49,7 @@ void getInput(int key, Player *user, Tile ** map) {
   case 'p':
     // prevRoom[*roomsAmount] = *randomizePosition(wnd, &prevRoom[*roomsAmount - 1],*rows,*cols,firstPosition,0);
     // *roomsAmount++;
-    updatePlayerPosition(user, map);
+    updatePlayerPosition(user, cols, rows, map);
     break;
   default:
     break;
@@ -77,8 +77,8 @@ int main() {
 	srand(time(NULL));
   start_color();
 
-  init_pair(1, COLOR_BLUE, COLOR_BLACK);  // primeiro temos a cor  primário e depois a cor de fundo 
-  init_pair (2, COLOR_WHITE, COLOR_BLACK);
+  init_pair(1, COLOR_WHITE, COLOR_BLACK);  // cor do que é visivel
+  init_pair (2, COLOR_BLUE, COLOR_BLACK); // cor do que foi visto
 
 	// Variables
 	int cols, rows, roomsAmount = 0, maxRooms = 30;
@@ -94,7 +94,8 @@ int main() {
   drawRoom(firstRoom,map,cols,rows);
   drawDoor(&firstRoom,map);
 	user = playerSetUp(&firstRoom);
-	updatePlayerPosition(user,map);
+  //makeFov(user, cols, rows, map);
+	updatePlayerPosition(user,cols, rows, map);
   printMap(rows,cols,map);
   mvprintw(2,2,"cols:%d | rows:%d",cols,rows);
 
@@ -105,7 +106,7 @@ int main() {
     printMap(rows,cols,map);
 		if (roomsAmount == maxRooms) break;
 		int ch = getch();
-		getInput(ch, user, map);
+		getInput(ch, user,cols,rows, map);
 	}
 
 	endwin();

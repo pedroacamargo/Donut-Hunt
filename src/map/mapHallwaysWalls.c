@@ -15,12 +15,16 @@ void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap, Tile **
       if (axisSwap == 1) {
         if ((x == roomX && y == roomY) || map[y][x].ch == '+') {
           map[y][x].ch = '+';
-          map[y][x].color = COLOR_PAIR(2);
-
+          map[y][x].walkable = true;
+          map[y][x].transparent = true;
         }
         else if (map[y][x].ch != '#' || map[y][x].ch != '.' || map[y][x].ch != '+') {
           map[y][x].ch = '#';
+          map[y][x].walkable = false;
           map[y][x].color = COLOR_PAIR(1);
+          map[y][x].seen = false;
+          map[y][x].transparent = false;
+          map[y][x].visible = false;
         } 
       }
 
@@ -28,21 +32,33 @@ void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap, Tile **
 
         if (map[y][x].ch != '#' && map[y][x].ch != '.' && map[y][x].ch != '+') {
           map[y][x].ch = '#';
+          map[y][x].walkable = false;
           map[y][x].color = COLOR_PAIR(1);
+          map[y][x].seen = false;
+          map[y][x].transparent = false;
+          map[y][x].visible = false;
         }
 
       } else if ( axis == 'x' ) {
 
         if (map[y][x].ch != '.' && map[y][x].ch != '#' && map[y][x].ch != '+') {
           map[y][x].ch = '#';
+          map[y][x].walkable = false;
           map[y][x].color = COLOR_PAIR(1);
+          map[y][x].seen = false;
+          map[y][x].transparent = false;
+          map[y][x].visible = false;
         }
 
       } else if ( axis == 'y' ) {
 
         if (map[y][x].ch != '#' && map[y][x].ch != '+' && map[y][x].ch != '.') {
           map[y][x].ch = '#';
+          map[y][x].walkable = false;
           map[y][x].color = COLOR_PAIR(1);
+          map[y][x].seen = false;
+          map[y][x].transparent = false;
+          map[y][x].visible = false;
         }
       }
     }

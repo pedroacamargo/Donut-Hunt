@@ -18,7 +18,7 @@ Player * playerSetUp(NormalRoom * firstRoom) {
 
 
 
-void playerMove(int y, int x, Player *user, Tile ** map) {
+void playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map) {
 
   int newX, newY;
 
@@ -33,18 +33,18 @@ void playerMove(int y, int x, Player *user, Tile ** map) {
       break;
     case '.':
       map[user->pos.y][user->pos.x].ch = '.';
-      map[user->pos.y][user->pos.x].color = COLOR_PAIR(2);
+      map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
       user->pos.x += x;
       user->pos.y += y;
-      updatePlayerPosition(user,map);
+      updatePlayerPosition(user,cols, rows, map);
       break;
     case '+':
     case ' ':
       map[user->pos.y][user->pos.x].ch = '+';
-      map[user->pos.y][user->pos.x].color = COLOR_PAIR(2);
+      map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
       user->pos.x += x;
       user->pos.y += y;
-      updatePlayerPosition(user,map);
+      updatePlayerPosition(user,cols, rows, map);
       break;
   }
 }
@@ -53,9 +53,11 @@ void playerMove(int y, int x, Player *user, Tile ** map) {
 
 
 
-void updatePlayerPosition(Player *user, Tile ** map) {
+void updatePlayerPosition(Player *user,int cols, int rows, Tile ** map) {
   map[user->pos.y][user->pos.x].ch  = '@';
   map[user->pos.y][user->pos.x].color = COLOR_PAIR(1);
   // mvprintw(0,0,"y: %d | x: %d",user->pos.y, user->pos.x);
+  clearFov(user, cols, rows, map);
   move(user->pos.y,user->pos.x);
+  makeFov(user, cols, rows, map);
 }

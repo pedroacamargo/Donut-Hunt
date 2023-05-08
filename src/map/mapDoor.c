@@ -38,5 +38,6 @@ NormalRoom makeDoor(int first,NormalRoom * room) {
 
 void drawDoor(NormalRoom * room, Tile ** map) {
   map[room->door.y][room->door.x].ch = '+';
-  map[room->door.y][room->door.x].color = COLOR_PAIR(2);
+  map[room->door.y][room->door.x].walkable = true;
+  map[room->door.y][room->door.x].transparent = true;
 }
