@@ -88,7 +88,6 @@ int main() {
   // create the whole map
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
 
-  getch();
   updatePlayerPosition(user,map);
   
 	// game loop

@@ -194,6 +194,5 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   drawHallway(&rooms[roomsAmount],&rooms[3],map,cols,rows);
   printMap(rows,cols,map);
   free(rooms);
-  getch();
   return map;
 }
