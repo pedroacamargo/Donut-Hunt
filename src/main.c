@@ -22,23 +22,23 @@ void windowSetUp(int * cols, int * rows, WINDOW * wnd) {
   mvprintw(0,0,"rows:%d,cols:%d",*rows,*cols);
 }
 
-void getInput(WINDOW * wnd,int key, Player *user, Tile ** map) {
+void getInput(int key, Player *user, int cols, int rows, Tile ** map) {
   switch (key) {
   case 'w':
   case 'W':
-    playerMove(-1, 0, user, map);
+    playerMove(-1, 0, cols, rows, user, map);
     break;
   case 'd':
   case 'D':
-    playerMove(0, +1, user, map);
+    playerMove(0, +1, cols, rows, user, map);
     break;
   case 'a':
   case 'A':
-    playerMove(0, -1, user, map);
+    playerMove(0, -1, cols, rows , user, map);
     break;
   case 's':
   case 'S':
-    playerMove(+1, 0, user, map);
+    playerMove(+1, 0, cols, rows, user, map);
     break;
   case 'q':
   case 'Q':
@@ -49,7 +49,7 @@ void getInput(WINDOW * wnd,int key, Player *user, Tile ** map) {
   case 'p':
     // prevRoom[*roomsAmount] = *randomizePosition(wnd, &prevRoom[*roomsAmount - 1],*rows,*cols,firstPosition,0);
     // *roomsAmount++;
-    updatePlayerPosition(user, map);
+    updatePlayerPosition(user, cols, rows, map);
     break;
   default:
     break;
@@ -75,9 +75,13 @@ int main() {
 	Player * user;
 	WINDOW *wnd = initscr();
 	srand(time(NULL));
+  start_color();
+
+  init_pair(1, COLOR_WHITE, COLOR_BLACK);  // cor do que é visivel
+  init_pair (2, COLOR_BLUE, COLOR_BLACK); // cor do que foi visto
 
 	// Variables
-	int cols, rows, roomsAmount = 0, maxRooms = 30;
+	int cols, rows, maxRooms = 30;
 	int firstPosition = rand() % 12 + 1; // first testing position for the room creation
 
 	// Setup ncurses window in CLI
@@ -88,17 +92,16 @@ int main() {
   // create the whole map
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
 
-  updatePlayerPosition(user,map);
+  updatePlayerPosition(user,cols,rows,map);
   
 	// game loop
 	while(1) {
     printMap(rows,cols,map);
-		if (roomsAmount == maxRooms) break;
 		int ch = getch();
-    if (ch == 'q') break;
-		getInput(wnd, ch, user, map);
+    if (ch == 'q' || ch == 'Q') break;
+		getInput(ch, user,cols,rows, map);
 	}
 
-	endwin();
+  endwin();
 	return 0;
 }

@@ -13,19 +13,42 @@ void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap, Tile **
     for (int y = roomY - 1; y <= roomY + 1; y++) {
 
       if (axisSwap == 1) {
-        if ((x == roomX && y == roomY) || map[y][x].ch == '+') map[y][x].ch = '+';
-        else if (map[y][x].ch != '#' || map[y][x].ch != '.' || map[y][x].ch != '+') map[y][x].ch = '#';
+        if ((x == roomX && y == roomY) || map[y][x].ch == '+') {
+          map[y][x].ch = '+';
+          map[y][x].walkable = true;
+          map[y][x].transparent = true;
+        }
+        else if (map[y][x].ch != '#' || map[y][x].ch != '.' || map[y][x].ch != '+') {
+          map[y][x].ch = '#';
+          map[y][x].walkable = false;
+          map[y][x].color = COLOR_PAIR(1);
+          map[y][x].seen = false;
+          map[y][x].transparent = false;
+          map[y][x].visible = false;
+        } 
       }
 
       if (isFirst == 1 && axis == 'x') {
 
-        if (map[y][x].ch != '#' && map[y][x].ch != '.' && map[y][x].ch != '+') map[y][x].ch = '#';
+        if (map[y][x].ch != '#' && map[y][x].ch != '.' && map[y][x].ch != '+') {
+          map[y][x].ch = '#';
+          map[y][x].walkable = false;
+          map[y][x].color = COLOR_PAIR(1);
+          map[y][x].seen = false;
+          map[y][x].transparent = false;
+          map[y][x].visible = false;
+        }
 
       } else if ( axis == 'x' ) {
         if (map[y][x].ch == '.') map[y][x].ch = '.';
         else if (map[y][x].ch == '+') map[y][x].ch = '+';
         else if (map[y][x].ch != '.' && map[y][x].ch != '#' && map[y][x].ch != '+') {
           map[y][x].ch = '#';
+          map[y][x].walkable = false;
+          map[y][x].color = COLOR_PAIR(1);
+          map[y][x].seen = false;
+          map[y][x].transparent = false;
+          map[y][x].visible = false;
         }
 
 
@@ -36,6 +59,11 @@ void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap, Tile **
         else if (map[y][x].ch == '+') map[y][x].ch = '+';
         else if (map[y][x].ch != '.' && map[y][x].ch != '#' && map[y][x].ch != '+') {
           map[y][x].ch = '#';
+          map[y][x].walkable = false;
+          map[y][x].color = COLOR_PAIR(1);
+          map[y][x].seen = false;
+          map[y][x].transparent = false;
+          map[y][x].visible = false;
         }
 
       }

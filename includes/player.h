@@ -6,11 +6,11 @@ Player * playerSetUp();
 
 
 
-void playerMove(int y, int x, Player * user, Tile ** map);
+void playerMove(int y, int x, int cols, int rows, Player * user, Tile ** map);
 // This function will move the player with the WASD instructions, just that simple :)
 
 
-void updatePlayerPosition(Player * user, Tile ** map);
+void updatePlayerPosition(Player * user, int cols, int rows , Tile ** map);
 // This will just update the position printed in the window, just a visual function to save lines of code
 
 

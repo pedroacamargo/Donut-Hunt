@@ -22,7 +22,6 @@ NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, i
   // Get its position in the screen to facilitate the readability
   Position p = room->pos;
   // mvprintw(0,30,"newRoom -> x:%d | y: %d", p.x, p.y);
-
   /*
       1   2   3   4
   
