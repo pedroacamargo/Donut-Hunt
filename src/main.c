@@ -67,10 +67,6 @@ void getInput(int key, Player *user, int cols, int rows, Tile ** map) {
     } 
 */
 
-
-
-
-
 int main() {
 	Player * user;
 	WINDOW *wnd = initscr();
@@ -79,6 +75,7 @@ int main() {
 
   init_pair(1, COLOR_WHITE, COLOR_BLACK);  // cor do que é visivel
   init_pair (2, COLOR_BLUE, COLOR_BLACK); // cor do que foi visto
+    
 
 	// Variables
 	int cols, rows, roomsAmount = 0, maxRooms = 30;
@@ -94,7 +91,7 @@ int main() {
   drawRoom(firstRoom,map,cols,rows);
   drawDoor(&firstRoom,map);
 	user = playerSetUp(&firstRoom);
-  //makeFov(user, cols, rows, map);
+  makeFov(user, cols, rows, map);
 	updatePlayerPosition(user,cols, rows, map);
   printMap(rows,cols,map);
   mvprintw(2,2,"cols:%d | rows:%d",cols,rows);
