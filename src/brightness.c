@@ -6,7 +6,7 @@
 #include "main.h"
 
 void makeFov (Player *user, int cols, int rows, Tile** map){
-    int y, x , raio = 6, distancia;
+    int y, x , raio = 25, distancia;
     Position target; // usado para pegar as coordenadas do y e do x
 
     map[user->pos.y][user->pos.x].visible = true;
@@ -74,7 +74,7 @@ bool lineOfSight(Position origin, Position target, Tile** map)
 }
 
 void clearFov (Player * user, int cols, int rows, Tile** map){
-    int y, x, raio = 7;
+    int y, x, raio = 26;
 
     for (y = user->pos.y - raio; y < user->pos.y + raio; y++ ){
         for (x = user->pos.x - raio; x < user->pos.x + raio; x++){

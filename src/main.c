@@ -81,34 +81,27 @@ int main() {
   init_pair (2, COLOR_BLUE, COLOR_BLACK); // cor do que foi visto
 
 	// Variables
-	int cols, rows, roomsAmount = 0, maxRooms = 30;
+	int cols, rows, maxRooms = 30;
 	int firstPosition = rand() % 12 + 1; // first testing position for the room creation
 
 	// Setup ncurses window in CLI
 	windowSetUp(&cols, &rows, wnd);
-
-  // map matrix setup
-  Tile ** map = matrixSetup(rows, cols);
-	// player and map setups
-	NormalRoom firstRoom = createRoom(cols,rows,map);
-  drawRoom(firstRoom,map,cols,rows);
-  drawDoor(&firstRoom,map);
-	user = playerSetUp(&firstRoom);
-  //makeFov(user, cols, rows, map);
-	updatePlayerPosition(user,cols, rows, map);
-  printMap(rows,cols,map);
   mvprintw(2,2,"cols:%d | rows:%d",cols,rows);
-
+  user = playerSetUp();
+  
   // create the whole map
-  createMap(wnd,firstRoom,maxRooms,firstPosition,cols,rows,map);
+  Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
+
+  updatePlayerPosition(user,cols,rows,map);
+  
 	// game loop
 	while(1) {
     printMap(rows,cols,map);
-		if (roomsAmount == maxRooms) break;
 		int ch = getch();
+    if (ch == 'q' || ch == 'Q') break;
 		getInput(ch, user,cols,rows, map);
 	}
 
-	endwin();
+  endwin();
 	return 0;
 }
