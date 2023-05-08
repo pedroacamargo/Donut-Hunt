@@ -22,7 +22,7 @@ void windowSetUp(int * cols, int * rows, WINDOW * wnd) {
   mvprintw(0,0,"rows:%d,cols:%d",*rows,*cols);
 }
 
-void getInput(int key, Player *user, Tile ** map) {
+void getInput(WINDOW * wnd,int key, Player *user, Tile ** map) {
   switch (key) {
   case 'w':
   case 'W':
@@ -82,26 +82,22 @@ int main() {
 
 	// Setup ncurses window in CLI
 	windowSetUp(&cols, &rows, wnd);
-
-  // map matrix setup
-  Tile ** map = matrixSetup(rows, cols);
-	// player and map setups
-	NormalRoom firstRoom = createRoom(cols,rows,map);
-  drawRoom(firstRoom,map,cols,rows);
-  drawDoor(&firstRoom,map);
-	user = playerSetUp(&firstRoom);
-	updatePlayerPosition(user,map);
-  printMap(rows,cols,map);
   mvprintw(2,2,"cols:%d | rows:%d",cols,rows);
-
+  user = playerSetUp();
+  
   // create the whole map
-  createMap(wnd,firstRoom,maxRooms,firstPosition,cols,rows,map);
+  Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
+
+  getch();
+  updatePlayerPosition(user,map);
+  
 	// game loop
 	while(1) {
     printMap(rows,cols,map);
 		if (roomsAmount == maxRooms) break;
 		int ch = getch();
-		getInput(ch, user, map);
+    if (ch == 'q') break;
+		getInput(wnd, ch, user, map);
 	}
 
 	endwin();

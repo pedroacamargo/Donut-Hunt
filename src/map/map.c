@@ -18,10 +18,34 @@ Tile ** matrixSetup(int rows, int cols) {
   return map;
 }
 
+void resetMap(int rows, int cols, Tile ** map) {
+  for (int i = 0; i < rows; i++)
+    for (int j = 0; j < cols; j++) {
+      map[i][j].ch = ' ';
+      map[i][j].walkable = false;
+    }
+
+  printMap(rows,cols,map);
+
+  for (int y = 0; y < rows; y++)
+	{
+		free(map[y]);
+	}
+	free(map);  
+}
+
 void printMap(int rows, int cols, Tile ** map){
   for (int i = 0; i < rows; i++)
     for (int j = 0; j < cols; j++)
       mvaddch(i,j,map[i][j].ch);
+}
+
+int checkScreenSize(int cols, int rows) {
+  if (cols > 200 && rows > 60) return 15;
+  else if ((cols <= 200 && cols > 150) && (rows > 40 && rows <= 60)) return 9;
+  else if ((cols <= 150) && (rows <= 40)) return 4;
+
+  return 0;
 }
 
 
@@ -122,9 +146,17 @@ void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
 }
 
 
-void createMap(WINDOW * wnd,NormalRoom firstRoom, int maxRooms, int firstPosition,int cols, int rows,Tile ** map) {
+Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int rows, Player * user) {
+  Tile ** map = matrixSetup(rows,cols);
+  NormalRoom firstRoom = createRoom(cols,rows,map);
+  drawRoom(firstRoom,map,cols,rows);
+  drawDoor(&firstRoom,map);
+  user->pos.x = firstRoom.pos.x + (firstRoom.width / 2);
+  user->pos.y = firstRoom.pos.y + (firstRoom.height / 2);
+
+
   NormalRoom * rooms = calloc(maxRooms, sizeof(NormalRoom));
-  int roomsAmount = 0;
+  int roomsAmount = 1;
   for (int i = 0; i < maxRooms; i++) {
 	  firstPosition = rand() % 12 + 1; // first testing position for the room creation
     printMap(rows,cols,map);
@@ -143,14 +175,25 @@ void createMap(WINDOW * wnd,NormalRoom firstRoom, int maxRooms, int firstPositio
         drawDoor(&rooms[i],map);
     }
     roomsAmount++;
+    mvprintw(24, 0,"roomsamount: %d",roomsAmount);
+    mvprintw(25, 0,"cols: %d | rows: %d",cols,rows);
   }
+  
+  int minRooms = checkScreenSize(cols,rows);
 
+  if (roomsAmount < minRooms) {
+    resetMap(rows,cols,map);
+    free(rooms);
+    return createMap(wnd,maxRooms,firstPosition,cols,rows,user);
+  } 
 
-  //This is to connect randomic rooms in the map (just to give some randomization instead of a linear map)
-  int random1 = (rand() % (roomsAmount - 5)) + 5;
+  // This is to connect randomic rooms in the map (just to give some randomization instead of a linear map)
+  int random1 = (rand() % roomsAmount);
+  
   drawHallway(&rooms[0],&rooms[random1],map,cols,rows);
-  drawHallway(&rooms[2],&rooms[random1],map,cols,rows);
-
+  drawHallway(&rooms[roomsAmount],&rooms[3],map,cols,rows);
+  printMap(rows,cols,map);
   free(rooms);
-
+  getch();
+  return map;
 }

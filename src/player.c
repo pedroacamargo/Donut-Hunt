@@ -2,12 +2,12 @@
 #include <ncurses.h>
 #include "main.h"
 
-Player * playerSetUp(NormalRoom * firstRoom) {
+Player * playerSetUp() {
   Player * newPlayer;
   newPlayer = malloc(sizeof(Player));
 
-  newPlayer->pos.x = firstRoom->pos.x + (firstRoom->width / 2);
-  newPlayer->pos.y = firstRoom->pos.y + (firstRoom->height / 2);
+  // newPlayer->pos.x = firstRoom->pos.x + (firstRoom->width / 2);
+  // newPlayer->pos.y = firstRoom->pos.y + (firstRoom->height / 2);
 
   return newPlayer;
 }
