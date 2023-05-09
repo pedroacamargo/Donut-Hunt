@@ -124,16 +124,46 @@ void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
           map[y][x].ch = vine;
           map[y][x].walkable = true;
           map[y][x].transparent = false;
+        
+          int a = room.vineCenter.y - 2;
+          int b = room.vineCenter.x - (room.vinesWidth/2);
+          // vine room height in floor = 5
+          for (int i = 0; i < 5; i++) {
+            for (int j = 0; j <= room.vinesWidth; j++) {
+              if (map[a+i][b+j].ch == '#') break;
 
-          /* spread loop */
-          int spread = 0;
-          while (spread < room.vinesAmount) {
+              if (j == room.vinesWidth) {
+                if (map[a + i][b + j + 6].ch != ' ') {
+                  map[a + i][b + j + 6].ch = vine;
+                  map[a + i][b + j + 6].walkable = true;
+                  map[a + i][b + j + 6].transparent = false;
+                } else {
+                  map[a + i][b + j + 3].ch = vine;
+                  map[a + i][b + j + 3].walkable = true;
+                  map[a + i][b + j + 3].transparent = false;
+                  
+                }
+              }
+              map[a + i][b + j].ch = vine;
+              map[a + i][b + j].walkable = true;
+              map[a + i][b + j].transparent = false;
+              
+              /* Debug for vines appearance */
+              //getch();
+              //printMap(rows,cols,map);
 
-            spread++;
+
+              /* NOTES */
+              // Criar um spawn de monstros dentro das vinhas, além de ter também um item raro dentro das vinhas
+            }
           }
 
 
-        } else {
+
+
+
+
+        } else if (map[y][x].ch != '$'){
           map[y][x].ch = '.';
           map[y][x].walkable = true;
           map[y][x].transparent = true;

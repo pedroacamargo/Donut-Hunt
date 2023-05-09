@@ -106,7 +106,7 @@ NormalRoom createNormalRoom(int *rows, int *cols) {
     newRoom.height = 6;
     newRoom.type = 2;
     newRoom.vine = true;
-    newRoom.vinesAmount = rand() % 45;
+    newRoom.vinesWidth = (rand() % 5) + 3;
   }
 
   // position YX axis ( - height for the room doesn't overflow the screen)
