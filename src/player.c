@@ -30,6 +30,14 @@ void playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map) {
     case '-':
       move(user->pos.y,user->pos.x);
       break;
+    case '$':
+      map[user->pos.y][user->pos.x].ch = '.';
+      map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
+      user->pos.x += x;
+      user->pos.y += y;
+      map[user->pos.y][user->pos.x].transparent = true;
+      updatePlayerPosition(user,cols, rows, map);
+      break;
     case '.':
       map[user->pos.y][user->pos.x].ch = '.';
       map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
