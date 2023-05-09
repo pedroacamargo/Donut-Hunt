@@ -68,115 +68,30 @@ NormalRoom createRoom(int col, int row, Tile ** map) {
 
 
 NormalRoom createNormalRoom(int *rows, int *cols) {
-  // NormalRoom * newRoom;
-  // newRoom = malloc(sizeof(NormalRoom) + sizeof('x')); // the x is to fix a bug with the core dump error
-
   NormalRoom newRoom;
 
-  // Room width/height randomization (width 10 - 20/ height 6 - 16)
-  newRoom.width = rand() % 10 + 10;
-  newRoom.height = rand() % 6 + 4;
+  // 1 - Normal room
+  // 2 - Vine room
+  int randomType = (rand() % 1000); 
+  // 90% chance normal / 10% chance vine
+  if(randomType < 900) {
+    newRoom.width = rand() % 10 + 10;
+    newRoom.height = rand() % 6 + 4;
+    newRoom.type = 1;
+    newRoom.vine = false;
+  } else {
+    newRoom.width = rand() % 15 + 30;
+    newRoom.height = 6;
+    newRoom.type = 2;
+    newRoom.vine = true;
+    newRoom.vinesAmount = rand() % 45;
+  }
 
   // position YX axis ( - height for the room doesn't overflow the screen)
-  newRoom.pos.y = (rand() % (*rows - newRoom.height) + 3); 
-  newRoom.pos.x = (rand() % (*cols - newRoom.width) + 3);
-  // newRoom->pos.x = 220;
-  // newRoom->pos.y = 0;
-  // newRoom->pos.y = *rows - newRoom->height - 1;
+  newRoom.pos.y = (rand() % (*rows - (newRoom.height + 3))); 
+  newRoom.pos.x = (rand() % (*cols - (newRoom.width + 10)));
 
   return newRoom;
-}
-
-
-void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
-
-  // draw top and bottom
-  for (int x = room.pos.x + 1; x < room.pos.x + room.width; x++) {
-    if (x > cols || room.pos.y > rows) break;
-    if (map[room.pos.y][x].ch == '.') {
-      map[room.pos.y][x].ch = '.'; // overwrite rooms
-      map[room.pos.y][x].walkable = true;
-      map[room.pos.y][x].transparent = true;
-    } else if(map[room.pos.y][x].ch == '+') {
-      map[room.pos.y][x].ch = '+';
-      map[room.pos.y][x].walkable = true;
-      map[room.pos.y][x].transparent = true;
-    } else {
-      map[room.pos.y][x].ch = '#';
-      map[room.pos.y][x].color = COLOR_PAIR(1);
-      map[room.pos.y][x].walkable = false;
-      map[room.pos.y][x].seen = false;
-      map[room.pos.y][x].transparent = false;
-      map[room.pos.y][x].visible = false;
-    }
-
-
-    if (map[room.pos.y + room.height][x].ch == '.') {
-      map[room.pos.y + room.height][x].ch = '.'; // overwrite rooms
-      map[room.pos.y + room.height][x].walkable = true;
-      map[room.pos.y + room.height][x].transparent = true;
-    } else if(map[room.pos.y + room.height][x].ch == '+') {
-      map[room.pos.y + room.height][x].ch = '+';
-      map[room.pos.y + room.height][x].walkable = true;
-      map[room.pos.y + room.height][x].transparent = true;
-    } else {
-      map[room.pos.y + room.height][x].ch = '#';
-      map[room.pos.y + room.height][x].color = COLOR_PAIR(1);
-      map[room.pos.y + room.height][x].walkable = false;
-      map[room.pos.y + room.height][x].seen = false;
-      map[room.pos.y + room.height][x].transparent = false;
-      map[room.pos.y + room.height][x].visible = false;
-    }
-  }
-
-  // draw side walls / floor
-  for (int y = room.pos.y; y <= room.pos.y + room.height; y++) {
-    if (y > rows || room.pos.x > cols) break;
-    // draw side walls
-    if (map[y][room.pos.x].ch == '.') {
-      map[y][room.pos.x].ch = '.'; // overwrite rooms
-      map[y][room.pos.x].walkable = true;
-      map[y][room.pos.x].transparent = true;
-    } else if(map[y][room.pos.x].ch != '+') {
-      map[y][room.pos.x].ch = '#';
-      map[y][room.pos.x].color = COLOR_PAIR(1);
-      map[y][room.pos.x].walkable = false;
-      map[y][room.pos.x].seen = false;
-      map[y][room.pos.x].transparent = false;
-      map[y][room.pos.x].visible = false;
-    } else {
-      map[y][room.pos.x].ch = '+';
-      map[y][room.pos.x].walkable = true;
-      map[y][room.pos.x].transparent = true;
-    }
-
-    if (map[y][room.pos.x + room.width].ch == '.') {
-      map[y][room.pos.x + room.width].ch = '.'; // overwrite rooms
-      map[y][room.pos.x + room.width].walkable = true;
-      map[y][room.pos.x + room.width].transparent = true;
-    } else if(map[y][room.pos.x + room.width].ch == '+') {
-      map[y][room.pos.x + room.width].ch = '+';
-      map[y][room.pos.x + room.width].walkable = true;
-      map[y][room.pos.x + room.width].transparent = true;
-    } else {
-      map[y][room.pos.x + room.width].ch = '#';
-      map[y][room.pos.x + room.width].color = COLOR_PAIR(1);
-      map[y][room.pos.x + room.width].walkable = false;
-      map[y][room.pos.x + room.width].seen = false;
-      map[y][room.pos.x + room.width].transparent = false;
-      map[y][room.pos.x + room.width].visible = false;
-    }
-
-    // draw floors
-    for (int x = room.pos.x + 1; x < room.pos.x + room.width; x++) {
-      if (y > rows || x > cols) break;
-      if (y >= room.pos.y + room.height - 1) break; 
-      map[y+1][x].ch = '.';;
-      map[y+1][x].walkable = true;
-      map[y+1][x].transparent = true;
-
-    }    
-  }
 }
 
 
@@ -209,8 +124,14 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
         drawDoor(&rooms[i],map);
     }
     roomsAmount++;
-    mvprintw(24, 0,"roomsamount: %d",roomsAmount);
-    mvprintw(25, 0,"cols: %d | rows: %d",cols,rows);
+
+    /* DEBUG */
+    //mvprintw(24, 0,"roomsamount: %d",roomsAmount);
+    //mvprintw(25, 0,"cols: %d | rows: %d",cols,rows);
+    //debugMap(map,cols,rows);
+    //printMap(rows,cols,map);
+    //mvprintw(25,25,"RoomType: %d",firstRoom.type);
+    //getch();
   }
   
   int minRooms = checkScreenSize(cols,rows);
@@ -225,7 +146,7 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   int random1 = (rand() % roomsAmount);
   
   drawHallway(&rooms[0],&rooms[random1],map,cols,rows);
-  drawHallway(&rooms[roomsAmount],&rooms[3],map,cols,rows);
+  drawHallway(&rooms[3],&rooms[roomsAmount],map,cols,rows);
   printMap(rows,cols,map);
   free(rooms);
   return map;
