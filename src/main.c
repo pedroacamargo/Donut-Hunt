@@ -91,6 +91,7 @@ int main() {
 		int ch = getch();
     if (ch == 'q' || ch == 'Q') break;
 		getInput(ch, user,cols,rows, map);
+    
 	}
 
   endwin();
