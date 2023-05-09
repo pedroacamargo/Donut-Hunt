@@ -36,7 +36,7 @@ typedef struct NormalRoom
 
 	/* Vine room section */
 	Position vineCenter; // spread begining coords 
-	int vinesAmount; // amounts of vines in a room
+	int vinesWidth; // amounts of vines in a room
 
 } NormalRoom;
 // Normal room stats
