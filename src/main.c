@@ -19,7 +19,6 @@ void windowSetUp(int * cols, int * rows, WINDOW * wnd) {
 	wnd = newwin(*rows, *cols, 0, 0);
 	box(wnd, 0, 0);
 	wrefresh(wnd);
-  mvprintw(0,0,"rows:%d,cols:%d",*rows,*cols);
 }
 
 void getInput(int key, Player *user, int cols, int rows, Tile ** map) {
@@ -40,17 +39,10 @@ void getInput(int key, Player *user, int cols, int rows, Tile ** map) {
   case 'S':
     playerMove(+1, 0, cols, rows, user, map);
     break;
-  case 'q':
-  case 'Q':
-    refresh();
-    endwin();
-    break;
-  case 'P':
-  case 'p':
-    // prevRoom[*roomsAmount] = *randomizePosition(wnd, &prevRoom[*roomsAmount - 1],*rows,*cols,firstPosition,0);
-    // *roomsAmount++;
-    updatePlayerPosition(user, cols, rows, map);
-    break;
+  case 'v':
+  case 'V':
+    debugMap(map, cols, rows);
+    // printMap(rows, cols, map);
   default:
     break;
   }
@@ -63,7 +55,7 @@ void getInput(int key, Player *user, int cols, int rows, Tile ** map) {
       S: Go down
       D: Go right
       Q: Quit the game
-      P: Delete the actual map and create an entire new map again 
+      V: Debug map
     } 
 */
 
@@ -86,7 +78,6 @@ int main() {
 
 	// Setup ncurses window in CLI
 	windowSetUp(&cols, &rows, wnd);
-  mvprintw(2,2,"cols:%d | rows:%d",cols,rows);
   user = playerSetUp();
   
   // create the whole map

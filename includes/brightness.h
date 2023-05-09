@@ -14,4 +14,6 @@ bool lineOfSight (Position origin, Position target, Tile** map);
 
 void clearFov (Player * user, int cols, int rows, Tile** map);
 
+void debugMap(Tile ** map, int cols, int rows);
+
 #endif

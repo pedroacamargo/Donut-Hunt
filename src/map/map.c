@@ -78,8 +78,8 @@ NormalRoom createNormalRoom(int *rows, int *cols) {
   newRoom.height = rand() % 6 + 4;
 
   // position YX axis ( - height for the room doesn't overflow the screen)
-  newRoom.pos.y = (rand() % (*rows - newRoom.height) + 1); 
-  newRoom.pos.x = (rand() % (*cols - newRoom.width) + 1);
+  newRoom.pos.y = (rand() % (*rows - newRoom.height) + 3); 
+  newRoom.pos.x = (rand() % (*cols - newRoom.width) + 3);
   // newRoom->pos.x = 220;
   // newRoom->pos.y = 0;
   // newRoom->pos.y = *rows - newRoom->height - 1;
@@ -188,7 +188,6 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   user->pos.x = firstRoom.pos.x + (firstRoom.width / 2);
   user->pos.y = firstRoom.pos.y + (firstRoom.height / 2);
   user->color = COLOR_PAIR(1);  
-
 
   NormalRoom * rooms = calloc(maxRooms, sizeof(NormalRoom));
   int roomsAmount = 1;

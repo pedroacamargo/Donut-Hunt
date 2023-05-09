@@ -82,3 +82,12 @@ void clearFov (Player * user, int cols, int rows, Tile** map){
         }
     }
 }
+
+// Will turn the whole map visible for debugging 
+void debugMap(Tile ** map, int cols, int rows) {
+  for (int y = 0; y < rows; y++) {
+    for (int x = 0; x < cols; x++) {
+      map[y][x].visible = true;
+      }
+  }
+}
