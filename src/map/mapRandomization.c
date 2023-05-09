@@ -128,10 +128,10 @@ NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, i
 }
 
 int checkPos(NormalRoom * room,int y, int x, int cols, int rows, Tile ** map) {
-  int areaXstart = x - 3;
-  int areaYstart = y - 3;
-  int areaXend = x + room->width + 3;
-  int areaYend = y + room->height + 3;
+  int areaXstart = x - 1;
+  int areaYstart = y - 1;
+  int areaXend = x + room->width + 1;
+  int areaYend = y + room->height + 1;
 
   for (int x = areaXstart;x < areaXend; x++) {
     for (int y = areaYstart; y < areaYend; y++) {

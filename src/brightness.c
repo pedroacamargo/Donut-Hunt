@@ -6,7 +6,7 @@
 #include "main.h"
 
 void makeFov (Player *user, int cols, int rows, Tile** map){
-    int y, x , raio = 6, distancia;
+    int y, x , raio = 25, distancia;
     Position target; // usado para pegar as coordenadas do y e do x
 
     map[user->pos.y][user->pos.x].visible = true;
@@ -73,12 +73,21 @@ bool lineOfSight(Position origin, Position target, Tile** map)
     return true; // indica que há uma linha de visão entre as duas posições. 
 }
 
-void clearFov (Player * user, int cols, int rows, Tile** map){  // limpa o campo de visão do jogador 
-    int y, x, raio = 7;
+void clearFov (Player * user, int cols, int rows, Tile** map){
+    int y, x, raio = 26;
 
     for (y = user->pos.y - raio; y < user->pos.y + raio; y++ ){  // estes ciclos percorrem todas as posições no mapa que estão dentro do raio de visão do jogador, com base a sua posição atual.
         for (x = user->pos.x - raio; x < user->pos.x + raio; x++){
             if (InMap(y, x, cols, rows)) map[y][x].visible = false; // se estiver dentro mapa trocam valor visible = true por false
         }
     }
+}
+
+// Will turn the whole map visible for debugging 
+void debugMap(Tile ** map, int cols, int rows) {
+  for (int y = 0; y < rows; y++) {
+    for (int x = 0; x < cols; x++) {
+      map[y][x].visible = true;
+      }
+  }
 }
