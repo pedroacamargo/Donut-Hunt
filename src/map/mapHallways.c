@@ -170,7 +170,7 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
 
 
 int isFloor(Position * door, Tile ** map) {
-  if (map[door->y][door->x].ch == '.') {
+  if (map[door->y][door->x].ch == '.' || map[door->y][door->x].ch == '$') {
     return 0;
   }
   return 1;

@@ -117,9 +117,25 @@ NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, i
     if (first == 12) first = 1;
     return randomizePosition(wnd,room,col,row,first,iterations,map); // recursion
   } else {
+
+    /* Room positioning */
     newRoom.pos.x = x;
     newRoom.pos.y = y;
+
+    /* Vine room Configs */
+    if (newRoom.type == 2) {
+      if (newRoom.pos.x >= col) newRoom.pos.x -= 4;   // fix a bug with Vine rooms (Going out of bounds and crashing the game)
+      else if (newRoom.pos.x < 0) newRoom.pos.x += 4; 
+
+
+      newRoom.vineCenter.x = newRoom.pos.x + (rand() % newRoom.width); // center of vine spread
+      newRoom.vineCenter.y = newRoom.pos.y + 3;
+    }
+
+    /* Avoid repeated rooms */
     if (newRoom.pos.x == room->pos.x && newRoom.pos.y == room->pos.y) return *room;
+
+
     newRoom = makeDoor(first, &newRoom);
     drawDoor(room,map);
     drawHallway(&newRoom,room,map,col,row);

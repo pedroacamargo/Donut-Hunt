@@ -4,6 +4,7 @@
 #include "structs.h"
 #include "player.h"
 #include "map.h"
+#include "drawRoom.h"
 #include "mapDoor.h"
 #include "mapRandomization.h"
 #include "mapHallwaysWalls.h"

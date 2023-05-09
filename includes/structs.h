@@ -23,14 +23,22 @@ typedef struct {
 
 typedef struct NormalRoom
 {
+	/* Main stats */
 	Position pos;
 	int height;
 	int width;
 	Position door; // Door position
 	char doorAxis; // x/y -> This is just to help in the hallway connection
-	// int loot; 1-rara 2-comum
-	// int monsters;
-	// int difficulty;
+
+
+	/* Room type section */
+	int type; // Type 1 -> Normal room | Type 2 -> Circle room
+	bool vine; // if true, use Vine rooms section
+
+	/* Vine room section */
+	Position vineCenter; // spread begining coords 
+	int vinesAmount; // amounts of vines in a room
+
 } NormalRoom;
 // Normal room stats
 
@@ -39,7 +47,6 @@ typedef struct Player
 	Position pos;
 	int color;
 	int life;
-	// floor
 } Player;
 // Player stats
 
