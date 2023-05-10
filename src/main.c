@@ -10,15 +10,9 @@ void windowSetUp(int * cols, int * rows, WINDOW * wnd) {
 	noecho();
 	keypad(wnd,TRUE);
 	curs_set(FALSE);
-	start_color();
 
 	// Get screen dimensions
 	getmaxyx(stdscr, *rows, *cols);
-
-	// Set up ncurses window to use entire screen
-	wnd = newwin(*rows, *cols, 0, 0);
-	box(wnd, 0, 0);
-	wrefresh(wnd);
 }
 
 void getInput(int key, Player *user, int cols, int rows, Tile ** map) {
@@ -79,7 +73,11 @@ int main() {
 	// Setup ncurses window in CLI
 	windowSetUp(&cols, &rows, wnd);
   user = playerSetUp();
-  
+
+  /* Debug */
+  //mvprintw(0,0,"cols:%d, rows:%d",cols,rows);
+  //getch();
+
   // create the whole map
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
 
@@ -92,6 +90,8 @@ int main() {
     if (ch == 'q' || ch == 'Q') break;
 		getInput(ch, user,cols,rows, map);
 	}
+
+  resetMap(rows,cols,map);
 
   endwin();
 	return 0;
