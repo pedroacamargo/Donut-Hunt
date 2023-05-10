@@ -51,7 +51,7 @@ void printMap(int rows, int cols, Tile ** map){
 int checkScreenSize(int cols, int rows) {
   if (cols > 200 && rows > 60) return 14;
   else if ((cols <= 200 && cols > 150) && (rows > 40 && rows <= 60)) return 7;
-  else if ((cols <= 150) && (rows <= 40)) return 4;
+  else return 4;
 
   /* Debug */
   //mvprintw(0,0,"cols:%d, rows:%d",cols,rows);

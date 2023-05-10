@@ -5,7 +5,7 @@
 #include <math.h>
 #include "main.h"
 
-void makeFov (Player *user, int cols, int rows, Tile** map){
+void makeFov (Player *user, int cols, int rows, Tile** map, int * linesActions, bool *sawAVine){
     int y, x , raio = 25, distancia;
     Position target; // usado para pegar as coordenadas do y e do x
 
@@ -22,6 +22,10 @@ void makeFov (Player *user, int cols, int rows, Tile** map){
             if (InMap (y, x, cols, rows) && lineOfSight(user->pos, target, map)){
                 map[y][x].visible = true;
                 map[y][x].seen = true;
+                if (map[y][x].ch == '$' && *sawAVine == false) {
+                    *linesActions = addActions(cols, "You saw a Vine!", *linesActions,4);
+                    *sawAVine = 1;
+                }
             }
            }
         }

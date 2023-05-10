@@ -2,6 +2,7 @@
 #define __MAIN_H__
 
 #include "structs.h"
+#include "sideMenu.h"
 #include "player.h"
 #include "map.h"
 #include "drawRoom.h"
