@@ -15,9 +15,10 @@ typedef struct {
 	char ch;
 	int color;
 	bool walkable;
-	bool transparent;  // usado para a função lineOfSight()
-	bool visible; // usado para o makeFOV()
-	bool seen;  // usado para o clearFOV()
+	bool transparent;  // usado para a função lineOfSight
+	bool visible; // usado para o makeFOV
+	bool seen;  // usado para o clearFOV
+	char monster;
 } Tile;
 
 typedef struct NormalRoom
@@ -42,8 +43,14 @@ typedef struct Player
 } Player;
 // Player stats
 
+typedef struct Monster
+{
+	Position pos;
+	int color;
+	int life;
+} Monster;
+
 //variaveis globais 
 extern Player* user;
-
 
 #endif

@@ -9,6 +9,7 @@
 #include "mapHallwaysWalls.h"
 #include "mapHallways.h"
 #include "brightness.h"
+#include "monster.h"
 
 /* This main.h needs to be in the correct order for the game works properly */
 
