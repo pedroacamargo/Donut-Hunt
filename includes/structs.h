@@ -46,11 +46,12 @@ typedef struct Player
 	Position pos;
 	int color;
 	int life;
+	int monstersKilled;
+	int dungeonFloor;
 } Player;
 // Player stats
 
 //variaveis globais 
 extern Player* user;
-
 
 #endif

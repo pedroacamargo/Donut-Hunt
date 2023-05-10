@@ -49,9 +49,13 @@ void printMap(int rows, int cols, Tile ** map){
 }
 
 int checkScreenSize(int cols, int rows) {
-  if (cols > 200 && rows > 60) return 15;
-  else if ((cols <= 200 && cols > 150) && (rows > 40 && rows <= 60)) return 9;
-  else if ((cols <= 150) && (rows <= 40)) return 4;
+  if (cols > 200 && rows > 60) return 14;
+  else if ((cols <= 200 && cols > 150) && (rows > 40 && rows <= 60)) return 7;
+  else return 4;
+
+  /* Debug */
+  //mvprintw(0,0,"cols:%d, rows:%d",cols,rows);
+  //getch();
 
   return 0;
 }
@@ -126,12 +130,12 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
     roomsAmount++;
 
     /* DEBUG */
-    //mvprintw(24, 0,"roomsamount: %d",roomsAmount);
-    //mvprintw(25, 0,"cols: %d | rows: %d",cols,rows);
-    //debugMap(map,cols,rows);
-    //printMap(rows,cols,map);
-    //mvprintw(25,25,"RoomType: %d",firstRoom.type);
-    //getch();
+    // debugMap(map,cols,rows);
+    // printMap(rows,cols,map);
+    // mvprintw(24, 0,"roomsamount: %d",roomsAmount);
+    // mvprintw(25, 0,"cols: %d | rows: %d",cols,rows);
+    // mvprintw(25,25,"RoomType: %d",firstRoom.type);
+    // getch();
   }
   
   int minRooms = checkScreenSize(cols,rows);
@@ -145,9 +149,15 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   // This is to connect randomic rooms in the map (just to give some randomization instead of a linear map)
   int random1 = (rand() % roomsAmount);
   
+  /* Debug */
+  // debugMap(map,cols,rows);
+  // printMap(rows,cols,map);
+
   drawHallway(&rooms[0],&rooms[random1],map,cols,rows);
   drawHallway(&rooms[3],&rooms[roomsAmount],map,cols,rows);
-  printMap(rows,cols,map);
+
+  // getch();
+
   free(rooms);
   return map;
 }

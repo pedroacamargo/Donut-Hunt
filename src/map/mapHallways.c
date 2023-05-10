@@ -132,33 +132,73 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
       if (axis == 'x') {
         // go left
         room->door.x -= 1;
-        if (isFloor(&room->door, map) != 0) 
-        map[room->door.y][room->door.x].ch = '+';
-        map[room->door.y][room->door.x].walkable = true;
-        map[room->door.y][room->door.x].transparent = true;
+        if (isFloor(&room->door, map) != 0) {
+          if (isFloor(&room->door, map) == 2) {
+            map[room->door.y][room->door.x].ch = '$';
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = false;
+          } else {
+            map[room->door.y][room->door.x].ch = '+';
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = true;
+          }
+        } else {
+          map[room->door.y][room->door.x].walkable = true;
+          map[room->door.y][room->door.x].transparent = true;
+        }
       } else if (axis == 'y') {
         // go up
         room->door.y -= 1;
-        if (isFloor(&room->door, map) != 0) 
-        map[room->door.y][room->door.x].ch = '+';
-        map[room->door.y][room->door.x].walkable = true;
-        map[room->door.y][room->door.x].transparent = true;
+        if (isFloor(&room->door, map) != 0) {
+          if (isFloor(&room->door, map) == 2) {
+            map[room->door.y][room->door.x].ch = '$';
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = false;
+          } else {
+            map[room->door.y][room->door.x].ch = '+';
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = true;
+          }
+        } else {
+          map[room->door.y][room->door.x].walkable = true;
+          map[room->door.y][room->door.x].transparent = true;
+        }
       }
     } else if (distance > newDistance) {
       if (axis == 'x') {
         // go right
         room->door.x += 1;
-        if (isFloor(&room->door, map) != 0) 
-        map[room->door.y][room->door.x].ch = '+';
-        map[room->door.y][room->door.x].walkable = true;
-        map[room->door.y][room->door.x].transparent = true;
+        if (isFloor(&room->door, map) != 0) {
+          if (isFloor(&room->door, map) == 2) {
+            map[room->door.y][room->door.x].ch = '$';
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = false;
+          } else {
+            map[room->door.y][room->door.x].ch = '+';
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = true;
+          }
+        } else {
+          map[room->door.y][room->door.x].walkable = true;
+          map[room->door.y][room->door.x].transparent = true;
+        }
       } else if (axis == 'y') {
         // go down
         room->door.y += 1;
-        if (isFloor(&room->door, map) != 0)
-        map[room->door.y][room->door.x].ch = '+';
-        map[room->door.y][room->door.x].walkable = true;
-        map[room->door.y][room->door.x].transparent = true;
+        if (isFloor(&room->door, map) != 0) {
+          if (isFloor(&room->door, map) == 2) {
+            map[room->door.y][room->door.x].ch = '$';
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = false;
+          } else {
+            map[room->door.y][room->door.x].ch = '+';
+            map[room->door.y][room->door.x].walkable = true;
+            map[room->door.y][room->door.x].transparent = true;
+          }
+        } else {
+          map[room->door.y][room->door.x].walkable = true;
+          map[room->door.y][room->door.x].transparent = true;
+        }
       }
     }
     buildWalls(room,axis,isFirst,axisSwap,map);
@@ -170,8 +210,10 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
 
 
 int isFloor(Position * door, Tile ** map) {
-  if (map[door->y][door->x].ch == '.' || map[door->y][door->x].ch == '$') {
+  if (map[door->y][door->x].ch == '.') {
     return 0;
+  } else if (map[door->y][door->x].ch == '$') {
+    return 2;
   }
   return 1;
 }

@@ -3,7 +3,7 @@
 
 #include "structs.h"
 
-void makeFov (Player *user, int cols, int rows, Tile** map);
+void makeFov (Player *user, int cols, int rows, Tile** map, int * linesActions, bool * sawAVine);
 
 
 int getDistance (Position origion, Position target);
