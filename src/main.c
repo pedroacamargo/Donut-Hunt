@@ -101,8 +101,8 @@ int main() {
 
 
   /* Debug */
-  mvprintw(0,0,"cols:%d, rows:%d",cols,rows);
-  getch();
+  // mvprintw(0,0,"cols:%d, rows:%d",cols,rows);
+  // getch();
 
   // create the whole map
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
