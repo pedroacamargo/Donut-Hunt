@@ -52,5 +52,6 @@ typedef struct Monster
 
 //variaveis globais 
 extern Player* user;
+extern Monster* monster;
 
 #endif

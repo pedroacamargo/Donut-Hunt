@@ -54,9 +54,11 @@ void printMap(int rows, int cols, Tile ** map){
       if (map[i][j].visible){
         if(map[i][j].monster == 'G'){
            mvaddch(i, j, 'G' | COLOR_PAIR(3));
-        }else if (map[i][j].monster == 'F'){
-           mvaddch(i, j, 'F' | COLOR_PAIR(3));
-        }else{
+        }else if (map[i][j].monster == 'E'){
+           mvaddch(i, j, 'E' | COLOR_PAIR(3));
+        }else if (map[i][j].monster == 'D'){
+          mvaddch(i,j, 'D' | COLOR_PAIR(3));
+          } else{
         mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));
         }
       } else if (map[i][j].seen){

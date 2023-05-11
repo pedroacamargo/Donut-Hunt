@@ -67,7 +67,7 @@ int main() {
 
   init_pair(1, COLOR_WHITE, COLOR_BLACK);  // cor do que é visivel
   init_pair (2, COLOR_BLUE, COLOR_BLACK); // cor do que foi visto
-  init_pair (3, COLOR_RED, COLOR_BLACK);
+  init_pair (3, COLOR_RED, COLOR_BLACK); // cor dos monstros
 
 	// Variables
 	int cols, rows, maxRooms = 30;
@@ -76,19 +76,20 @@ int main() {
 	// Setup ncurses window in CLI
 	windowSetUp(&cols, &rows, wnd);
   user = playerSetUp();
-  
+
   // create the whole map
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
 
   spawnMonster(map, cols, rows);
   updatePlayerPosition(user,cols,rows,map);
-  
+    
 	// game loop
 	while(1) {
     printMap(rows,cols,map);
 		int ch = getch();
     if (ch == 'q' || ch == 'Q') break;
 		getInput(ch, user,cols,rows, map);
+    moveMonsters(map, cols, rows); // move os monstros
 	}
 
   endwin();
