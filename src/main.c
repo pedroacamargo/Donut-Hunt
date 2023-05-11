@@ -104,7 +104,7 @@ int main() {
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
 
   spawnMonster(map, cols, rows);
-  updatePlayerPosition(user,cols,rows,map);
+  updatePlayerPosition(user,cols,rows,map,&linesActions,&sawAVine);
     
 	// game loop
 	while(1) {
