@@ -58,10 +58,6 @@ void getInput(int key, Player *user, int cols, int rows, Tile ** map, int *lines
     } 
 */
 
-
-
-
-
 int main() {
   initscr();
 	Player * user;
@@ -75,9 +71,9 @@ int main() {
   /* Colors */
   init_pair(1, COLOR_WHITE, COLOR_BLACK);  // cor do que é visivel
   init_pair(2, COLOR_BLUE, COLOR_BLACK); // cor do que foi visto
-  init_pair(3, COLOR_YELLOW, COLOR_BLACK); // cor menu stats
+  init_pair (3, COLOR_RED, COLOR_BLACK); // cor dos monstros
   init_pair(4, COLOR_GREEN, COLOR_BLACK); 
-  init_pair(5, COLOR_RED, COLOR_BLACK); 
+  init_pair(5, COLOR_YELLOW, COLOR_BLACK); // cor menu stats
   init_pair(6, COLOR_CYAN, COLOR_BLACK);
 
   /* Player memory */
@@ -107,14 +103,16 @@ int main() {
   // create the whole map
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
 
-  updatePlayerPosition(user,cols,rows,map, &linesActions, &sawAVine);
-  
+  spawnMonster(map, cols, rows);
+  updatePlayerPosition(user,cols,rows,map,&linesActions,&sawAVine);
+    
 	// game loop
 	while(1) {
     printMap(rows,cols,map);
 		int ch = getch();
     if (ch == 'q' || ch == 'Q') break;
 		getInput(ch, user,cols,rows, map,&linesActions, &sawAVine);
+    moveMonsters(map, cols, rows); // move os monstros
 
     /* Player memory */
     if (mem_sawAVine == 20) {

@@ -32,12 +32,12 @@ void resetMap(int rows, int cols, Tile ** map) {
 	}
 	free(map);  
 }
-
+/*
 void printMap(int rows, int cols, Tile ** map){
   for (int i = 0; i < rows; i++){
     for (int j = 0; j < cols; j++){
       if (map[i][j].visible){
-        mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));
+      mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));
       } else if (map[i][j].seen){
         mvaddch (i, j, map[i][j].ch | COLOR_PAIR(2));
       } else {
@@ -47,6 +47,30 @@ void printMap(int rows, int cols, Tile ** map){
     }
   }
 }
+*/
+void printMap(int rows, int cols, Tile ** map){
+  for (int i = 0; i < rows; i++){
+    for (int j = 0; j < cols; j++){
+      if (map[i][j].visible){
+        if(map[i][j].monster == 'G'){
+           mvaddch(i, j, 'G' | COLOR_PAIR(3));
+        }else if (map[i][j].monster == 'E'){
+           mvaddch(i, j, 'E' | COLOR_PAIR(3));
+        }else if (map[i][j].monster == 'D'){
+          mvaddch(i,j, 'D' | COLOR_PAIR(3));
+          } else{
+        mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));
+        }
+      } else if (map[i][j].seen){
+        mvaddch (i, j, map[i][j].ch | COLOR_PAIR(2));
+      } else {
+        mvaddch(i,j, ' ');
+      }
+     // mvaddch(i,j,map[i][j].ch | map[i][j].color);
+    }
+  }
+}
+
 
 int checkScreenSize(int cols, int rows) {
   if (cols > 200 && rows > 60) return 14;
