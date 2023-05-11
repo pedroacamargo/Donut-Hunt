@@ -13,7 +13,8 @@
 */
 
 void createMenu(int cols2, int rows) {
-  int lines = 0;
+  int linesActions = 0;
+  // int linesStats = 0;
 
   createVerticalSeparator(cols2,rows);
   createHorizontalSeparator(cols2, 0);
@@ -21,11 +22,12 @@ void createMenu(int cols2, int rows) {
 
   /* Stats area */
   createArea(cols2, 10, "Stats");
+  createStats(cols2);
 
 
   /* Actions area */
   createArea(cols2, 20, "Actions");
-  lines = addActions(cols2, "Let's find the donut!",lines,6);
+  linesActions = addActions(cols2, "Let's find the donut!",linesActions,6);
 }
 
 void createVerticalSeparator(int cols2, int rows) {
@@ -48,6 +50,25 @@ void createHorizontalSeparator(int cols2, int posX) {
   }
 }
 
+/*
+    Start of each line
+  Line 1 -> 8
+  Line 2 -> 10
+  Line 3 -> 9
+  Line 4 -> 19
+  Line 5 -> 9
+*/
+void createStats(int cols2) {
+  int startAreaStats = 2;
+  attron(COLOR_PAIR(6));
+  mvprintw(startAreaStats,cols2 + 2,"Life:");
+  mvprintw(startAreaStats + 1,cols2 + 2,"Damage:");
+  mvprintw(startAreaStats + 2,cols2 + 2,"Armor:");
+  mvprintw(startAreaStats + 3,cols2 + 2,"Monsters killed:");
+  mvprintw(startAreaStats + 4,cols2 + 2,"Floor:");
+  attroff(COLOR_PAIR(6));
+}
+
 int addActions(int cols2, char action[], int lines, int color) {
   int startAreaActions = 12;
   // reset the whole line
@@ -57,4 +78,20 @@ int addActions(int cols2, char action[], int lines, int color) {
   attroff(COLOR_PAIR(color));
   if (lines == 7) return 0;
   return lines + 1;
+}
+
+void updateStats(Player * user, int cols2) {
+  int startAreaStats = 2;
+  int line1Start = 8 + cols2;
+  int line2Start = 10 + cols2;
+  int line3Start = 9 + cols2;
+  int line4Start = 19 + cols2;
+  int line5Start = 9 + cols2;
+  attron(COLOR_PAIR(3));
+  mvprintw(startAreaStats, line1Start,"%d",user->life);
+  mvprintw(startAreaStats + 1, line2Start, "%d",user->damage);
+  mvprintw(startAreaStats + 2, line3Start, "%d",user->armor);
+  mvprintw(startAreaStats + 3, line4Start, "%d",user->monstersKilled);
+  mvprintw(startAreaStats + 4, line5Start, "%d",user->dungeonFloor);
+  attroff(COLOR_PAIR(3));
 }

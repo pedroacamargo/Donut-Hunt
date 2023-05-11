@@ -71,9 +71,9 @@ int main() {
   /* Colors */
   init_pair(1, COLOR_WHITE, COLOR_BLACK);  // cor do que é visivel
   init_pair(2, COLOR_BLUE, COLOR_BLACK); // cor do que foi visto
-  init_pair (3, COLOR_RED, COLOR_BLACK); // cor dos monstros
+  init_pair(3, COLOR_YELLOW, COLOR_BLACK); // cor menu stats
   init_pair(4, COLOR_GREEN, COLOR_BLACK); 
-  init_pair(5, COLOR_YELLOW, COLOR_BLACK); // cor menu stats
+  init_pair (5, COLOR_RED, COLOR_BLACK); // cor dos monstros
   init_pair(6, COLOR_CYAN, COLOR_BLACK);
 
   /* Player memory */
@@ -94,7 +94,7 @@ int main() {
   createMenu(cols2,rows);
   user = playerSetUp();
   cols = colsWnd1;
-
+  updateStats(user,cols);
 
   /* Debug */
   // mvprintw(0,0,"cols:%d, rows:%d",cols,rows);

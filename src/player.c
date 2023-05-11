@@ -6,6 +6,12 @@ Player * playerSetUp() {
   Player * newPlayer;
   newPlayer = malloc(sizeof(Player));
 
+  newPlayer->life = 100;
+  newPlayer->armor = 0;
+  newPlayer->damage = 0;
+  newPlayer->dungeonFloor = 1;
+  newPlayer->monstersKilled = 0;
+
   // newPlayer->pos.x = firstRoom->pos.x + (firstRoom->width / 2);
   // newPlayer->pos.y = firstRoom->pos.y + (firstRoom->height / 2);
 

@@ -16,10 +16,14 @@ void createArea(int cols2, int posX, char title[]);
 // Auxiliar function to create an area, just creates a horizontal border for each area
 void createHorizontalSeparator(int cols2, int posX);
 
+void createStats(int cols2);
+
 // This function will add in the actions menu a given action
 // cols2: cols - 30
 // action: string to be added
 // lines in the actions area
 int addActions(int cols2, char action[], int lines, int color);
+
+void updateStats(Player * user, int cols2);
 
 #endif

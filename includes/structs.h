@@ -47,6 +47,8 @@ typedef struct Player
 	Position pos;
 	int color;
 	int life;
+	int damage;
+	int armor;
 	int monstersKilled;
 	int dungeonFloor;
 } Player;
