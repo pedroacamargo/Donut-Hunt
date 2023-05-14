@@ -5,7 +5,7 @@
 #include <math.h>
 #include "main.h"
 
-void makeFov (Player *user, int cols, int rows, Tile** map, int * linesActions, bool *sawAVine){
+void makeFov (Player *user, int cols, int rows, Tile** map, int * linesActions, bool *sawAVine, bool *sawAMonster){
     int y, x , raio = 25, distancia;
     Position target; // usado para pegar as coordenadas do y e do x
 
@@ -26,11 +26,15 @@ void makeFov (Player *user, int cols, int rows, Tile** map, int * linesActions, 
                     *linesActions = addActions(cols, "You saw a Vine!", *linesActions,4);
                     *sawAVine = 1;
                 }
-            }
+                if ((map[y][x].monster == 'E' || map[y][x].monster == 'G' || map[y][x].monster == 'D') && (*sawAMonster == false)) {
+                    *linesActions = addActions(cols, "Be careful, a monster!", *linesActions,5);
+                    *sawAMonster = 1;
+                }
             }
            }
         }
     }
+}
 
 int getDistance (Position origin, Position target){  // calcula a distancia do jogador a um certo ponto 
     double y, x;

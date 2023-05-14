@@ -30,7 +30,8 @@ void resetMap(int rows, int cols, Tile ** map) {
 	{
 		free(map[y]);
 	}
-	free(map);  
+	free(map);
+  map = NULL;
 }
 /*
 void printMap(int rows, int cols, Tile ** map){
@@ -58,7 +59,9 @@ void printMap(int rows, int cols, Tile ** map){
           mvaddch(i, j, 'E' | COLOR_PAIR(5));
         }else if (map[i][j].monster == 'D'){
           mvaddch(i,j, 'D' | COLOR_PAIR(5));
-          } else{
+        } else if (map[i][j].ch == 'v') {
+          mvaddch(i,j, 'v' | COLOR_PAIR(3));
+        } else {
         mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));
         }
       } else if (map[i][j].seen){
@@ -73,13 +76,14 @@ void printMap(int rows, int cols, Tile ** map){
 
 
 int checkScreenSize(int cols, int rows) {
+  /* Debug */
+  //mvprintw(0,0,"cols:%d, rows:%d",cols,rows);
+  //getch();
+
   if (cols > 200 && rows > 60) return 14;
   else if ((cols <= 200 && cols > 150) && (rows > 40 && rows <= 60)) return 7;
   else return 4;
 
-  /* Debug */
-  //mvprintw(0,0,"cols:%d, rows:%d",cols,rows);
-  //getch();
 
   return 0;
 }
@@ -131,7 +135,7 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   user->pos.x = firstRoom.pos.x + (firstRoom.width / 2);
   user->pos.y = firstRoom.pos.y + (firstRoom.height / 2);
   user->color = COLOR_PAIR(1);  
-
+  
   NormalRoom * rooms = calloc(maxRooms, sizeof(NormalRoom));
   int roomsAmount = 1;
   for (int i = 0; i < maxRooms; i++) {
@@ -154,12 +158,12 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
     roomsAmount++;
 
     /* DEBUG */
-    // debugMap(map,cols,rows);
-    // printMap(rows,cols,map);
-    // mvprintw(24, 0,"roomsamount: %d",roomsAmount);
-    // mvprintw(25, 0,"cols: %d | rows: %d",cols,rows);
-    // mvprintw(25,25,"RoomType: %d",firstRoom.type);
-    // getch();
+    //debugMap(map,cols,rows);
+    //printMap(rows,cols,map);
+    //mvprintw(24, 0,"roomsamount: %d",roomsAmount);
+    //mvprintw(25, 0,"cols: %d | rows: %d",cols,rows);
+    //mvprintw(25,25,"RoomType: %d",firstRoom.type);
+    //getch();
   }
   
   int minRooms = checkScreenSize(cols,rows);
@@ -170,6 +174,9 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
     return createMap(wnd,maxRooms,firstPosition,cols,rows,user);
   } 
 
+  //mvprintw(24, 0,"roomsamount: %d",roomsAmount);
+  //getch();
+
   // This is to connect randomic rooms in the map (just to give some randomization instead of a linear map)
   int random1 = (rand() % roomsAmount);
   
@@ -178,9 +185,11 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   // printMap(rows,cols,map);
 
   drawHallway(&rooms[0],&rooms[random1],map,cols,rows);
-  drawHallway(&rooms[3],&rooms[roomsAmount],map,cols,rows);
+  drawHallway(&rooms[3],&rooms[roomsAmount - 1],map,cols,rows);
 
-  // getch();
+  //int bossRoom = rand() % roomsAmount;
+  drawStairs(&rooms[roomsAmount], map);
+
 
   free(rooms);
   return map;

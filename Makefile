@@ -20,7 +20,7 @@ PROGRAM_MAP = map
 #================================================
 .DEFAULT_GOAL = build
 
-build: setup $(PROGRAM)
+build: setup $(PROGRAM) state
 
 # This will create the ./game in the project root folder
 $(PROGRAM): $(OBJS) $(MAP_OBJ)
@@ -37,7 +37,23 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 # Quando o target de uma função é só um target e não um ficheiro, utilizamos o .PHONY
 .PHONY: setup
 setup:
+	@echo ""
+	@echo ""
+	@echo "	Building the game..."
+	@echo ""
+	@echo ""
 	mkdir -p $(BUILD_DIR)
+
+.PHONY: state
+state:
+	@echo ""
+	@echo ""
+	@echo "	The game was built successfully without errors."
+	@echo "	Type ./play to play Donut Hunt"
+	@echo "	Type make clean to remove the build folder and the binary file of the game"
+	@echo ""
+	@echo "	Use a CLI resolution bigger than 200x60 for a better map generation, otherwise, less rooms will be generated"
+	@echo ""
 
 .PHONY: clean
 clean:

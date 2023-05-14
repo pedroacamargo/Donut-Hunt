@@ -23,7 +23,7 @@ Player * playerSetUp() {
 
 
 
-void playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int *linesActions, bool *sawAVine) {
+Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int *linesActions, bool *sawAVine, bool * sawAMonster, int firstPosition, int maxRooms, WINDOW * wnd) {
 
   int newX, newY;
 
@@ -45,14 +45,14 @@ void playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int
       user->pos.x += x;
       user->pos.y += y;
       map[user->pos.y][user->pos.x].transparent = true;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine);
+      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster);
       break;
     case '.':
       map[user->pos.y][user->pos.x].ch = '.';
       map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
       user->pos.x += x;
       user->pos.y += y;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine);
+      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster);
       break;
     case '+':
     case ' ':
@@ -60,20 +60,26 @@ void playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int
       map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
       user->pos.x += x;
       user->pos.y += y;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine);
+      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster);
+      break;
+    case 'v':
+      resetMap(rows,cols,map);
+      map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
+      updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster);
       break;
   }
+  return map;
 }
 
 
 
 
 
-void updatePlayerPosition(Player *user,int cols, int rows, Tile ** map, int *linesActions,bool * sawAVine) {
+void updatePlayerPosition(Player *user,int cols, int rows, Tile ** map, int *linesActions,bool * sawAVine, bool * sawAMonster) {
   map[user->pos.y][user->pos.x].ch  = '@';
   map[user->pos.y][user->pos.x].color = COLOR_PAIR(1);
   // mvprintw(0,0,"y: %d | x: %d",user->pos.y, user->pos.x);
   clearFov(user, cols, rows, map);
   move(user->pos.y,user->pos.x);
-  makeFov(user, cols, rows, map, linesActions, sawAVine);
+  makeFov(user, cols, rows, map, linesActions, sawAVine, sawAMonster);
 }

@@ -3,4 +3,6 @@
 
 void drawRoom(NormalRoom room, Tile ** map, int cols, int rows);
 
+void drawStairs(NormalRoom * room, Tile ** map);
+
 #endif

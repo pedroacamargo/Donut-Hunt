@@ -19,33 +19,6 @@ void windowSetUp(WINDOW * wnd, WINDOW * wnd2) {
   wrefresh(wnd2);
 }
 
-void getInput(int key, Player *user, int cols, int rows, Tile ** map, int *linesActions, bool * sawAVine) {
-  switch (key) {
-  case 'w':
-  case 'W':
-    playerMove(-1, 0, cols, rows, user, map, linesActions, sawAVine);
-    break;
-  case 'd':
-  case 'D':
-    playerMove(0, +1, cols, rows, user, map, linesActions, sawAVine);
-    break;
-  case 'a':
-  case 'A':
-    playerMove(0, -1, cols, rows , user, map, linesActions, sawAVine);
-    break;
-  case 's':
-  case 'S':
-    playerMove(+1, 0, cols, rows, user, map, linesActions, sawAVine);
-    break;
-  case 'v':
-  case 'V':
-    *linesActions = addActions(cols, "Map debugged", *linesActions,6);
-    debugMap(map, cols, rows);
-    // printMap(rows, cols, map);
-  default:
-    break;
-  }
-}
 /*  This is an important function, which will handle the input taken from the user keyboard
     Keys: 
     {
@@ -57,6 +30,36 @@ void getInput(int key, Player *user, int cols, int rows, Tile ** map, int *lines
       V: Debug map
     } 
 */
+Tile ** getInput(int key, Player *user, int cols, int rows, Tile ** map, int *linesActions, bool * sawAVine, bool * sawAMonster, int firstPosition, int maxRooms, WINDOW * wnd) {
+  switch (key) {
+  case 'w':
+  case 'W':
+    playerMove(-1, 0, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
+    return map;
+  case 'd':
+  case 'D':
+    playerMove(0, +1, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
+    return map;
+  case 'a':
+  case 'A':
+    playerMove(0, -1, cols, rows , user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
+    return map;
+  case 's':
+  case 'S':
+    playerMove(+1, 0, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
+    return map;
+  case 'v':
+  case 'V':
+    *linesActions = addActions(cols, "Map debugged", *linesActions,6);
+    debugMap(map, cols, rows);
+    // printMap(rows, cols, map);
+    return map;
+  default:
+    break;
+  }
+  return map;
+}
+
 
 int main() {
   initscr();
@@ -78,6 +81,7 @@ int main() {
 
   /* Player memory */
   int mem_sawAVine = 0;
+  int mem_sawAMonster = 0;
 
 	// Variables
 	int firstPosition = rand() % 12 + 1; // first testing position for the room creation
@@ -86,6 +90,7 @@ int main() {
   int cols2 = cols - colsWnd2; // START POSITION MENU WINDOW
   int linesActions = 1; // Number of lines already used in the actions menu | 1 due to the welcome message
   bool sawAVine = false; // If the user saw a vine
+  bool sawAMonster = false; // If the user saw a monster
   WINDOW * wnd = newwin(rows, cols2, 0, 0); // game window
   WINDOW * wnd2 = newwin(rows, 50, 0, cols2); // menu window
 
@@ -104,14 +109,14 @@ int main() {
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
 
   spawnMonster(map, cols, rows);
-  updatePlayerPosition(user,cols,rows,map,&linesActions,&sawAVine);
+  updatePlayerPosition(user,cols,rows,map,&linesActions,&sawAVine, &sawAMonster);
     
 	// game loop
 	while(1) {
     printMap(rows,cols,map);
 		int ch = getch();
     if (ch == 'q' || ch == 'Q') break;
-		getInput(ch, user,cols,rows, map,&linesActions, &sawAVine);
+		map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster,firstPosition,maxRooms,wnd);
     moveMonsters(map, cols, rows); // move os monstros
 
     /* Player memory */
@@ -119,6 +124,11 @@ int main() {
       sawAVine = false;
       mem_sawAVine = 0;
     } else mem_sawAVine++;
+
+    if (mem_sawAMonster == 20) {
+      sawAMonster = false;
+      mem_sawAMonster = 0;
+    } else mem_sawAMonster++;
 	}
   
   resetMap(rows,cols,map);

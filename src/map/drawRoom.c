@@ -173,3 +173,29 @@ void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
     }
   }
 }
+
+void drawStairs(NormalRoom * room, Tile ** map) {
+  //int maxIterations = (room->height * room->width) - (2 * room->width) - (2 * room->height);
+  //int randomPos = rand() % maxIterations;  
+  //int iterations = 0;
+
+  attron(COLOR_PAIR(3));
+  map[room->pos.y + room->height/2][room->pos.x + room->width/2].ch = 'v';
+  map[room->pos.y + room->height/2][room->pos.x + room->width/2].color = COLOR_PAIR(3);
+  attroff(COLOR_PAIR(3));
+
+  /*
+  for (int i = room->pos.y; i < room->pos.y + room->width; i++) {
+    for (int j = room->pos.x; j < room->pos.x + room->height; j++) {
+
+      if (map[i][j].ch != '#') iterations++;
+      
+      if (iterations == randomPos) {
+        map[i][j].ch = 'v';
+        map[i][j].color = COLOR_PAIR(4);
+
+      }
+    }
+  }
+  */
+}
