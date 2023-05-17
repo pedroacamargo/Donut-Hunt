@@ -173,3 +173,7 @@ void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
     }
   }
 }
+
+void drawMonsters(Tile ** map, int cols, int rows) {
+  // PRINTAR ISSO NO MAPA, TODOS OS MONSTROS NA LIStA LIGADA  map[cols][rows].monster
+}

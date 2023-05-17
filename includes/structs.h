@@ -11,6 +11,18 @@ typedef struct Position
 } Position;
 // Position in X/Y axis for player, rooms...
 
+typedef struct Monster
+{
+	Position pos;
+	int color;
+	int life;
+	int attack;
+	int defense;
+	int damage;
+	int armor;
+	char type;
+} Monster;
+
 typedef struct {
 	char ch;
 	int color;
@@ -18,12 +30,13 @@ typedef struct {
 	bool transparent;  // usado para a função lineOfSight
 	bool visible; // usado para o makeFOV
 	bool seen;  // usado para o clearFOV
-	char monster;
+	Monster * monster;
 } Tile;
 
 typedef struct NormalRoom
 {
 	/* Main stats */
+	Monster * monster;
 	Position pos;
 	int height;
 	int width;
@@ -47,19 +60,14 @@ typedef struct Player
 	Position pos;
 	int color;
 	int life;
+	int attack;
+	int defense;
 	int damage;
 	int armor;
 	int monstersKilled;
 	int dungeonFloor;
 } Player;
 // Player stats
-
-typedef struct Monster
-{
-	Position pos;
-	int color;
-	int life;
-} Monster;
 
 //variaveis globais 
 extern Player* user;

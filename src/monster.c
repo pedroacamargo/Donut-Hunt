@@ -2,72 +2,95 @@
 #include <ncurses.h>
 #include "main.h"
 #include <math.h>
-/*
-void spawnMonster(Tile **map, int cols, int rows) {
-    int x, y;
-    do {
-        x = rand() % cols;
-        y = rand() % rows;
-    } while (!map[y][x].walkable);
-    map[y][x].monster = 'F';
-    map[y][x].walkable = false;
 
-     do {
-        x = rand() % cols;
-        y = rand() % rows;
-    } while (!map[y][x].walkable);
-    map[y][x].monster = 'G';
-    map[y][x].walkable = false;
+Monster * monsterSetUp(Tile ** map, int cols, int rows, NormalRoom room) {
+  Monster * newMonster;
+  newMonster = malloc(sizeof(Monster));
 
-    do{
-      x = rand() % cols;
-      y = rand() % rows;
-    } while(!map[y][x].walkable);
-    map[y][x].monster = 'D';
-    map[y][x].walkable = false;
+  newMonster->life = 100;
+  newMonster->armor = 0;
+  newMonster->damage = 0;
+  newMonster->attack = 1;
+  newMonster->defense = 1;
+
+  newMonster = spawnMonster(map,cols,rows,newMonster,room); // vai ser para definir o type e a posicao do monstro na sala
+
+  // newMonster->pos.x = firstRoom->pos.x + (firstRoom->width / 2);
+  // newMonster->pos.y = firstRoom->pos.y + (firstRoom->height / 2);
+
+  return newMonster;
 }
-*/
-void spawnMonster(Tile **map, int cols, int rows) {
-    int eCount = 0, gCount = 0, dCount = 0;
-    int x, y;
-    while (eCount < 5 || gCount < 5 || dCount < 5) {
-        do {
-            x = rand() % cols;
-            y = rand() % rows;
-        } while (!map[y][x].walkable);
-        
-        // choose a random monster type
-        char monsterType;
-        int count;
-        int randNum;
-        do {
-            randNum = rand() % 3;
-            if (randNum == 0) {
-                monsterType = 'E';
-                count = eCount;
-            } else if (randNum == 1) {
-                monsterType = 'G';
-                count = gCount;
-            } else {
-                monsterType = 'D';
-                count = dCount;
-            }
-        } while (count >= 5);
 
-        // spawn the monster
-        map[y][x].monster = monsterType;
-        map[y][x].walkable = false;
-        
-        // update the monster count
-        if (monsterType == 'E') {
-            eCount++;
-        } else if (monsterType == 'G') {
-            gCount++;
-        } else {
-            dCount++;
-        }
+Monster * spawnMonster(Tile **map, int cols, int rows, Monster *monster, NormalRoom room) {
+    // Gera posição aleatória na sala para o monstro
+    monster->pos.x = (rand() % room.width) + room.pos.x;
+    monster->pos.y = (rand() % room.height) + room.pos.y;
+
+    // Gera tipo aleatório de monstro
+    int monsterType = rand() % 3;
+    switch (monsterType) {
+        case 0:
+            monster->type = 'E'; // Esqueleto
+            monster->color = COLOR_PAIR(5);
+            break;
+        case 1:
+            monster->type = 'G'; // Goblin
+            monster->color = COLOR_PAIR(5);
+            break;
+        case 2:
+            monster->type = 'D'; // Dragão
+            monster->color = COLOR_PAIR(5);
+            break;
+        default:
+            break;
     }
+
+    
+    return monster;
 }
+    // posicao aleatoria na sala  -> monster->pos.x e o y
+    //monster->type
+    // rand() % 3 -> E G D
+    // return monster    
+    //monster->pos.x = (rand() % room.width)  + room.pos.x
+
+    //while (eCount < 5 || gCount < 5 || dCount < 5) {
+    //    do {
+    //        x = rand() % cols;
+    //        y = rand() % rows;
+    //    } while (!map[y][x].walkable);
+    //    
+    //    // choose a random monster type
+    //    char monsterType;
+    //    int count;
+    //    int randNum;
+    //    do {
+    //        randNum = rand() % 3;
+    //        if (randNum == 0) {
+    //            monsterType = 'E';
+    //            count = eCount;
+    //        } else if (randNum == 1) {
+    //            monsterType = 'G';
+    //            count = gCount;
+    //        } else {
+    //            monsterType = 'D';
+    //            count = dCount;
+    //        }
+    //    } while (count >= 5);
+    //
+    //    // spawn the monster
+    //    map[y][x].monster = monsterType;
+    //    map[y][x].walkable = false;
+    //    
+    //    // update the monster count
+    //    if (monsterType == 'E') {
+    //        eCount++;
+    //    } else if (monsterType == 'G') {
+    //        gCount++;
+    //    } else {
+    //        dCount++;
+    //    }
+    //}
 
 
 

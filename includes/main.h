@@ -12,6 +12,7 @@
 #include "mapHallways.h"
 #include "brightness.h"
 #include "monster.h"
+#include "combat.h"
 
 /* This main.h needs to be in the correct order for the game works properly */
 

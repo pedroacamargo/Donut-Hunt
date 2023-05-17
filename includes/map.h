@@ -15,7 +15,7 @@ NormalRoom createRoom(int col, int row, Tile ** map);
 // This function will create a single room, draw it in the screen and return the created room
 // To create a room, the function create() will call createNormalRoom() inside of it
 
-NormalRoom createNormalRoom(int *rows, int *cols);
+NormalRoom createNormalRoom(int *rows, int *cols, Tile ** map);
 // This function has the role of creating a normal room (just a standard room)
 
 void drawRoom(NormalRoom room,Tile ** map,int cols, int rows);

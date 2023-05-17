@@ -61,6 +61,7 @@ void getInput(int key, Player *user, int cols, int rows, Tile ** map, int *lines
 int main() {
   initscr();
 	Player * user;
+  Monster * monster;
 	srand(time(NULL));
   start_color();
 
@@ -75,6 +76,7 @@ int main() {
   init_pair(4, COLOR_GREEN, COLOR_BLACK); 
   init_pair (5, COLOR_RED, COLOR_BLACK); // cor dos monstros
   init_pair(6, COLOR_CYAN, COLOR_BLACK);
+  init_pair(7, COLOR_MAGENTA, COLOR_BLACK);
 
   /* Player memory */
   int mem_sawAVine = 0;
@@ -103,7 +105,6 @@ int main() {
   // create the whole map
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
 
-  spawnMonster(map, cols, rows);
   updatePlayerPosition(user,cols,rows,map,&linesActions,&sawAVine);
     
 	// game loop

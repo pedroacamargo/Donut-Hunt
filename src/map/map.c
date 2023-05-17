@@ -87,27 +87,26 @@ int checkScreenSize(int cols, int rows) {
 
 NormalRoom createRoom(int col, int row, Tile ** map) {
 
-  NormalRoom room = createNormalRoom(&row,&col);
+  NormalRoom room = createNormalRoom(&row,&col,map);
   drawRoom(room,map,col,row);
 
   return room;
 }
 
-
-
-NormalRoom createNormalRoom(int *rows, int *cols) {
+NormalRoom createNormalRoom(int *rows, int *cols, Tile ** map) {
   NormalRoom newRoom;
 
   // 1 - Normal room
   // 2 - Vine room
   int randomType = (rand() % 1000); 
   // 90% chance normal / 10% chance vine
-  if(randomType < 900) {
+  if(randomType < 900) { // SALAS NORMAIS !!!!!!!!!
+    Monster * monster = monsterSetUp(map,cols,rows,newRoom); // cria o monstro e a struct monstro
     newRoom.width = rand() % 10 + 10;
     newRoom.height = rand() % 6 + 4;
     newRoom.type = 1;
     newRoom.vine = false;
-  } else {
+  } else { // SALAS COM VINHAS !!!!!!!
     newRoom.width = rand() % 15 + 30;
     newRoom.height = 6;
     newRoom.type = 2;
@@ -118,6 +117,8 @@ NormalRoom createNormalRoom(int *rows, int *cols) {
   // position YX axis ( - height for the room doesn't overflow the screen)
   newRoom.pos.y = (rand() % (*rows - (newRoom.height + 3))); 
   newRoom.pos.x = (rand() % (*cols - (newRoom.width + 10)));
+
+  newRoom.monster = monster;
 
   return newRoom;
 }
@@ -131,6 +132,8 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   user->pos.x = firstRoom.pos.x + (firstRoom.width / 2);
   user->pos.y = firstRoom.pos.y + (firstRoom.height / 2);
   user->color = COLOR_PAIR(1);  
+
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   NormalRoom * rooms = calloc(maxRooms, sizeof(NormalRoom));
   int roomsAmount = 1;

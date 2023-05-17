@@ -4,6 +4,7 @@
 #include <ncurses.h>
 #include "main.h"
 
+// !!!!!!!!!!!!!!!!!!!!!!!
 NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, int first, int iterations, Tile ** map) {
 
   // Variables
@@ -18,7 +19,12 @@ NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, i
   iterations++;
 
   // Create a random room
-  NormalRoom newRoom = createNormalRoom(&col,&row);
+  NormalRoom newRoom = createNormalRoom(&col,&row,map);
+  map[col][row].monster = newRoom.monster;
+
+  // FAZER LISTAS LIGADAS DE MONSTERS ...
+
+
   // Get its position in the screen to facilitate the readability
   Position p = room->pos;
   // mvprintw(0,30,"newRoom -> x:%d | y: %d", p.x, p.y);
