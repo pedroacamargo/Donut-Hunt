@@ -34,19 +34,19 @@ Tile ** getInput(int key, Player *user, int cols, int rows, Tile ** map, int *li
   switch (key) {
   case 'w':
   case 'W':
-    playerMove(-1, 0, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
+    map = playerMove(-1, 0, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
     return map;
   case 'd':
   case 'D':
-    playerMove(0, +1, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
+    map = playerMove(0, +1, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
     return map;
   case 'a':
   case 'A':
-    playerMove(0, -1, cols, rows , user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
+    map = playerMove(0, -1, cols, rows , user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
     return map;
   case 's':
   case 'S':
-    playerMove(+1, 0, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
+    map = playerMove(+1, 0, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
     return map;
   case 'v':
   case 'V':

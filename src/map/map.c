@@ -188,7 +188,7 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   drawHallway(&rooms[3],&rooms[roomsAmount - 1],map,cols,rows);
 
   //int bossRoom = rand() % roomsAmount;
-  drawStairs(&rooms[roomsAmount], map);
+  drawStairs(&rooms[0], map);
 
 
   free(rooms);
