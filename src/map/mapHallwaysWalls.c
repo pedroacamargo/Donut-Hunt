@@ -5,7 +5,7 @@
 #include <math.h>
 #include "main.h"
 
-void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap, Tile ** map) {
+void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap, Tile ** map, int cols, int rows) {
   // ### 
   // #+#
   // ###
@@ -13,6 +13,7 @@ void buildWalls(NormalRoom * room, char axis, int isFirst, int axisSwap, Tile **
   int roomY = room->door.y;
   for (int x = roomX - 1; x <= roomX + 1; x++) {
     for (int y = roomY - 1; y <= roomY + 1; y++) {
+      if (x > cols || y > rows || y < 0 || x < 0) break;
 
       if (axisSwap == 1) {
         if (map[y][x].ch == '.') continue;

@@ -6,8 +6,6 @@
 #include "main.h"
 
 void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
-
-
   // draw top and bottom
   for (int x = room.pos.x + 1; x < room.pos.x + room.width; x++) {
     if (x > cols - 2 || room.pos.y > rows - 2 || x < 0 || room.pos.y < 0) continue;

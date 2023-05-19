@@ -27,7 +27,7 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
     } else {
       xDist--;
     }
-    if ((yDist + xDist) == 0) break;
+    if ((yDist + xDist) == 0 || room->door.x > cols) break;
 
     //mvprintw(2,5,"xDist: %d | yDist: %d | xDist + yDist = %d",xDist,yDist,((xDist + yDist)));
 
@@ -45,12 +45,12 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
           isWall(&room->door,1,'x',map);
           map[room->door.y][room->door.x].walkable = true;
           map[room->door.y][room->door.x].transparent = true;
-          buildWalls(room,axis,isFirst,axisSwap,map);
+          buildWalls(room,axis,isFirst,axisSwap,map,cols,rows);
         } else if (axis == 'y') {
           isWall(&room->door,1,'y',map);
           map[room->door.y][room->door.x].walkable = true;
           map[room->door.y][room->door.x].transparent = true;
-          buildWalls(room,axis,isFirst,axisSwap,map);
+          buildWalls(room,axis,isFirst,axisSwap,map,cols,rows);
         }
         isFirst = 0;
         break;
@@ -201,7 +201,7 @@ void drawHallway(NormalRoom * newRoom, NormalRoom * room, Tile ** map,int cols, 
         }
       }
     }
-    buildWalls(room,axis,isFirst,axisSwap,map);
+    buildWalls(room,axis,isFirst,axisSwap,map,cols,rows);
     axisSwap = 0;
     distance = calculateDistance(newRoom,room,0,axis); // update the distance between two doors
   }

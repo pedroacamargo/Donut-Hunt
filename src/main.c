@@ -34,18 +34,24 @@ Tile ** getInput(int key, Player *user, int cols, int rows, Tile ** map, int *li
   switch (key) {
   case 'w':
   case 'W':
+  case 'A':
+  case KEY_UP:
     map = playerMove(-1, 0, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
     return map;
   case 'd':
-  case 'D':
+  case 'C':
+  case KEY_RIGHT:
     map = playerMove(0, +1, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
     return map;
   case 'a':
-  case 'A':
+  case 'D':
+  case KEY_LEFT:
     map = playerMove(0, -1, cols, rows , user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
     return map;
   case 's':
   case 'S':
+  case 'B':
+  case KEY_DOWN:
     map = playerMove(+1, 0, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
     return map;
   case 'v':
@@ -107,7 +113,6 @@ int main() {
 
   // create the whole map
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
-
   spawnMonster(map, cols, rows);
   updatePlayerPosition(user,cols,rows,map,&linesActions,&sawAVine, &sawAMonster);
     

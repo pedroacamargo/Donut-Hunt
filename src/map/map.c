@@ -33,22 +33,7 @@ void resetMap(int rows, int cols, Tile ** map) {
 	free(map);
   map = NULL;
 }
-/*
-void printMap(int rows, int cols, Tile ** map){
-  for (int i = 0; i < rows; i++){
-    for (int j = 0; j < cols; j++){
-      if (map[i][j].visible){
-      mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));
-      } else if (map[i][j].seen){
-        mvaddch (i, j, map[i][j].ch | COLOR_PAIR(2));
-      } else {
-        mvaddch(i,j, ' ');
-      }
-     // mvaddch(i,j,map[i][j].ch | map[i][j].color);
-    }
-  }
-}
-*/
+
 void printMap(int rows, int cols, Tile ** map){
   for (int i = 0; i < rows; i++){
     for (int j = 0; j < cols; j++){
@@ -62,7 +47,7 @@ void printMap(int rows, int cols, Tile ** map){
         } else if (map[i][j].ch == 'v') {
           mvaddch(i,j, 'v' | COLOR_PAIR(3));
         } else {
-        mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));
+          mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));
         }
       } else if (map[i][j].seen){
         mvaddch (i, j, map[i][j].ch | COLOR_PAIR(2));
@@ -106,7 +91,7 @@ NormalRoom createNormalRoom(int *rows, int *cols) {
   // 2 - Vine room
   int randomType = (rand() % 1000); 
   // 90% chance normal / 10% chance vine
-  if(randomType < 900) {
+  if(randomType < 700) {
     newRoom.width = rand() % 10 + 10;
     newRoom.height = rand() % 6 + 4;
     newRoom.type = 1;
@@ -135,7 +120,6 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   user->pos.x = firstRoom.pos.x + (firstRoom.width / 2);
   user->pos.y = firstRoom.pos.y + (firstRoom.height / 2);
   user->color = COLOR_PAIR(1);  
-  
   NormalRoom * rooms = calloc(maxRooms, sizeof(NormalRoom));
   int roomsAmount = 1;
   for (int i = 0; i < maxRooms; i++) {
@@ -170,7 +154,7 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
 
   if (roomsAmount < minRooms) {
     resetMap(rows,cols,map);
-    free(rooms);
+    if (rooms) free(rooms);
     return createMap(wnd,maxRooms,firstPosition,cols,rows,user);
   } 
 
@@ -178,7 +162,7 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   //getch();
 
   // This is to connect randomic rooms in the map (just to give some randomization instead of a linear map)
-  int random1 = (rand() % roomsAmount);
+  int random1 = (rand() % (roomsAmount - 1));
   
   /* Debug */
   // debugMap(map,cols,rows);
@@ -188,9 +172,9 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   drawHallway(&rooms[3],&rooms[roomsAmount - 1],map,cols,rows);
 
   //int bossRoom = rand() % roomsAmount;
-  drawStairs(&rooms[0], map);
+  drawStairs(&rooms[roomsAmount - 1], map);
 
 
-  free(rooms);
+  if (rooms) free(rooms);
   return map;
 }
