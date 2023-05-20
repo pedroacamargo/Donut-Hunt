@@ -107,16 +107,15 @@ void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
       y++;
       for (int x = room.pos.x + 1; x < room.pos.x + room.width; x++) {
         if (x == cols) {
-          map[y][room.pos.x + room.width].ch = '#';
-          map[y][room.pos.x + room.width].color = COLOR_PAIR(1);
-          map[y][room.pos.x + room.width].walkable = false;
-          map[y][room.pos.x + room.width].seen = false;
-          map[y][room.pos.x + room.width].transparent = false;
-          map[y][room.pos.x + room.width].visible = false;
+          map[y][x].ch = '#';
+          map[y][x].color = COLOR_PAIR(1);
+          map[y][x].walkable = false;
+          map[y][x].seen = false;
+          map[y][x].transparent = false;
+          map[y][x].visible = false;
           break;
         }
-        if (room.pos.y > rows || x < 0 || room.pos.y < 0) break;
-        if (y > rows || x > cols) break;
+        if (y > rows || x < 0 || room.pos.y < 0 || x > cols) break;
         if (y >= room.pos.y + room.height) break;
         if (x == room.vineCenter.x && y == room.vineCenter.y) {
           map[y][x].ch = vine;
@@ -128,7 +127,10 @@ void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
           // vine room height in floor = 5
           for (int i = 0; i < 5; i++) {
             for (int j = 0; j <= room.vinesWidth; j++) {
+              if (room.vineCenter.x + room.vinesWidth >= cols) break;
+
               if (map[a+i][b+j].ch == '#') break;
+              //if ( == '#') break;
 
               if (j == room.vinesWidth) {
                 if (map[a + i][b + j + 6].ch != ' ' && (y < rows || x < cols)) {

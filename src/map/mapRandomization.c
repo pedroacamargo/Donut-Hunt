@@ -124,7 +124,7 @@ NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, i
 
     /* Vine room Configs */
     if (newRoom.type == 2) {
-      if (newRoom.pos.x >= col) newRoom.pos.x -= 4;   // fix a bug with Vine rooms (Going out of bounds and crashing the game)
+      if (newRoom.pos.x + newRoom.width >= col) newRoom.pos.x -= 32;   // fix a bug with Vine rooms (Going out of bounds and crashing the game)
       else if (newRoom.pos.x < 0) newRoom.pos.x += 4; 
 
 
@@ -149,6 +149,7 @@ int checkPos(NormalRoom * room,int y, int x, int cols, int rows, Tile ** map) {
   int areaXend = x + room->width + 1;
   int areaYend = y + room->height + 1;
 
+  // cols e rows estão trocados 
   for (int x = areaXstart;x < areaXend; x++) {
     for (int y = areaYstart; y < areaYend; y++) {
       if (y >= cols - room->height -2 || y <= 0 || x >= rows - room->width - 2 || x <= 0 || map[y][x].ch == '.' || map[y][x].ch == '#'|| map[y][x].ch == '+') return 1;
