@@ -80,6 +80,17 @@ int addActions(int cols2, char action[], int lines, int color) {
   return lines + 1;
 }
 
+int addActionsWithData(int cols2, char action[], int data, int lines, int color) {
+  int startAreaActions = 12;
+  // reset the whole line
+  mvprintw(lines + startAreaActions,cols2 + 2, "                        ");
+  attron(COLOR_PAIR(color));
+  mvprintw(startAreaActions + lines,cols2 + 2, "%s: %d", action, data);
+  attroff(COLOR_PAIR(color));
+  if (lines == 7) return 0;
+  return lines + 1;
+}
+
 void updateStats(Player * user, int cols2) {
   int startAreaStats = 2;
   int line1Start = 8 + cols2;

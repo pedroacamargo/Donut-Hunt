@@ -23,4 +23,6 @@ void drawRoom(NormalRoom room,Tile ** map,int cols, int rows);
 
 Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition, int cols, int rows, Player * user);
 
+int createErosion(Tile ** map, int cols, int rows);
+
 #endif

@@ -4,6 +4,7 @@
 -> Spawna escada para descer numa sala longe do spawn do jogador (avançar de nível)
 -> 70% de chance de nascer salas normais
 -> 30% de chance de nascer salas com vinhas  => As vinhas são os '$'
+-> Erosão do mapa a cada 50 turnos
 
 ### Player
 -> Vida (ilustrativo)
