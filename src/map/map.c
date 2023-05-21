@@ -178,3 +178,20 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   if (rooms) free(rooms);
   return map;
 }
+
+
+int createErosion(Tile ** map, int cols, int rows) {
+  int erosion = 0;
+  for (int i = 0; i < 20; i++) {
+    int randomX = rand() % cols;
+    int randomY = rand() % rows;
+
+    if (map[randomY][randomX].ch == '+' || map[randomY][randomX].ch == '.') {
+      map[randomY][randomX].ch = '$';
+      map[randomY][randomX].walkable = true;
+      map[randomY][randomX].transparent = false;
+      erosion++;
+    }
+  }
+  return erosion;
+}

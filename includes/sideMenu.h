@@ -24,6 +24,12 @@ void createStats(int cols2);
 // lines in the actions area
 int addActions(int cols2, char action[], int lines, int color);
 
+// This function is the same as addActions, but instead will put a variable after a string
+// [ action: data ]
+int addActionsWithData(int cols2, char action[], int data, int lines, int color);
+
+
+
 void updateStats(Player * user, int cols2);
 
 #endif

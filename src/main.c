@@ -88,6 +88,8 @@ int main() {
   /* Player memory */
   int mem_sawAVine = 0;
   int mem_sawAMonster = 0;
+  int mem_erosion = 0;
+  int erosion = 0; // Tiles that were updated during erosion
 
 	// Variables
 	int firstPosition = rand() % 12 + 1; // first testing position for the room creation
@@ -134,6 +136,12 @@ int main() {
       sawAMonster = false;
       mem_sawAMonster = 0;
     } else mem_sawAMonster++;
+
+    if (mem_erosion == 50) {
+      erosion = createErosion(map,cols,rows);
+      linesActions = addActionsWithData(cols,"Map erosion updated",erosion,linesActions,4);
+      mem_erosion = 0;
+    } else mem_erosion++;
 	}
   
   resetMap(rows,cols,map);
