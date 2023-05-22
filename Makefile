@@ -1,6 +1,6 @@
 #================================================
 CFLAGS = -Wall -Wextra -pedantic -O2
-LIBS = -lm -lcurses
+LIBS = -lm -lcurses -lmenu
 CC = gcc
 #------------------------------------------------
 BIN_DIR = bin

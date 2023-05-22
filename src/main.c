@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <ncurses.h>
+#include <menu.h>
 #include <time.h>
 #include "main.h"
+
+
 
 void windowSetUp(WINDOW * wnd, WINDOW * wnd2) {
 	// Initialize ncurses window
@@ -61,7 +64,7 @@ Tile ** getInput(int key, Player *user, int cols, int rows, Tile ** map, int *li
 }
 
 
-int main() {
+void gameLoop() {
   initscr();
 	Player * user;
 	srand(time(NULL));
@@ -134,6 +137,47 @@ int main() {
   resetMap(rows,cols,map);
   delwin(wnd);
   delwin(wnd2);
+
+}
+
+
+
+void menuLoop() {
+  int escolha;
+  char *escolhas[] = {"Play", "Instructions", "Quit"};
+
+  while (true) {
+    escolha = menu(3, escolhas);
+
+    switch(escolha) {
+      case START_GAME :
+        gameLoop();
+        clear();
+        break;
+      
+      case GAME_HELP :
+        help();
+        clear();
+        break;
+      
+      case QUIT_GAME:
+        return;
+        break;
+
+    }
+  }
+}
+
+
+
+
+int main() {
+
+
+  inicio();
+  
+
+  menuLoop();
 
 
   endwin();
