@@ -1,6 +1,7 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
+#include "mainMenu.h"
 #include "structs.h"
 #include "sideMenu.h"
 #include "player.h"
