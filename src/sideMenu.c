@@ -6,13 +6,23 @@
 #include "main.h"
 
 /*
-        Each area has a 28 chars max length!
-
-        Stats -> cols2 x (1 - 9)
-        Actions -> cols2 x (11 - 19)
+ * Each area has a 28 chars max length!
+ *
+ * Stats -> cols2 x (1 - 9)
+ * Actions -> cols2 x (11 - 19)
+ * 
+ * For future updates in the side menu, here is the important variables to pay attention:
+ * -> endPositionStats
+ * -> endPositionActions
+ * -> endPositionOptions
+ * -> startInventoryY
 */
 
 void createMenu(int cols2, int rows) {
+  int endPositionStats = 10;
+  int endPositionActions = 20;
+  int endPositionOptions = 27;
+
   int linesActions = 0;
   // int linesStats = 0;
 
@@ -21,13 +31,17 @@ void createMenu(int cols2, int rows) {
   
 
   /* Stats area */
-  createArea(cols2, 10, "Stats");
+  createArea(cols2, endPositionStats, 9, "Stats");
   createStats(cols2);
 
 
   /* Actions area */
-  createArea(cols2, 20, "Actions");
+  createArea(cols2, endPositionActions, 9, "Actions");
   linesActions = addActions(cols2, "Let's find the donut!",linesActions,6);
+
+  /* Options */
+  createArea(cols2, endPositionOptions, 6, "Options");
+  createOptions(cols2, endPositionOptions);
 }
 
 void createVerticalSeparator(int cols2, int rows) {
@@ -36,10 +50,10 @@ void createVerticalSeparator(int cols2, int rows) {
   }
 }
 
-void createArea(int cols2, int posX, char title[]) {
-  createHorizontalSeparator(cols2, posX);
+void createArea(int cols2, int posY, int areaHeight, char title[]) {
+  createHorizontalSeparator(cols2, posY);
   attron(COLOR_PAIR(3));
-  mvprintw(posX - 9, cols2 + 12,"%s",title);
+  mvprintw(posY - areaHeight, cols2 + 12,"%s",title);
   attroff(COLOR_PAIR(3));
 }
 
@@ -105,4 +119,46 @@ void updateStats(Player * user, int cols2) {
   mvprintw(startAreaStats + 3, line4Start, "%d",user->monstersKilled);
   mvprintw(startAreaStats + 4, line5Start, "%d",user->dungeonFloor);
   attroff(COLOR_PAIR(3));
+}
+
+void createOptions(int cols2, int startPositionY) {
+  startPositionY -= 4;
+  mvprintw(startPositionY,cols2 + 2,"(Y) Open inventory");
+  mvprintw(startPositionY + 1,cols2 + 2,"(Q) Quit game");
+  mvprintw(startPositionY + 2,cols2 + 2,"(V) Debug mode");
+}
+
+void menuSwap(bool * isSideMenuOpened, Player * user, int cols, int rows) {
+  int startInventoryY = 20;
+  if (*isSideMenuOpened) {
+    *isSideMenuOpened = false;
+    mvprintw(startInventoryY + 1,cols + 2, "                        ");
+    createMenu(cols,rows);
+    updateStats(user,cols);
+  } else {
+    *isSideMenuOpened = true;
+    for (int j = startInventoryY + 1; j < rows; j++) {
+      for (int i = cols; i < cols + 30; i++) {
+        if (i == cols) mvaddch(j,i,'|');
+        else if (j == startInventoryY + 1) {
+          attron(COLOR_PAIR(3));
+          mvprintw(j, i + 10, "Inventory");
+          attroff(COLOR_PAIR(3));
+          j++;
+        }
+        else mvaddch(j,i,' ');
+      }
+    }
+  }
+}
+
+
+void sideMenuLoop(bool * isSideMenuOpened, Player * user, int cols, int rows) {
+  menuSwap(isSideMenuOpened,user,cols,rows);
+  while (*isSideMenuOpened) {
+    int ch = getch();
+    if (ch == 'y' || ch == 'Y') {
+      menuSwap(isSideMenuOpened,user,cols,rows);
+    }
+  }
 }
