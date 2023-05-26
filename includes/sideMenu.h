@@ -9,9 +9,10 @@ void createVerticalSeparator(int cols2, int rows);
 
 // Will create a section in the menu
 // cols2: cols - 30
-// posX: y of the area
+// posY: y of the area
+// areaHeight: height
 // title[]: the area header
-void createArea(int cols2, int posX, char title[]);
+void createArea(int cols2, int posY, int areaHeight, char title[]);
 
 // Auxiliar function to create an area, just creates a horizontal border for each area
 void createHorizontalSeparator(int cols2, int posX);
@@ -28,8 +29,12 @@ int addActions(int cols2, char action[], int lines, int color);
 // [ action: data ]
 int addActionsWithData(int cols2, char action[], int data, int lines, int color);
 
-
-
 void updateStats(Player * user, int cols2);
+
+void createOptions(int cols2, int sartPositionY);
+
+void menuSwap(bool * isSideMenuOpened, Player * user, int cols, int rows);
+
+void sideMenuLoop(bool * isSideMenuOpened, Player * user, int cols, int rows);
 
 #endif

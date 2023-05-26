@@ -6,8 +6,6 @@
 #include <time.h>
 #include "main.h"
 
-
-
 void windowSetUp(WINDOW * wnd, WINDOW * wnd2) {
 	// Initialize ncurses window
 	noecho();
@@ -20,53 +18,6 @@ void windowSetUp(WINDOW * wnd, WINDOW * wnd2) {
 	keypad(wnd2,TRUE);
   wrefresh(wnd);
   wrefresh(wnd2);
-}
-
-/*  This is an important function, which will handle the input taken from the user keyboard
-    Keys: 
-    {
-      W: Go up
-      A: Go left
-      S: Go down
-      D: Go right
-      Q: Quit the game
-      V: Debug map
-    } 
-*/
-Tile ** getInput(int key, Player *user, int cols, int rows, Tile ** map, int *linesActions, bool * sawAVine, bool * sawAMonster, int firstPosition, int maxRooms, WINDOW * wnd) {
-  switch (key) {
-  case 'w':
-  case 'W':
-  case 'A':
-  case KEY_UP:
-    map = playerMove(-1, 0, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
-    return map;
-  case 'd':
-  case 'C':
-  case KEY_RIGHT:
-    map = playerMove(0, +1, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
-    return map;
-  case 'a':
-  case 'D':
-  case KEY_LEFT:
-    map = playerMove(0, -1, cols, rows , user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
-    return map;
-  case 's':
-  case 'S':
-  case 'B':
-  case KEY_DOWN:
-    map = playerMove(+1, 0, cols, rows, user, map, linesActions, sawAVine, sawAMonster, firstPosition, maxRooms, wnd);
-    return map;
-  case 'v':
-  case 'V':
-    *linesActions = addActions(cols, "Map debugged", *linesActions,6);
-    debugMap(map, cols, rows);
-    // printMap(rows, cols, map);
-    return map;
-  default:
-    break;
-  }
-  return map;
 }
 
 
@@ -102,6 +53,7 @@ void gameLoop() {
   int linesActions = 1; // Number of lines already used in the actions menu | 1 due to the welcome message
   bool sawAVine = false; // If the user saw a vine
   bool sawAMonster = false; // If the user saw a monster
+  bool isSideMenuOpened = false;
   WINDOW * wnd = newwin(rows, cols2, 0, 0); // game window
   WINDOW * wnd2 = newwin(rows, 50, 0, cols2); // menu window
 
@@ -126,8 +78,12 @@ void gameLoop() {
     printMap(rows,cols,map);
 		int ch = getch();
     if (ch == 'q' || ch == 'Q') break;
-		map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster,firstPosition,maxRooms,wnd);
-    moveMonsters(map, cols, rows); // move os monstros
+    else if (ch == 'y' || ch == 'Y') {
+      sideMenuLoop(&isSideMenuOpened,user,cols,rows);
+    } else if (!isSideMenuOpened) {
+		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster,firstPosition,maxRooms,wnd);
+      moveMonsters(map, cols, rows); // move os monstros
+    }
 
     /* Player memory */
     if (mem_sawAVine == 20) {
