@@ -17,14 +17,14 @@ Tile ** matrixSetup(int rows, int cols) {
   return map;
 }
 
-void resetMap(int rows, int cols, Tile ** map) {
+void resetMap(int rows, int cols, Tile ** map, Player * user) {
   for (int i = 0; i < rows; i++)
     for (int j = 0; j < cols; j++) {
       map[i][j].ch = ' ';
       map[i][j].walkable = false;
     }
 
-  printMap(rows,cols,map);
+  printMap(rows,cols,map,user);
 
   for (int y = 0; y < rows; y++)
 	{
@@ -34,7 +34,7 @@ void resetMap(int rows, int cols, Tile ** map) {
   map = NULL;
 }
 
-void printMap(int rows, int cols, Tile ** map){
+void printMap(int rows, int cols, Tile ** map, Player * user){
   for (int i = 0; i < rows; i++){
     for (int j = 0; j < cols; j++){
       if (map[i][j].visible){
@@ -46,15 +46,23 @@ void printMap(int rows, int cols, Tile ** map){
           mvaddch(i,j, 'D' | COLOR_PAIR(5));
         } else if (map[i][j].ch == 'v') {
           mvaddch(i,j, 'v' | COLOR_PAIR(3));
+        } else if (map[i][j].ch == '@'){
+          mvaddch(i, j, map[i][j].ch | COLOR_PAIR(user->activeItems->armorSlot->rarity));
+        } else if (map[i][j].ch == '$') {
+          mvaddch(i,j, '$' | COLOR_PAIR(4));
+        } else if (map[i][j].ch == '#') {
+          mvaddch(i,j, '#' | COLOR_PAIR(8));
+        } else if (map[i][j].ch == '.') {
+          mvaddch(i,j, '.' | COLOR_PAIR(1));
         } else {
-          mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));
+          mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));          
         }
       } else if (map[i][j].seen){
-        mvaddch (i, j, map[i][j].ch | COLOR_PAIR(2));
+        mvaddch (i, j, map[i][j].ch | COLOR_PAIR(9));
       } else {
         mvaddch(i,j, ' ');
       }
-     // mvaddch(i,j,map[i][j].ch | map[i][j].color);
+     //mvaddch(i,j,map[i][j].ch | map[i][j].color);
     }
   }
 }
@@ -124,7 +132,7 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   int roomsAmount = 1;
   for (int i = 0; i < maxRooms; i++) {
 	  firstPosition = rand() % 12 + 1; // first testing position for the room creation
-    printMap(rows,cols,map);
+    printMap(rows,cols,map,user);
     rooms[i] = randomizePosition(wnd,&firstRoom,cols,rows,firstPosition,0,map);
 
     // if the rooms are the same, end the map generation
@@ -153,7 +161,7 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   int minRooms = checkScreenSize(cols,rows);
 
   if (roomsAmount < minRooms) {
-    resetMap(rows,cols,map);
+    resetMap(rows,cols,map,user);
     if (rooms) free(rooms);
     return createMap(wnd,maxRooms,firstPosition,cols,rows,user);
   } 

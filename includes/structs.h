@@ -42,6 +42,26 @@ typedef struct NormalRoom
 } NormalRoom;
 // Normal room stats
 
+
+typedef struct Item {
+	char ch;
+	char *name;
+	char *buffDescription;
+	char *lore;
+
+	int rarity;
+	int buff;
+	int level;
+} Item;
+
+
+typedef struct Inventory {
+	Item * armorSlot;
+	Item * swordSlot;
+	Item * specialSlot;
+} Inventory;
+
+
 typedef struct Player
 {
 	Position pos;
@@ -51,6 +71,7 @@ typedef struct Player
 	int armor;
 	int monstersKilled;
 	int dungeonFloor;
+	Inventory * activeItems;
 } Player;
 // Player stats
 
@@ -60,6 +81,7 @@ typedef struct Monster
 	int color;
 	int life;
 } Monster;
+
 
 //variaveis globais 
 extern Player* user;
