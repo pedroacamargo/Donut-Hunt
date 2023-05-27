@@ -5,9 +5,9 @@
 Tile ** matrixSetup(int rows, int cols);
 
 // Print the whole matrix
-void printMap(int rows, int cols, Tile ** map);
+void printMap(int rows, int cols, Tile ** map, Player * user);
 
-void resetMap(int rows, int cols, Tile ** map);
+void resetMap(int rows, int cols, Tile ** map, Player * user);
 
 int checkScreenSize(int cols, int rows);
 

@@ -31,6 +31,11 @@ void gameLoop() {
 	int cols, rows, maxRooms = 30;
 	getmaxyx(stdscr, rows, cols);
 
+  init_color(96,529,372,529);
+  init_color(117,529,843,1000);
+  init_color(237,227,227,227);
+  init_color(138,686,529,529);
+
   /* Colors */
   init_pair(1, COLOR_WHITE, COLOR_BLACK);  // cor do que é visivel
   init_pair(2, COLOR_BLUE, COLOR_BLACK); // cor do que foi visto
@@ -38,6 +43,11 @@ void gameLoop() {
   init_pair(4, COLOR_GREEN, COLOR_BLACK); 
   init_pair (5, COLOR_RED, COLOR_BLACK); // cor dos monstros
   init_pair(6, COLOR_CYAN, COLOR_BLACK);
+  init_pair(7,96,COLOR_BLACK); // Plum 4
+  init_pair(8,117,COLOR_BLACK); // SkyBlue 1
+  init_pair(9,237,COLOR_BLACK); // dark grey
+  init_pair(10,138,COLOR_BLACK); // Salmon
+  
 
   /* Player memory */
   int mem_sawAVine = 0;
@@ -75,11 +85,11 @@ void gameLoop() {
     
 	// game loop
 	while(1) {
-    printMap(rows,cols,map);
+    printMap(rows,cols,map,user);
 		int ch = getch();
     if (ch == 'q' || ch == 'Q') break;
     else if (ch == 'y' || ch == 'Y') {
-      sideMenuLoop(&isSideMenuOpened,user,cols,rows);
+      sideMenuLoop(&isSideMenuOpened,user,cols,rows,map);
     } else if (!isSideMenuOpened) {
 		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster,firstPosition,maxRooms,wnd);
       moveMonsters(map, cols, rows); // move os monstros
@@ -103,7 +113,7 @@ void gameLoop() {
     } else mem_erosion++;
 	}
   
-  resetMap(rows,cols,map);
+  resetMap(rows,cols,map,user);
   delwin(wnd);
   delwin(wnd2);
 

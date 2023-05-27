@@ -5,15 +5,23 @@
 Player * playerSetUp() {
   Player * newPlayer;
   newPlayer = malloc(sizeof(Player));
+  Inventory * playerInventory;
+  playerInventory = malloc(sizeof(Inventory));
+
+  Item * defaultArmor = createItem('@',"Newbie armor", "None, superficial protection from monsters bites", 
+  "Where am I? I'm STARVING, I need to find a donut...",
+   1, 0, 1);
 
   newPlayer->life = 100;
   newPlayer->armor = 0;
   newPlayer->damage = 0;
   newPlayer->dungeonFloor = 1;
   newPlayer->monstersKilled = 0;
+  newPlayer->activeItems = playerInventory;
 
-  // newPlayer->pos.x = firstRoom->pos.x + (firstRoom->width / 2);
-  // newPlayer->pos.y = firstRoom->pos.y + (firstRoom->height / 2);
+  newPlayer->activeItems->armorSlot = defaultArmor;
+  newPlayer->activeItems->swordSlot = NULL;
+  newPlayer->activeItems->specialSlot = NULL;
 
   return newPlayer;
 }
@@ -63,13 +71,13 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
       updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster);
       break;
     case 'v':
-      resetMap(rows,cols,map);
+      resetMap(rows,cols,map,user);
       map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
       updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster);
       spawnMonster(map, cols, rows);
       user->dungeonFloor++;
       updateStats(user, cols);
-      printMap(rows,cols,map);
+      printMap(rows,cols,map,user);
       *linesActions = addActions(cols,"Difficulty increased!", *linesActions,3);
       return map;
   }
@@ -82,7 +90,7 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
 
 void updatePlayerPosition(Player *user,int cols, int rows, Tile ** map, int *linesActions,bool * sawAVine, bool * sawAMonster) {
   map[user->pos.y][user->pos.x].ch  = '@';
-  map[user->pos.y][user->pos.x].color = COLOR_PAIR(1);
+  map[user->pos.y][user->pos.x].color = COLOR_PAIR(user->activeItems->armorSlot->rarity);
   // mvprintw(0,0,"y: %d | x: %d",user->pos.y, user->pos.x);
   clearFov(user, cols, rows, map);
   move(user->pos.y,user->pos.x);
