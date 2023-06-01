@@ -133,11 +133,11 @@ void drawRoom(NormalRoom room, Tile ** map, int cols, int rows) {
               //if ( == '#') break;
 
               if (j == room.vinesWidth) {
-                if (map[a + i][b + j + 6].ch != ' ' && (y < rows || x < cols)) {
+                if (map[a + i][b + j + 6].ch != ' ' && map[a + i][b + j + 6].ch != '#' && (y < rows || x < cols)) {
                   map[a + i][b + j + 6].ch = vine;
                   map[a + i][b + j + 6].walkable = true;
                   map[a + i][b + j + 6].transparent = false;
-                } else if (y < rows || x < cols) {
+                } else if ((y < rows || x < cols) && map[a + i][b + j + 3].ch != '#' && map[a + i][b + j + 3].ch != ' ') {
                   map[a + i][b + j + 3].ch = vine;
                   map[a + i][b + j + 3].walkable = true;
                   map[a + i][b + j + 3].transparent = false;

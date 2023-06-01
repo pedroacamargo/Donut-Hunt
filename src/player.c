@@ -5,12 +5,19 @@
 Player * playerSetUp() {
   Player * newPlayer;
   newPlayer = malloc(sizeof(Player));
+
   Inventory * playerInventory;
   playerInventory = malloc(sizeof(Inventory));
 
-  Item * defaultArmor = createItem('@',"Newbie armor", "None, superficial protection from monsters bites", 
-  "Where am I? I'm STARVING, I need to find a donut...",
-   1, 0, 1);
+  Item * defaultArmor = createItem('@', // item appearance
+  "Newbie armor", // item name
+  "None, superficial protection from monsters bites",  // item buff description
+  "Where am I? I'm STARVING, I need to find a donut...", // item lore
+   1, // rarity
+   0, // buff in number
+   1, // level (room floor)
+   1  // ID
+   ); 
 
   newPlayer->life = 100;
   newPlayer->armor = 0;
@@ -31,7 +38,7 @@ Player * playerSetUp() {
 
 
 
-Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int *linesActions, bool *sawAVine, bool * sawAMonster, int firstPosition, int maxRooms, WINDOW * wnd) {
+Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int *linesActions, bool *sawAVine, bool * sawAMonster, bool * sawAnItem, int firstPosition, int maxRooms, WINDOW * wnd) {
 
   int newX, newY;
 
@@ -53,14 +60,14 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
       user->pos.x += x;
       user->pos.y += y;
       map[user->pos.y][user->pos.x].transparent = true;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster);
+      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
       break;
     case '.':
       map[user->pos.y][user->pos.x].ch = '.';
       map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
       user->pos.x += x;
       user->pos.y += y;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster);
+      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
       break;
     case '+':
     case ' ':
@@ -68,18 +75,25 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
       map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
       user->pos.x += x;
       user->pos.y += y;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster);
+      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
       break;
     case 'v':
       resetMap(rows,cols,map,user);
       map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
-      updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster);
+      updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster, sawAnItem);
       spawnMonster(map, cols, rows);
       user->dungeonFloor++;
       updateStats(user, cols);
       printMap(rows,cols,map,user);
       *linesActions = addActions(cols,"Difficulty increased!", *linesActions,3);
       return map;
+    case '?':
+      map[user->pos.y][user->pos.x].ch = '.';
+      user->pos.x += x;
+      user->pos.y += y;
+      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
+      getItem(map,user,cols);
+      break;
   }
   return map;
 }
@@ -88,11 +102,19 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
 
 
 
-void updatePlayerPosition(Player *user,int cols, int rows, Tile ** map, int *linesActions,bool * sawAVine, bool * sawAMonster) {
+void updatePlayerPosition(Player *user,int cols, int rows, Tile ** map, int *linesActions,bool * sawAVine, bool * sawAMonster, bool * sawAnItem) {
   map[user->pos.y][user->pos.x].ch  = '@';
   map[user->pos.y][user->pos.x].color = COLOR_PAIR(user->activeItems->armorSlot->rarity);
   // mvprintw(0,0,"y: %d | x: %d",user->pos.y, user->pos.x);
   clearFov(user, cols, rows, map);
   move(user->pos.y,user->pos.x);
-  makeFov(user, cols, rows, map, linesActions, sawAVine, sawAMonster);
+  makeFov(user, cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
+}
+
+void updatePlayerStats(Item * item, Player * user) {
+  if (item->ch == '@') {
+    user->armor = item->buff;
+  } else if (item->ch == '|') {
+    user->damage = item->buff;
+  }
 }
