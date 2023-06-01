@@ -4,7 +4,7 @@
 #include <ncurses.h>
 #include "main.h"
 
-NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, int first, int iterations, Tile ** map) {
+NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, int first, int iterations, Tile ** map, Player * user) {
 
   // Variables
   int top = 10, right = 12, bottom = 3, left = 6; // doors positioning
@@ -115,7 +115,7 @@ NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, i
 
   if (has == 1) {
     if (first == 12) first = 1;
-    return randomizePosition(wnd,room,col,row,first,iterations,map); // recursion
+    return randomizePosition(wnd,room,col,row,first,iterations,map,user); // recursion
   } else {
 
     /* Room positioning */
@@ -130,6 +130,8 @@ NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, i
 
       newRoom.vineCenter.x = newRoom.pos.x + (rand() % newRoom.width); // center of vine spread
       newRoom.vineCenter.y = newRoom.pos.y + 3;
+      newRoom.itemPos.x = newRoom.vineCenter.x;
+      newRoom.itemPos.y = newRoom.vineCenter.y;
     }
 
     /* Avoid repeated rooms */
@@ -139,6 +141,7 @@ NormalRoom randomizePosition(WINDOW * wnd,NormalRoom * room, int col, int row, i
     newRoom = makeDoor(first, &newRoom);
     drawDoor(room,map);
     drawHallway(&newRoom,room,map,col,row);
+    drawItem(newRoom,map,user);
     return newRoom;
   }
 }

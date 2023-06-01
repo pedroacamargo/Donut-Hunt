@@ -202,10 +202,11 @@ void buildwCheckBox(int cols, int y, char str[], WINDOW * wnd) {
   * Sword ID -> 2
   * Special ID -> 3
 */
-void updateInventoryItem(int cols, int boxID, char item, int rarity) {
+void updateInventoryItem(int cols, Item * item) {
+
   int startInventoryY = 23;
   int boxX = cols + 8; // center of the box in X axis
-  switch (boxID) {
+  switch (item->ID) {
   case 1:
     startInventoryY += 6;
     break;
@@ -221,30 +222,24 @@ void updateInventoryItem(int cols, int boxID, char item, int rarity) {
   // This will put the Y in the center of the box
   startInventoryY -= 4;
 
-  attron(COLOR_PAIR(rarity));
-  mvaddch(startInventoryY,boxX,item);
-  attroff(COLOR_PAIR(rarity));
+  attron(COLOR_PAIR(item->rarity));
+  mvaddch(startInventoryY,boxX,item->ch);
+  attroff(COLOR_PAIR(item->rarity));
 }
 
 void updateInventoryActiveItems(Player * user, int cols) {
 
   if (user->activeItems->armorSlot) {
-    updateInventoryItem(cols,1,user->activeItems->armorSlot->ch,user->activeItems->armorSlot->rarity);
-  } else {
-    updateInventoryItem(cols,1,'X',1);
-  }
+    updateInventoryItem(cols,user->activeItems->armorSlot);
+  } 
 
   if (user->activeItems->swordSlot) {
-    updateInventoryItem(cols,2,user->activeItems->swordSlot->ch,user->activeItems->swordSlot->rarity);
-  } else {
-    updateInventoryItem(cols,2,'X',1);
-  }
+    updateInventoryItem(cols,user->activeItems->swordSlot);
+  } 
 
   if (user->activeItems->specialSlot) {
-    updateInventoryItem(cols,3,user->activeItems->specialSlot->ch,user->activeItems->specialSlot->rarity);
-  } else {
-    updateInventoryItem(cols,3,'X',1);
-  }
+    updateInventoryItem(cols,user->activeItems->specialSlot);
+  } 
 
 }
 
@@ -358,7 +353,7 @@ void updatePopUpItemStats(WINDOW * wnd, Player * user, int slotID) {
     } else {
       mvwprintw(wnd,actualLine,7,"No item equiped");
       mvwprintw(wnd,actualLine + 1,10,"0");
-      mvwprintw(wnd,actualLine + 2,9,"None");
+      mvwprintw(wnd,actualLine + 2,9,"Are you naked? :O");
       mvwprintw(wnd,actualLine + 3,9,"0");
     }
 
@@ -375,7 +370,7 @@ void updatePopUpItemStats(WINDOW * wnd, Player * user, int slotID) {
     } else {
       mvwprintw(wnd,actualLine,7,"No item equiped");
       mvwprintw(wnd,actualLine + 1,10,"0");
-      mvwprintw(wnd,actualLine + 2,9,"None");
+      mvwprintw(wnd,actualLine + 2,9,"Maybe you can punch some monsters with your own fists.");
       mvwprintw(wnd,actualLine + 3,9,"0");
     } 
   } else if (slotID == 3) {
@@ -390,7 +385,7 @@ void updatePopUpItemStats(WINDOW * wnd, Player * user, int slotID) {
     } else {
       mvwprintw(wnd,actualLine,7,"No item equiped");
       mvwprintw(wnd,actualLine + 1,10,"0");
-      mvwprintw(wnd,actualLine + 2,9,"None");
+      mvwprintw(wnd,actualLine + 2,9,"Try to find any special item! They're incredible.");
       mvwprintw(wnd,actualLine + 3,9,"0");
     }
 

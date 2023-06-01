@@ -5,6 +5,7 @@
 #include "structs.h"
 #include "sideMenu.h"
 #include "items.h"
+#include "itemsDataBase.h"
 #include "player.h"
 #include "map.h"
 #include "drawRoom.h"
