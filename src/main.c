@@ -86,7 +86,7 @@ void gameLoop() {
 
   // create the whole map
   Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
-  updatePlayerPosition(user,cols,rows,map,&linesActions,&sawAVine, &sawAMonster);
+  updatePlayerPosition(user,cols,rows,map,&linesActions,&sawAVine, &sawAMonster, &sawAnItem);
     
 	// game loop
 	while(1) {

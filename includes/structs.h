@@ -40,7 +40,6 @@ typedef struct {
 	bool transparent;  // usado para a função lineOfSight
 	bool visible; // usado para o makeFOV
 	bool seen;  // usado para o clearFOV
-	char monster;
 	Item * item;
 	Monster monster;
 } Tile;
@@ -91,5 +90,6 @@ typedef struct Player
 
 //variaveis globais 
 extern Player* user;
+extern Monster* monster;
 
 #endif
