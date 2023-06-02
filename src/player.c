@@ -22,7 +22,7 @@ Player * playerSetUp() {
   newPlayer->life = 100;
   newPlayer->armor = 0;
   newPlayer->damage = 0;
-  newPlayer->dungeonFloor = 1;
+  newPlayer->dungeonFloor = 25;
   newPlayer->monstersKilled = 0;
   newPlayer->activeItems = playerInventory;
 
@@ -80,8 +80,7 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
     case 'v':
       resetMap(rows,cols,map,user);
       map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
-      updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster, sawAnItem);
-      spawnMonster(map, cols, rows);
+      updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster,sawAnItem);
       user->dungeonFloor++;
       updateStats(user, cols);
       printMap(rows,cols,map,user);

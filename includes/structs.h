@@ -24,6 +24,15 @@ typedef struct Item {
 } Item;
 
 
+typedef struct Monster
+{
+	Position pos;
+	int color;
+	int life;
+	char type;
+	int damage;
+} Monster;
+
 typedef struct {
 	char ch;
 	int color;
@@ -31,9 +40,10 @@ typedef struct {
 	bool transparent;  // usado para a função lineOfSight
 	bool visible; // usado para o makeFOV
 	bool seen;  // usado para o clearFOV
-	char monster;
 	Item * item;
+	Monster monster;
 } Tile;
+
 
 typedef struct NormalRoom
 {
@@ -53,7 +63,7 @@ typedef struct NormalRoom
 	Position vineCenter; // spread begining coords 
 	Position itemPos; // Random Item Position
 	int vinesWidth; // amounts of vines in a room
-
+	Monster monster;
 } NormalRoom;
 // Normal room stats
 
@@ -77,14 +87,6 @@ typedef struct Player
 	Inventory * activeItems;
 } Player;
 // Player stats
-
-typedef struct Monster
-{
-	Position pos;
-	int color;
-	int life;
-} Monster;
-
 
 //variaveis globais 
 extern Player* user;
