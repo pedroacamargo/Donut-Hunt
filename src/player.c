@@ -74,7 +74,6 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
       resetMap(rows,cols,map,user);
       map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
       updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster);
-      spawnMonster(map, cols, rows);
       user->dungeonFloor++;
       updateStats(user, cols);
       printMap(rows,cols,map,user);

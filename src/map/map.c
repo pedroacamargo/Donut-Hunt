@@ -38,12 +38,12 @@ void printMap(int rows, int cols, Tile ** map, Player * user){
   for (int i = 0; i < rows; i++){
     for (int j = 0; j < cols; j++){
       if (map[i][j].visible){
-        if(map[i][j].monster == 'G'){
-          mvaddch(i, j, 'G' | COLOR_PAIR(5));
-        }else if (map[i][j].monster == 'E'){
-          mvaddch(i, j, 'E' | COLOR_PAIR(5));
-        }else if (map[i][j].monster == 'D'){
-          mvaddch(i,j, 'D' | COLOR_PAIR(5));
+        if(map[i][j].monster.type == 'G'){
+          mvaddch(i, j, 'G' | COLOR_PAIR(12));
+        }else if (map[i][j].monster.type == 'S'){
+          mvaddch(i, j, 'S' | COLOR_PAIR(5));
+        }else if (map[i][j].monster.type == 'D'){
+          mvaddch(i,j, 'D' | COLOR_PAIR(11));
         } else if (map[i][j].ch == 'v') {
           mvaddch(i,j, 'v' | COLOR_PAIR(3));
         } else if (map[i][j].ch == '@'){
@@ -156,6 +156,11 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
     //mvprintw(25, 0,"cols: %d | rows: %d",cols,rows);
     //mvprintw(25,25,"RoomType: %d",firstRoom.type);
     //getch();
+    int randomAmount = rand() % 3;
+    for (int j = 0; j < randomAmount; j++){
+      spawnMonster(map,rooms[i],user);
+    }  
+
   }
   
   int minRooms = checkScreenSize(cols,rows);

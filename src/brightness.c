@@ -26,7 +26,7 @@ void makeFov (Player *user, int cols, int rows, Tile** map, int * linesActions, 
                     *linesActions = addActions(cols, "You saw a Vine!", *linesActions,4);
                     *sawAVine = 1;
                 }
-                if ((map[y][x].monster == 'E' || map[y][x].monster == 'G' || map[y][x].monster == 'D') && (*sawAMonster == false)) {
+                if ((map[y][x].monster.type == 'E' || map[y][x].monster.type == 'G' || map[y][x].monster.type == 'D') && (*sawAMonster == false)) {
                     *linesActions = addActions(cols, "Be careful, a monster!", *linesActions,5);
                     *sawAMonster = 1;
                 }
