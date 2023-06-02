@@ -25,7 +25,7 @@ Player * playerSetUp() {
   newPlayer->life = 100;
   newPlayer->armor = 0;
   newPlayer->damage = 0;
-  newPlayer->dungeonFloor = 25;
+  newPlayer->dungeonFloor = 1;
   newPlayer->monstersKilled = 0;
   newPlayer->activeItems = playerInventory;
 
