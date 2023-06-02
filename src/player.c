@@ -111,10 +111,15 @@ void updatePlayerPosition(Player *user,int cols, int rows, Tile ** map, int *lin
   makeFov(user, cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
 }
 
+
+
+// To make the special items functional, just create a function to handle with Items ID 3 below
 void updatePlayerStats(Item * item, Player * user) {
   if (item->ch == '@') {
     user->armor = item->buff;
   } else if (item->ch == '|') {
     user->damage = item->buff;
+  } if (item->ID == 3) {
+    return;
   }
 }
