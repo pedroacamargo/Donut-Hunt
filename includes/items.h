@@ -17,5 +17,6 @@ void getItem(Tile ** map, Player * user, int cols);
 */
 int itemsEquilibrium(Player * user);
 
+void addItemBackpack(Backpack * backpack, Item * item);
 
 #endif

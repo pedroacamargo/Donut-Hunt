@@ -9,6 +9,9 @@ Player * playerSetUp() {
   Inventory * playerInventory;
   playerInventory = malloc(sizeof(Inventory));
 
+  Backpack * backpack = malloc(sizeof(Backpack));
+  playerInventory->backpack = backpack;
+
   Item * defaultArmor = createItem('@', // item appearance
   "Newbie armor", // item name
   "None, superficial protection from monsters bites",  // item buff description
@@ -17,7 +20,7 @@ Player * playerSetUp() {
    0, // buff in number
    1, // level (room floor)
    1  // ID
-   ); 
+   );
 
   newPlayer->life = 100;
   newPlayer->armor = 0;
@@ -92,6 +95,7 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
       user->pos.y += y;
       updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
       getItem(map,user,cols);
+      addItemBackpack(user->activeItems->backpack,map[user->pos.y][user->pos.x].item);
       break;
   }
   return map;
