@@ -55,6 +55,10 @@ void getItem(Tile ** map, Player * user, int cols) {
             user->activeItems->swordSlot = item;
             updatePlayerStats(item,user);
             updateStats(user,cols);
+        } else if (item->ch == 'O') {
+            user->activeItems->specialSlot = item;
+            updatePlayerStats(item,user);
+            updateStats(user,cols);
         }
     }
 }
