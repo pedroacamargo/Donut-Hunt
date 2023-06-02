@@ -13,6 +13,6 @@
       V: Debug map
     } 
 */
-Tile ** getInput(int key, Player *user, int cols, int rows, Tile ** map, int *linesActions, bool * sawAVine, bool * sawAMonster, int firstPosition, int maxRooms, WINDOW * wnd);
+Tile ** getInput(int key, Player *user, int cols, int rows, Tile ** map, int *linesActions, bool * sawAVine, bool * sawAMonster, bool * sawAnItem, int firstPosition, int maxRooms, WINDOW * wnd);
 
 #endif

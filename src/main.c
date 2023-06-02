@@ -57,6 +57,7 @@ void gameLoop() {
   int mem_sawAVine = 0;
   int mem_sawAMonster = 0;
   int mem_erosion = 0;
+  int mem_sawAnItem = 0;
   int erosion = 0; // Tiles that were updated during erosion
 
 	// Variables
@@ -68,6 +69,7 @@ void gameLoop() {
   bool sawAVine = false; // If the user saw a vine
   bool sawAMonster = false; // If the user saw a monster
   bool isSideMenuOpened = false;
+  bool sawAnItem = false;
   WINDOW * wnd = newwin(rows, cols2, 0, 0); // game window
   WINDOW * wnd2 = newwin(rows, 50, 0, cols2); // menu window
 
@@ -94,7 +96,7 @@ void gameLoop() {
     else if (ch == 'y' || ch == 'Y') {
       sideMenuLoop(&isSideMenuOpened,user,cols,rows,map);
     } else if (!isSideMenuOpened) {
-		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster,firstPosition,maxRooms,wnd);
+		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster, &sawAnItem,firstPosition,maxRooms,wnd);
       moveMonsters(map, cols, rows); // move os monstros
     }
 
@@ -114,6 +116,11 @@ void gameLoop() {
       linesActions = addActionsWithData(cols,"Map erosion updated",erosion,linesActions,4);
       mem_erosion = 0;
     } else mem_erosion++;
+
+    if (mem_sawAnItem == 50) {
+      sawAnItem = false;
+      mem_sawAnItem = 0;
+    } else mem_sawAnItem++;
 	}
   
   resetMap(rows,cols,map,user);

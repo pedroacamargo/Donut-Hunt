@@ -87,7 +87,7 @@ void buildwCheckBox(int cols, int y, char str[], WINDOW * wnd);
     *   item -> use the player->activeItems struct to put the item in the correct boxID
     * 
 */
-void updateInventoryItem(int cols, int boxID, char item, int rarity);
+void updateInventoryItem(int cols, Item * item);
 
 /*
     *

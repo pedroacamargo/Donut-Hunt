@@ -11,6 +11,19 @@ typedef struct Position
 } Position;
 // Position in X/Y axis for player, rooms...
 
+typedef struct Item {
+	char ch;
+	char *name;
+	char *buffDescription;
+	char *lore;
+
+	int rarity;
+	int buff;
+	int level;
+	int ID;
+} Item;
+
+
 typedef struct Monster
 {
 	Position pos;
@@ -27,6 +40,8 @@ typedef struct {
 	bool transparent;  // usado para a função lineOfSight
 	bool visible; // usado para o makeFOV
 	bool seen;  // usado para o clearFOV
+	char monster;
+	Item * item;
 	Monster monster;
 } Tile;
 
@@ -47,22 +62,11 @@ typedef struct NormalRoom
 
 	/* Vine room section */
 	Position vineCenter; // spread begining coords 
+	Position itemPos; // Random Item Position
 	int vinesWidth; // amounts of vines in a room
 	Monster monster;
 } NormalRoom;
 // Normal room stats
-
-
-typedef struct Item {
-	char ch;
-	char *name;
-	char *buffDescription;
-	char *lore;
-
-	int rarity;
-	int buff;
-	int level;
-} Item;
 
 
 typedef struct Inventory {

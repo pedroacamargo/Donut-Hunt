@@ -5,7 +5,7 @@
 #include <math.h>
 #include "main.h"
 
-void makeFov (Player *user, int cols, int rows, Tile** map, int * linesActions, bool *sawAVine, bool *sawAMonster){
+void makeFov(Player *user, int cols, int rows, Tile** map, int * linesActions, bool *sawAVine, bool *sawAMonster, bool *sawAnItem){
     int y, x , raio = 25, distancia;
     Position target; // usado para pegar as coordenadas do y e do x
 
@@ -29,6 +29,11 @@ void makeFov (Player *user, int cols, int rows, Tile** map, int * linesActions, 
                 if ((map[y][x].monster.type == 'E' || map[y][x].monster.type == 'G' || map[y][x].monster.type == 'D') && (*sawAMonster == false)) {
                     *linesActions = addActions(cols, "Be careful, a monster!", *linesActions,5);
                     *sawAMonster = 1;
+                }
+
+                if (map[y][x].ch == '?' && *sawAnItem == false) {
+                    *linesActions = addActions(cols, "You saw an Item!",*linesActions,map[y][x].item->rarity);
+                    *sawAnItem = 1;
                 }
             }
            }

@@ -54,6 +54,8 @@ void printMap(int rows, int cols, Tile ** map, Player * user){
           mvaddch(i,j, '#' | COLOR_PAIR(8));
         } else if (map[i][j].ch == '.') {
           mvaddch(i,j, '.' | COLOR_PAIR(1));
+        } else if (map[i][j].ch == '?') {
+          mvaddch(i,j, '?' | COLOR_PAIR(map[i][j].item->rarity));
         } else {
           mvaddch(i, j, map[i][j].ch | COLOR_PAIR(1));          
         }
@@ -121,21 +123,27 @@ NormalRoom createNormalRoom(int *rows, int *cols) {
 
 
 Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int rows, Player * user) {
+
+  // Map matrix setup
   Tile ** map = matrixSetup(rows,cols);
+
+  // Spawn room
   NormalRoom firstRoom = createRoom(cols,rows,map);
   drawRoom(firstRoom,map,cols,rows);
   drawDoor(&firstRoom,map);
   user->pos.x = firstRoom.pos.x + (firstRoom.width / 2);
   user->pos.y = firstRoom.pos.y + (firstRoom.height / 2);
-  user->color = COLOR_PAIR(1);  
+  user->color = COLOR_PAIR(1);
   NormalRoom * rooms = calloc(maxRooms, sizeof(NormalRoom));
   int roomsAmount = 1;
+
+  // Rooms creation loop
   for (int i = 0; i < maxRooms; i++) {
 	  firstPosition = rand() % 12 + 1; // first testing position for the room creation
     printMap(rows,cols,map,user);
-    rooms[i] = randomizePosition(wnd,&firstRoom,cols,rows,firstPosition,0,map);
+    rooms[i] = randomizePosition(wnd,&firstRoom,cols,rows,firstPosition,0,map,user);
 
-    // if the rooms are the same, end the map generation
+    // if the rooms are the same, end the map generation (if a room overwrites the previous one)
     if (rooms[i].pos.x == rooms[i-1].pos.x && rooms[i].pos.y == rooms[i-1].pos.y) {
       roomsAmount--;
       break;
@@ -143,15 +151,11 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
 
     firstRoom = rooms[i];
 
-    if (!(map[firstRoom.pos.y][firstRoom.pos.x].ch == '#' || map[firstRoom.pos.y][firstRoom.pos.x].ch == '.')) {
-        drawRoom(rooms[i],map,cols,rows);
-        drawDoor(&rooms[i],map);
-    }
     roomsAmount++;
 
     /* DEBUG */
     //debugMap(map,cols,rows);
-    //printMap(rows,cols,map);
+    //printMap(rows,cols,map,user);
     //mvprintw(24, 0,"roomsamount: %d",roomsAmount);
     //mvprintw(25, 0,"cols: %d | rows: %d",cols,rows);
     //mvprintw(25,25,"RoomType: %d",firstRoom.type);
@@ -165,14 +169,17 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   
   int minRooms = checkScreenSize(cols,rows);
 
+  // if the rooms amount is lower than the minimum required, call the function recursively again, until the amount of rooms satisfy the minimum amount
   if (roomsAmount < minRooms) {
     resetMap(rows,cols,map,user);
     if (rooms) free(rooms);
     return createMap(wnd,maxRooms,firstPosition,cols,rows,user);
   } 
 
+  /* DEBUG */
   //mvprintw(24, 0,"roomsamount: %d",roomsAmount);
   //getch();
+
 
   // This is to connect randomic rooms in the map (just to give some randomization instead of a linear map)
   int random1 = (rand() % (roomsAmount - 1));
