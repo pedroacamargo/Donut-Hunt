@@ -266,6 +266,10 @@ int selectSlot(int ch, int cols, int rows, int slotID, Tile ** map, Player * use
     inventoryLine -= 6;
     slotID--;
     break;
+  case 'B':
+  case 'b':
+    
+    break;
   case 10:
     createPopUp(cols, rows, map, user, slotID);
     break;
