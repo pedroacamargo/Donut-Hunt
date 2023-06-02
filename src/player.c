@@ -41,6 +41,9 @@ Player * playerSetUp() {
 
 
 
+
+
+
 Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int *linesActions, bool *sawAVine, bool * sawAMonster, bool * sawAnItem, int firstPosition, int maxRooms, WINDOW * wnd) {
 
   int newX, newY;
