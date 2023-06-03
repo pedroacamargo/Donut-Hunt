@@ -70,25 +70,32 @@ int manhattanDistance (Monster* monster, Player* player){
 
 void moveMonsters(Tile **map, Player* player, int cols, int rows, Monster * monsters, int monstersAmount) {
   Monster * monster;
+
+  // Esse ciclo for vai acessar todos os monstros presentes no mapa, que estão dentro do array monsters
   for (int i = 0; i < monstersAmount; i++) {
-    monster = &monsters[i];
+    monster = &monsters[i]; // pointer para o monstro
     int oldX = monster->pos.x;
     int oldY = monster->pos.y;
+
+
     if (mode_combat(map, monster) == 1) { // encontram um monstro
 
-      int distance = manhattanDistance(monster, player);
+      int distance = manhattanDistance(monster, player); // USE THE MANHATTAN DISTANCE TO MAKE THE COMBAT MODE (IF DISTANCE <= 2, DEAL DAMAGE TO THE PLAYER)
 
+      // erase the monster tile in the old position
       map[monster->pos.y][monster->pos.x].monster = NULL;
 
+      // x movimentation
       if (monster->pos.x < player->pos.x){
         monster->pos.x++;
       } else if (monster->pos.x > player->pos.x) monster->pos.x--;
 
-
+      // y movimentation
       if (monster->pos.y < player->pos.y){
         monster->pos.y++;
       } else if (monster->pos.y > player->pos.y) monster->pos.y--;
 
+      // If near the player, won't overwrite player and will replace the tile erased before wit the monster
       if (map[monster->pos.y][monster->pos.x].ch == map[player->pos.y][player->pos.x].ch) {
         map[oldY][oldX].monster = monster;
         monster->pos.x = oldX;
@@ -96,7 +103,12 @@ void moveMonsters(Tile **map, Player* player, int cols, int rows, Monster * mons
       } else {
         map[monster->pos.y][monster->pos.x].monster = monster;
       }
-    }
+    } /* Else if mode_combat(map,monster) == 0 */
+
+    // fazer um else if para quando o monstro está idle
+
+
+
   }
 }
 
