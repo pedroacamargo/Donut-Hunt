@@ -26,7 +26,7 @@ void openBackpack(int cols, int rows, Tile ** map, Player * user) {
     wattron(popUp,COLOR_PAIR(3));
     box(popUp, 0, 0);
     mvwprintw(popUp,0,2,"Backpack");
-    mvwprintw(popUp,28,2,"Press (q) to close the backpack - Press (Enter) to equip the item");
+    mvwprintw(popUp,28,2,"(Q) - Close Backpack | (Enter) - Equip item | (T) - Destroy item ");
 
     for (int i = 1; i < 99; i++) mvwaddch(popUp,11,i,'_');
     for (int i = 1; i < 99; i++) mvwaddch(popUp,27,i,'-');
@@ -91,6 +91,9 @@ void selectSlotBackpack(char ch, int * currentSlot, WINDOW * popUp, Player * use
         mvwprintw(popUp,y,x + 4,"   ");
         *currentSlot -= 1;
     } else if (ch == 10) {
+
+        /* Equip Items */
+
         if (*currentSlot == 0 && user->activeItems->backpack->slot1) {
             updatePlayerStats(user->activeItems->backpack->slot1,user);
             equipItem(cols,user->activeItems->backpack->slot1,user,*currentSlot);
@@ -124,10 +127,47 @@ void selectSlotBackpack(char ch, int * currentSlot, WINDOW * popUp, Player * use
             equipItem(cols,user->activeItems->backpack->slot8,user,*currentSlot);
             updateBackpackSlots(user,popUp);
         }
+    } else if (ch == 't' || ch == 'T') {
+
+        /* Destroy items */
+
+        if (*currentSlot == 0 && user->activeItems->backpack->slot1) {
+            free(user->activeItems->backpack->slot1);
+            user->activeItems->backpack->slot1 = NULL;
+            updateBackpackSlots(user,popUp);
+        } else if (*currentSlot == 1 && user->activeItems->backpack->slot2) {
+            free(user->activeItems->backpack->slot2);
+            user->activeItems->backpack->slot2 = NULL;
+            updateBackpackSlots(user,popUp);
+        } else if (*currentSlot == 2 && user->activeItems->backpack->slot3) {
+            free(user->activeItems->backpack->slot3);
+            user->activeItems->backpack->slot3 = NULL;
+            updateBackpackSlots(user,popUp);
+        } else if (*currentSlot == 3 && user->activeItems->backpack->slot4) {
+            free(user->activeItems->backpack->slot4);
+            user->activeItems->backpack->slot4 = NULL;
+            updateBackpackSlots(user,popUp);
+        } else if (*currentSlot == 4 && user->activeItems->backpack->slot5) {
+            free(user->activeItems->backpack->slot5);
+            user->activeItems->backpack->slot5 = NULL;
+            updateBackpackSlots(user,popUp);
+        } else if (*currentSlot == 5 && user->activeItems->backpack->slot6) {
+            free(user->activeItems->backpack->slot6);
+            user->activeItems->backpack->slot6 = NULL;
+            updateBackpackSlots(user,popUp);
+        } else if (*currentSlot == 6 && user->activeItems->backpack->slot7) {
+            free(user->activeItems->backpack->slot7);
+            user->activeItems->backpack->slot7 = NULL;
+            updateBackpackSlots(user,popUp);
+        } else if (*currentSlot == 7 && user->activeItems->backpack->slot8) {
+            free(user->activeItems->backpack->slot8);
+            user->activeItems->backpack->slot8 = NULL;
+            updateBackpackSlots(user,popUp);
+        }
     }
 
     y = 2;
-    buildSlot(height,width,y,x,popUp,1);
+    buildSlot(height,width,y,x,popUp,1); // change color to white
     
     wattron(popUp,COLOR_PAIR(5));
     y = 10;
@@ -136,7 +176,7 @@ void selectSlotBackpack(char ch, int * currentSlot, WINDOW * popUp, Player * use
     wattroff(popUp,COLOR_PAIR(5));
     
     y = 2;
-    buildSlot(height,width,y,x,popUp,2);
+    buildSlot(height,width,y,x,popUp,2); // change color to blue
 }
 
 void updateBackpackSlots(Player * user, WINDOW * popUp) {
