@@ -89,3 +89,23 @@ int itemsEquilibrium(Player * user) {
 
 	return 9;
 }
+
+void addItemBackpack(Backpack * backpack, Item * item) {
+    if (backpack->slot1 == NULL) {
+        backpack->slot1 = item;
+    } else if (backpack->slot2 == NULL) {
+        backpack->slot2 = item;
+    } else if (backpack->slot3 == NULL) {
+        backpack->slot3 = item;
+    } else if (backpack->slot4 == NULL) {
+        backpack->slot4 = item;
+    } else if (backpack->slot5 == NULL) {
+        backpack->slot5 = item;
+    } else if (backpack->slot6 == NULL) {
+        backpack->slot6 = item;
+    } else if (backpack->slot7 == NULL) {
+        backpack->slot7 = item;
+    } else if (backpack->slot8 == NULL) {
+        backpack->slot8 = item;
+    } 
+}

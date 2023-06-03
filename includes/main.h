@@ -6,6 +6,7 @@
 #include "sideMenu.h"
 #include "items.h"
 #include "itemsDataBase.h"
+#include "backpack.h"
 #include "player.h"
 #include "map.h"
 #include "drawRoom.h"

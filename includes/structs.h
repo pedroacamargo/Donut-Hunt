@@ -67,11 +67,22 @@ typedef struct NormalRoom
 } NormalRoom;
 // Normal room stats
 
+typedef struct Backpack {
+	Item * slot1;
+	Item * slot2;
+	Item * slot3;
+	Item * slot4;
+	Item * slot5;
+	Item * slot6;
+	Item * slot7;
+	Item * slot8;
+} Backpack;
 
 typedef struct Inventory {
 	Item * armorSlot;
 	Item * swordSlot;
 	Item * specialSlot;
+	Backpack * backpack;
 } Inventory;
 
 
