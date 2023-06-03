@@ -21,7 +21,7 @@
 void createMenu(int cols2, int rows) {
   int endPositionStats = 10;
   int endPositionActions = 20;
-  int endPositionOptions = 27;
+  int endPositionOptions = 28;
 
   int linesActions = 0;
   // int linesStats = 0;
@@ -40,7 +40,7 @@ void createMenu(int cols2, int rows) {
   linesActions = addActions(cols2, "Let's find the donut!",linesActions,6);
 
   /* Options */
-  createArea(cols2, endPositionOptions, 6, "Options");
+  createArea(cols2, endPositionOptions, 7, "Options");
   createOptions(cols2, endPositionOptions);
 }
 
@@ -122,10 +122,11 @@ void updateStats(Player * user, int cols2) {
 }
 
 void createOptions(int cols2, int startPositionY) {
-  startPositionY -= 4;
+  startPositionY -= 5;
   mvprintw(startPositionY,cols2 + 2,"(Y) Open inventory");
-  mvprintw(startPositionY + 1,cols2 + 2,"(Q) Quit game");
-  mvprintw(startPositionY + 2,cols2 + 2,"(V) Debug mode");
+  mvprintw(startPositionY + 1,cols2 + 2,"(B) Open Backpack");
+  mvprintw(startPositionY + 2,cols2 + 2,"(Q) Quit game");
+  mvprintw(startPositionY + 3,cols2 + 2,"(V) Debug mode");
 }
 
 void menuSwap(bool * isSideMenuOpened, Player * user, int cols, int rows) {
@@ -172,7 +173,7 @@ void createDesignSideMenu(int cols) {
   startInventoryY++;
   mvprintw(startInventoryY, cols + 2, "(B) -> Open backpack");
   startInventoryY++;
-  mvprintw(startInventoryY, cols + 2, "(Y) -> Close menu");
+  mvprintw(startInventoryY, cols + 2, "(Q) -> Close Inventory");
 }
 
 void buildCheckBox(int cols, int y, char str[]) {
@@ -450,7 +451,7 @@ void sideMenuLoop(bool * isSideMenuOpened, Player * user, int cols, int rows, Ti
 
   while (*isSideMenuOpened) {
     int ch = getch();
-    if (ch == 'y' || ch == 'Y') {
+    if (ch == 'q' || ch == 'Q') {
       menuSwap(isSideMenuOpened,user,cols,rows);
     } else if (ch == 's' || ch == 'w' || ch == 'W' || ch == 'S' || ch) {
       slotID = selectSlot(ch, cols, rows, slotID, map, user);
