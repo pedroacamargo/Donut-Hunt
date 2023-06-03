@@ -41,7 +41,7 @@ typedef struct {
 	bool visible; // usado para o makeFOV
 	bool seen;  // usado para o clearFOV
 	Item * item;
-	Monster monster;
+	Monster * monster;
 } Tile;
 
 

@@ -1,15 +1,15 @@
 #ifndef __MONSTER_H__
 #define __MONSTER_H_
 
-void spawnMonster (Tile ** map, NormalRoom room, Player* player);
+Monster * spawnMonster (Tile ** map, NormalRoom room, Player* player);
 
 int manhattanDistance (Monster* monster, Player* player);
 
-void moveMonsters(Tile **map, Player* player, int cols, int rows);
+void moveMonsters(Tile **map, Player* player, int cols, int rows, Monster * monsters, int monstersAmount);
 
-Monster createSkeleton();
+Monster *createSkeleton();
 
-Monster createGoblin();
+Monster *createGoblin();
 
-Monster createDragon();
+Monster *createDragon();
 #endif

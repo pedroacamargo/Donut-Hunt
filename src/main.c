@@ -72,7 +72,8 @@ void gameLoop() {
   bool sawAnItem = false;
   WINDOW * wnd = newwin(rows, cols2, 0, 0); // game window
   WINDOW * wnd2 = newwin(rows, 50, 0, cols2); // menu window
-
+  Monster monsters[maxRooms * 3];
+  int monstersAmount = 0;
 	// Setup ncurses window in CLI
 	windowSetUp(wnd, wnd2);
   createMenu(cols2,rows);
@@ -85,9 +86,9 @@ void gameLoop() {
   // getch();
 
   // create the whole map
-  Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
+  Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user,monsters,&monstersAmount);
   updatePlayerPosition(user,cols,rows,map,&linesActions,&sawAVine, &sawAMonster, &sawAnItem);
-    
+
 	// game loop
 	while(1) {
     printMap(rows,cols,map,user);
@@ -96,8 +97,8 @@ void gameLoop() {
     else if (ch == 'y' || ch == 'Y') {
       sideMenuLoop(&isSideMenuOpened,user,cols,rows,map);
     } else if (!isSideMenuOpened) {
-		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster, &sawAnItem,firstPosition,maxRooms,wnd);
-      moveMonsters(map,user, cols, rows); // move os monstros
+		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster, &sawAnItem,firstPosition,maxRooms,wnd, monsters, &monstersAmount);
+      moveMonsters(map,user, cols, rows, monsters, monstersAmount); // move os monstros
     }
 
     /* Player memory */

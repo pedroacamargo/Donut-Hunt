@@ -38,12 +38,14 @@ void printMap(int rows, int cols, Tile ** map, Player * user){
   for (int i = 0; i < rows; i++){
     for (int j = 0; j < cols; j++){
       if (map[i][j].visible){
-        if(map[i][j].monster.type == 'G'){
-          mvaddch(i, j, 'G' | COLOR_PAIR(12));
-        }else if (map[i][j].monster.type == 'S'){
-          mvaddch(i, j, 'S' | COLOR_PAIR(5));
-        }else if (map[i][j].monster.type == 'D'){
-          mvaddch(i,j, 'D' | COLOR_PAIR(11));
+        if (map[i][j].monster != NULL) {
+          if (map[i][j].monster->type == 'G'){
+            mvaddch(i, j, 'G' | COLOR_PAIR(12));
+          } else if (map[i][j].monster->type == 'S'){
+            mvaddch(i, j, 'S' | COLOR_PAIR(5));
+          } else if (map[i][j].monster->type == 'D'){
+            mvaddch(i,j, 'D' | COLOR_PAIR(11));
+          }
         } else if (map[i][j].ch == 'v') {
           mvaddch(i,j, 'v' | COLOR_PAIR(3));
         } else if (map[i][j].ch == '@'){
@@ -122,7 +124,7 @@ NormalRoom createNormalRoom(int *rows, int *cols) {
 }
 
 
-Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int rows, Player * user) {
+Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int rows, Player * user, Monster * monsters, int * monstersAmount) {
 
   // Map matrix setup
   Tile ** map = matrixSetup(rows,cols);
@@ -154,17 +156,13 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
     roomsAmount++;
 
     /* DEBUG */
+    //getch();
     //debugMap(map,cols,rows);
     //printMap(rows,cols,map,user);
     //mvprintw(24, 0,"roomsamount: %d",roomsAmount);
     //mvprintw(25, 0,"cols: %d | rows: %d",cols,rows);
     //mvprintw(25,25,"RoomType: %d",firstRoom.type);
     //getch();
-    int randomAmount = rand() % 3;
-    for (int j = 0; j < randomAmount; j++){
-      spawnMonster(map,rooms[i],user);
-    }  
-
   }
   
   int minRooms = checkScreenSize(cols,rows);
@@ -173,20 +171,35 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   if (roomsAmount < minRooms) {
     resetMap(rows,cols,map,user);
     if (rooms) free(rooms);
-    return createMap(wnd,maxRooms,firstPosition,cols,rows,user);
+    *monstersAmount = 0;
+    return createMap(wnd,maxRooms,firstPosition,cols,rows,user,monsters,monstersAmount);
   } 
 
   /* DEBUG */
   //mvprintw(24, 0,"roomsamount: %d",roomsAmount);
   //getch();
 
+  // spawn monsters 0 - 2
+  int randomAmount;
+  int i = 0;
+  int j = 0;
+  int cont = 0;
+  while(1) {
+    randomAmount = rand() % 4;
+    while (cont < randomAmount) {
+      monsters[i] = *spawnMonster(map,rooms[j],user);
+      *monstersAmount += 1;
+      cont++;
+      i++;
+    }
+    cont = 0;
+    j++;
+    if (j == roomsAmount) break;
+  } 
 
   // This is to connect randomic rooms in the map (just to give some randomization instead of a linear map)
   int random1 = (rand() % (roomsAmount - 1));
   
-  /* Debug */
-  // debugMap(map,cols,rows);
-  // printMap(rows,cols,map);
 
   drawHallway(&rooms[0],&rooms[random1],map,cols,rows);
   drawHallway(&rooms[3],&rooms[roomsAmount - 1],map,cols,rows);
@@ -196,6 +209,11 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
 
 
   if (rooms) free(rooms);
+
+  /* Debug */
+  //debugMap(map,cols,rows);
+  //printMap(rows,cols,map,user);
+  //getch();
   return map;
 }
 

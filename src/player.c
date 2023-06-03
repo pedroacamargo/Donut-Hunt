@@ -69,13 +69,13 @@ Player * playerSetUp() {
 
 
 
-Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int *linesActions, bool *sawAVine, bool * sawAMonster, bool * sawAnItem, int firstPosition, int maxRooms, WINDOW * wnd) {
+Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int *linesActions, bool *sawAVine, bool * sawAMonster, bool * sawAnItem, int firstPosition, int maxRooms, WINDOW * wnd, Monster * monsters, int * monstersAmount) {
 
   int newX, newY;
 
   newY = y + user->pos.y;
   newX = x + user->pos.x;
-  
+
   switch (map[newY][newX].ch) {
     case '#':
       *linesActions = addActions(cols,"Can't pass", *linesActions, 5);
@@ -98,6 +98,7 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
       map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
       user->pos.x += x;
       user->pos.y += y;
+
       updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
       break;
     case '+':
@@ -110,7 +111,7 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
       break;
     case 'v':
       resetMap(rows,cols,map,user);
-      map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
+      map = createMap(wnd,maxRooms,firstPosition,cols,rows,user,monsters,monstersAmount);
       updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster,sawAnItem);
       user->dungeonFloor++;
       updateStats(user, cols);
