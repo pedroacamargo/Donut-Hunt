@@ -22,6 +22,28 @@ Player * playerSetUp() {
    1  // ID
    );
 
+  //Item * defaultArmor2 = createItem('|', // item appearance
+  //"Test Item", // item name
+  //"Test Item",  // item buff description
+  //"Where am I? I'm STARVING, I need to find a donut...", // item lore
+  // 5, // rarity
+  // 3, // buff in number
+  // 1, // level (room floor)
+  // 2  // ID
+  // );
+/*
+
+  Item * defaultRing = createItem('O', // item appearance
+  "Test Item", // item name
+  "Test Item",  // item buff description
+  "Where am I? I'm STARVING, I need to find a donut...", // item lore
+   3, // rarity
+   0, // buff in number
+   1, // level (room floor)
+   3  // ID
+   );
+*/
+
   newPlayer->life = 100;
   newPlayer->armor = 0;
   newPlayer->damage = 0;
@@ -32,6 +54,9 @@ Player * playerSetUp() {
   newPlayer->activeItems->armorSlot = defaultArmor;
   newPlayer->activeItems->swordSlot = NULL;
   newPlayer->activeItems->specialSlot = NULL;
+  //addItemBackpack(newPlayer->activeItems->backpack,defaultArmor2);
+  //addItemBackpack(newPlayer->activeItems->backpack,defaultSword);
+  //addItemBackpack(newPlayer->activeItems->backpack,defaultRing);
 
   return newPlayer;
 }
@@ -97,7 +122,7 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
       user->pos.x += x;
       user->pos.y += y;
       updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
-      getItem(map,user,cols);
+      //getItem(map,user,cols);
       addItemBackpack(user->activeItems->backpack,map[user->pos.y][user->pos.x].item);
       break;
   }

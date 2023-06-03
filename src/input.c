@@ -36,6 +36,9 @@ Tile ** getInput(int key, Player *user, int cols, int rows, Tile ** map, int *li
     debugMap(map, cols, rows);
     // printMap(rows, cols, map);
     return map;
+  case 'b':
+    openBackpack(cols,rows,map,user);
+    break;
   default:
     break;
   }

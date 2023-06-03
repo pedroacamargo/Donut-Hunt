@@ -268,7 +268,7 @@ int selectSlot(int ch, int cols, int rows, int slotID, Tile ** map, Player * use
     break;
   case 'B':
   case 'b':
-    
+    openBackpack(cols,rows,map,user);
     break;
   case 10:
     createPopUp(cols, rows, map, user, slotID);
