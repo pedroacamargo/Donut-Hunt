@@ -1,28 +1,28 @@
-/*#include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <ncurses.h>
-#include "main.h"
 #include <math.h>
+#include "main.h"
 
-int mode_combat(Player* player, Monster* monster){
-    int distance_x = player->pos.x - monster->pos.x;
-    int distance_y = player->pos.y - monster->pos.y;
+//p(0,0) = p2(2.2) =
+int mode_combat(Tile** map, Monster* monster){
+    //int distance_x = abs(player->pos.x - monster->pos.x); // 0 - 2 = 2
+    //int distance_y = abs(player->pos.y - monster->pos.y);  // 0 - 2 = 2
 
-    if(distance_x == 0 && distance_y == 0){  // verifica se o jogador está na mesma pos que o monstro
-        return 1; // Modo de combate ativado
-    }
-    if(distance_x >= -1 && distance_x <= 1 && distance_y >= -1 && distance_y <= 1){
-        return 1;  // Modo de combate ativado
-    }
-    return 0; // Modo de combate desativado
+    //int distancia = floor(sqrt((player->pos.x * player->pos.x) + (player->pos.y * player->pos.y)));
+
+    if (map[monster->pos.y][monster->pos.x].visible) return 1; // Modo de combate 
+    
+    return 0;
 }
-
-
 
 void combat(Player* player, Monster* monster){
 
-    while (player->HP > 0 || monster->HP > 0){
+    while (player->life > 0 || monster->life > 0){
         
     }
 
 }
-*/
+
+

@@ -66,22 +66,13 @@ Monster createDragon(){
 void moveMonsters(Tile **map, int cols, int rows) {
   for (int y = 0; y < rows; y++) { // estes ciclos percorrem o mapa e verifica se existe um monstro nessa posição. 
     for (int x = 0; x < cols; x++) {
-      if (map[y][x].monster.type != '\0') { // encontram um monstro
-        int newX, newY;
-        do {
-          // colocam uma nova posição para o monstro
-          newX = x + rand() % 3 - 1;
-          newY = y + rand() % 3 - 1;
-        } while (newX < 0 || newY < 0 || newX >= cols || newY >= rows || !map[newY][newX].walkable); // isto é para verificar se é possivel ir para a nova posição
-        // move o monstro para a nova posição
-        map[newY][newX].monster = map[y][x].monster;
-        map[y][x].monster.type = '\0'; // posição anterior é liberada e é colocado o char correspondente
-        map[newY][newX].walkable = false;  // coloca o monstro parado nessa ronda 
-        map[y][x].walkable = true; // e coloca o char anterior onde estava o monstro caminhavel 
+       if (map[y][x].monster.type != '\0'){
+        if (mode_combat(map, &(map[y][x].monster)) == 1) { // encontram um monstro
+          }
+        }
       }
     }
   }
-}
 
 
 
