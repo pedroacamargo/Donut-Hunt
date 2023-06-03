@@ -97,7 +97,7 @@ void gameLoop() {
       sideMenuLoop(&isSideMenuOpened,user,cols,rows,map);
     } else if (!isSideMenuOpened) {
 		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster, &sawAnItem,firstPosition,maxRooms,wnd);
-      moveMonsters(map, cols, rows); // move os monstros
+      moveMonsters(map,user, cols, rows); // move os monstros
     }
 
     /* Player memory */
@@ -126,7 +126,6 @@ void gameLoop() {
   resetMap(rows,cols,map,user);
   delwin(wnd);
   delwin(wnd2);
-
 }
 
 

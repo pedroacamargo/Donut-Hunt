@@ -63,16 +63,38 @@ Monster createDragon(){
   return monster;
 }
 
-void moveMonsters(Tile **map, int cols, int rows) {
+int manhattanDistance (Monster* monster, Player* player){
+    return abs(monster->pos.x - player->pos.x) + abs(monster->pos.y - player->pos.y);
+}
+
+
+void moveMonsters(Tile **map, Player* player, int cols, int rows) {
   for (int y = 0; y < rows; y++) { // estes ciclos percorrem o mapa e verifica se existe um monstro nessa posição. 
     for (int x = 0; x < cols; x++) {
        if (map[y][x].monster.type != '\0'){
+        Monster* monster = &(map[y][x].monster);
         if (mode_combat(map, &(map[y][x].monster)) == 1) { // encontram um monstro
+        int distance = manhattanDistance(monster, player);
+          if (map[y][x].monster.pos.x < player->pos.x){
+            map[y][x].monster.pos.x++;
+          } else map[y][x].monster.pos.x--;
+              if (map[y][x].monster.pos.y < player->pos.y){
+                map[y][x].monster.pos.y++;
+              } else map[y][x].monster.pos.y--;
+
+              if (manhattanDistance(monster,player) >= distance){
+                if (map[y][x].monster.pos.x < player->pos.x){
+                    map[y][x].monster.pos.x--;
+              } else map[y][x].monster.pos.x++;
+                  if (map[y][x].monster.pos.y < player->pos.y){
+                    map[y][x].monster.pos.y--;
+                  } else map[y][x].monster.pos.y++;
+                }
+              }
+            }
           }
         }
-      }
-    }
-  }
+     }
 
 
 
