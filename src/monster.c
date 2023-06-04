@@ -87,28 +87,42 @@ void moveMonsters(Tile **map, Player* player, int cols, int rows, Monster * mons
 
       if (randomDirection == 0) {
         if (monster->pos.x < player->pos.x) {
-          if (map[monster->pos.y][monster->pos.x + 1].monster == NULL) {
+          if (map[monster->pos.y][monster->pos.x + 1].monster == NULL && (map[monster->pos.y][monster->pos.x + 1].ch == '.' || map[monster->pos.y][monster->pos.x + 1].ch == '+')) {
             // x movimentation
               monster->pos.x++;
           }
         } else if (monster->pos.x > player->pos.x){
-          if (map[monster->pos.y][monster->pos.x - 1].monster == NULL) {
+          if (map[monster->pos.y][monster->pos.x - 1].monster == NULL && (map[monster->pos.y][monster->pos.x - 1].ch == '.' || map[monster->pos.y][monster->pos.x - 1].ch == '+')) {
             // x movimentation
             monster->pos.x--;
-          }
+          } 
+        } else {
+            int randomX = rand() % 2;
+            if (randomX == 0 && (map[monster->pos.y][monster->pos.x + 1].monster == NULL && 
+            (map[monster->pos.y + 1][monster->pos.x].monster != NULL || map[monster->pos.y - 1][monster->pos.x].monster != NULL)) && 
+            (map[monster->pos.y][monster->pos.x + 1].ch == '.' || map[monster->pos.y][monster->pos.x + 1].ch == '+')) monster->pos.x++;
+
+
+            else if ((map[monster->pos.y][monster->pos.x - 1].monster == NULL && (map[monster->pos.y + 1][monster->pos.x].monster != NULL || map[monster->pos.y - 1][monster->pos.x].monster != NULL)) && (map[monster->pos.y][monster->pos.x - 1].ch == '.' || map[monster->pos.y][monster->pos.x - 1].ch == '+')) monster->pos.x--;
         }
 
       } else {
         if (monster->pos.y < player->pos.y) {
-          if (map[monster->pos.y + 1][monster->pos.x].monster == NULL) {
+          if (map[monster->pos.y + 1][monster->pos.x].monster == NULL && (map[monster->pos.y + 1][monster->pos.x].ch == '.' || map[monster->pos.y + 1][monster->pos.x].ch == '+')) {
             // x movimentation
             monster->pos.y++;
           }
         } else if (monster->pos.y > player->pos.y){
-          if (map[monster->pos.y - 1][monster->pos.x].monster == NULL) {
+          if (map[monster->pos.y - 1][monster->pos.x].monster == NULL && (map[monster->pos.y - 1][monster->pos.x].ch == '.' || map[monster->pos.y - 1][monster->pos.x].ch == '+')) {
             // x movimentation
             monster->pos.y--;
-          }
+          } 
+        } else {
+            int randomY = rand() % 2;
+            if (randomY == 0 && (map[monster->pos.y + 1][monster->pos.x].monster == NULL && (map[monster->pos.y][monster->pos.x + 1].monster != NULL || map[monster->pos.y][monster->pos.x - 1].monster != NULL)) && (map[monster->pos.y + 1][monster->pos.x].ch == '.' || map[monster->pos.y + 1][monster->pos.x].ch == '+')) monster->pos.y++;
+
+
+            else if ((map[monster->pos.y - 1][monster->pos.x].monster == NULL && (map[monster->pos.y][monster->pos.x + 1].monster != NULL || map[monster->pos.y][monster->pos.x - 1].monster != NULL)) && (map[monster->pos.y - 1][monster->pos.x].ch == '.' || map[monster->pos.y - 1][monster->pos.x].ch == '+')) monster->pos.y--;
         }
       }
 
