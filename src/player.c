@@ -76,56 +76,63 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
   newY = y + user->pos.y;
   newX = x + user->pos.x;
 
-  switch (map[newY][newX].ch) {
-    case '#':
-      *linesActions = addActions(cols,"Can't pass", *linesActions, 5);
-      break;
-    case '|':
-    case '-':
-      move(user->pos.y,user->pos.x);
-      break;
-    case '$':
-      *linesActions = addActions(cols,"You cut a vine", *linesActions, 4);
-      map[user->pos.y][user->pos.x].ch = '.';
-      map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
-      user->pos.x += x;
-      user->pos.y += y;
-      map[user->pos.y][user->pos.x].transparent = true;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
-      break;
-    case '.':
-      map[user->pos.y][user->pos.x].ch = '.';
-      map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
-      user->pos.x += x;
-      user->pos.y += y;
+  if (map[newY][newX].monster) {
 
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
-      break;
-    case '+':
-    case ' ':
-      map[user->pos.y][user->pos.x].ch = '+';
-      map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
-      user->pos.x += x;
-      user->pos.y += y;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
-      break;
-    case 'v':
-      resetMap(rows,cols,map,user);
-      map = createMap(wnd,maxRooms,firstPosition,cols,rows,user,monsters,monstersAmount);
-      updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster,sawAnItem);
-      user->dungeonFloor++;
-      updateStats(user, cols);
-      printMap(rows,cols,map,user);
-      *linesActions = addActions(cols,"Difficulty increased!", *linesActions,3);
-      return map;
-    case '?':
-      map[user->pos.y][user->pos.x].ch = '.';
-      user->pos.x += x;
-      user->pos.y += y;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
-      //getItem(map,user,cols);
-      addItemBackpack(user->activeItems->backpack,map[user->pos.y][user->pos.x].item);
-      break;
+
+    return map;
+  } else {
+
+    switch (map[newY][newX].ch) {
+      case '#':
+        *linesActions = addActions(cols,"Can't pass", *linesActions, 5);
+        break;
+      case '|':
+      case '-':
+        move(user->pos.y,user->pos.x);
+        break;
+      case '$':
+        *linesActions = addActions(cols,"You cut a vine", *linesActions, 4);
+        map[user->pos.y][user->pos.x].ch = '.';
+        map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
+        user->pos.x += x;
+        user->pos.y += y;
+        map[user->pos.y][user->pos.x].transparent = true;
+        updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
+        break;
+      case '.':
+        map[user->pos.y][user->pos.x].ch = '.';
+        map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
+        user->pos.x += x;
+        user->pos.y += y;
+
+        updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
+        break;
+      case '+':
+      case ' ':
+        map[user->pos.y][user->pos.x].ch = '+';
+        map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
+        user->pos.x += x;
+        user->pos.y += y;
+        updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
+        break;
+      case 'v':
+        resetMap(rows,cols,map,user);
+        map = createMap(wnd,maxRooms,firstPosition,cols,rows,user,monsters,monstersAmount);
+        updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster,sawAnItem);
+        user->dungeonFloor++;
+        updateStats(user, cols);
+        printMap(rows,cols,map,user);
+        *linesActions = addActions(cols,"Difficulty increased!", *linesActions,3);
+        return map;
+      case '?':
+        map[user->pos.y][user->pos.x].ch = '.';
+        user->pos.x += x;
+        user->pos.y += y;
+        updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
+        //getItem(map,user,cols);
+        addItemBackpack(user->activeItems->backpack,map[user->pos.y][user->pos.x].item);
+        break;
+    }
   }
   return map;
 }
