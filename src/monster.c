@@ -76,7 +76,7 @@ void moveMonsters(Tile **map, Player* player, int cols, int rows, Monster * mons
     monster = &monsters[i]; // pointer para o monstro
     int oldX = monster->pos.x;
     int oldY = monster->pos.y;
-
+    int randomDirection = rand() % 2; // 0 - horizontal | 1 - vertical
 
     if (mode_combat(map, monster) == 1) { // encontram um monstro
 
@@ -85,15 +85,32 @@ void moveMonsters(Tile **map, Player* player, int cols, int rows, Monster * mons
       // erase the monster tile in the old position
       map[monster->pos.y][monster->pos.x].monster = NULL;
 
-      // x movimentation
-      if (monster->pos.x < player->pos.x){
-        monster->pos.x++;
-      } else if (monster->pos.x > player->pos.x) monster->pos.x--;
+      if (randomDirection == 0) {
+        if (monster->pos.x < player->pos.x) {
+          if (map[monster->pos.y][monster->pos.x + 1].monster == NULL) {
+            // x movimentation
+              monster->pos.x++;
+          }
+        } else if (monster->pos.x > player->pos.x){
+          if (map[monster->pos.y][monster->pos.x - 1].monster == NULL) {
+            // x movimentation
+            monster->pos.x--;
+          }
+        }
 
-      // y movimentation
-      if (monster->pos.y < player->pos.y){
-        monster->pos.y++;
-      } else if (monster->pos.y > player->pos.y) monster->pos.y--;
+      } else {
+        if (monster->pos.y < player->pos.y) {
+          if (map[monster->pos.y + 1][monster->pos.x].monster == NULL) {
+            // x movimentation
+            monster->pos.y++;
+          }
+        } else if (monster->pos.y > player->pos.y){
+          if (map[monster->pos.y - 1][monster->pos.x].monster == NULL) {
+            // x movimentation
+            monster->pos.y--;
+          }
+        }
+      }
 
       // If near the player, won't overwrite player and will replace the tile erased before wit the monster
       if (map[monster->pos.y][monster->pos.x].ch == map[player->pos.y][player->pos.x].ch) {
