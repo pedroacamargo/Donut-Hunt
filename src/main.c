@@ -38,19 +38,22 @@ void gameLoop() {
   init_color(232,31,31,31);
   init_color (58,372,372,0);
   init_color(119,529,1000,372);
+  init_color(244,501,501,501);
+
   /* Colors */
   init_pair(1, COLOR_WHITE, COLOR_BLACK);  // cor do que é visivel
   init_pair(2, COLOR_BLUE, COLOR_BLACK); // cor do que foi visto
   init_pair(3, COLOR_YELLOW, COLOR_BLACK); // cor menu stats
   init_pair(4, COLOR_GREEN, COLOR_BLACK); 
   init_pair(6, COLOR_CYAN, COLOR_BLACK);
+  init_pair(5,COLOR_RED,COLOR_BLACK); 
   init_pair(7,96,COLOR_BLACK); // Plum 4
   init_pair(8,117,COLOR_BLACK); // SkyBlue 1
   init_pair(9,237,COLOR_BLACK); // dark grey
   init_pair(10,138,COLOR_BLACK); // Salmon
-  init_pair(5,COLOR_RED,COLOR_BLACK); // grey Skeleton
   init_pair(11,58,COLOR_BLACK); // orange dragon
   init_pair(12,119,COLOR_BLACK); // light green goblins
+  init_pair(13,244,COLOR_BLACK); // grey Skeleton// grey Skeleton
   
 
   /* Player memory */

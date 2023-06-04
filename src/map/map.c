@@ -42,7 +42,7 @@ void printMap(int rows, int cols, Tile ** map, Player * user){
           if (map[i][j].monster->type == 'G'){
             mvaddch(i, j, 'G' | COLOR_PAIR(12));
           } else if (map[i][j].monster->type == 'S'){
-            mvaddch(i, j, 'S' | COLOR_PAIR(5));
+            mvaddch(i, j, 'S' | COLOR_PAIR(13));
           } else if (map[i][j].monster->type == 'D'){
             mvaddch(i,j, 'D' | COLOR_PAIR(11));
           }

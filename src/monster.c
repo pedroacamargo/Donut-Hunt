@@ -58,7 +58,7 @@ Monster * createDragon(){
   monster->color = COLOR_PAIR(11);
   monster->type = 'D';
   monster->life = 500;
-  monster->damage = 35;
+  monster->damage = 50;
 
   return monster;
 }

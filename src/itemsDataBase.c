@@ -101,28 +101,28 @@ Item * createRandomItem(Player * user) {
 
         char name[10][20] = {
 			"Wood sword",
-			"Stone sword",
-			"Iron sword",
+			"Stone hammer",
 			"Steel sword",
+			"Iron sword",
+			"Dual blades",
 			"Flame sword",
 			"Light saber",
-			"Nano saber",
 			"Quantum sword",
 			"God's sword",
 			"Monix's sword"
 		};
 
 		char buffDescription[10][75] = {
-			"Usefull sword, +3 damage",
+			"Usefull sword, +4 damage",
 			"You can rock some monsters with this, +5 damage",
-			"Medieval era sword, +10 damage",
-			"Good medieval era sword, +12 damage",
-			"The heat of this sword is dangerous, +20 damage",
-			"May the force be with you, +30 damage",
-			"Early's technological sword, +45 damage",
-			"Advanced tech sword, +60 damage",
-			"Judgement sword, +75 damage",
-			"A espada mais util do jogo, +100 damage"
+			"Good medieval era sword, +6 damage",
+			"Medieval era sword, +7 damage",
+			"The heat of this blades is dangerous, +14 damage",
+			"May the force be with you, +25 damage",
+			"Early's technological sword, +35 damage",
+			"Advanced tech sword, +45 damage",
+			"Judgement sword, +80 damage",
+			"A espada mais util do jogo, +120 damage"
 		};
 
 		char lore[10][200] = {
@@ -143,25 +143,25 @@ Item * createRandomItem(Player * user) {
 			1,
 			2,
 			2,
-			3,
-			3,
+			3,// piso 1-3
 			4,
 			4,
+			4,// piso 4 - 8
 			5,
-			5
+			5 // piso 9 - 14
 		};
 
 		int buff[10] = {
-			3 + (user->dungeonFloor * 3),
+			4 + (user->dungeonFloor * 3),
 			5 + (user->dungeonFloor * 3),
-			10 + (user->dungeonFloor * 3),
-			12 + (user->dungeonFloor * 3),
-			20 + (user->dungeonFloor * 3),
-			30 + (user->dungeonFloor * 3),
+			6 + (user->dungeonFloor * 3),
+			7 + (user->dungeonFloor * 3),
+			14 + (user->dungeonFloor * 3),
+			25 + (user->dungeonFloor * 3),
+			35 + (user->dungeonFloor * 3),
 			45 + (user->dungeonFloor * 3),
-			60 + (user->dungeonFloor * 3),
-			75 + (user->dungeonFloor * 3),
-			100 + (user->dungeonFloor * 5)
+			80 + (user->dungeonFloor * 3),
+			120 + (user->dungeonFloor * 5)
 		};
 
 		item = createItem(ch,name[randomItem],buffDescription[randomItem],lore[randomItem],rarity[randomItem],buff[randomItem],user->dungeonFloor,ID);
