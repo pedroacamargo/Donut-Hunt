@@ -7,7 +7,23 @@
 
 # Index
 
-- [Objetivos Minimos](https://github.com/pedroacamargo/Donut-Hunt/#1.-objetivos-minimos)
+- [1. Objetivos Minimos](https://github.com/pedroacamargo/Donut-Hunt/#1-objetivos-minimos)
+- [2. Features](https://github.com/pedroacamargo/Donut-Hunt/#2.-features-implementadas-no-jogo)
+  - [2.1.1 Main Menu](https://github.com/pedroacamargo/Donut-Hunt/#211-main-menu)
+  - [2.1.2 Side Menu](https://github.com/pedroacamargo/Donut-Hunt/#212-side-menu)
+  - [2.2.1 Backtracking Procedural Generation](https://github.com/pedroacamargo/Donut-Hunt/#221-backtracking-procedural-generation)
+  - [2.2.2 Vines](https://github.com/pedroacamargo/Donut-Hunt/#222-vines)
+  - [2.2.3 Vine Rooms | Normal Rooms](https://github.com/pedroacamargo/Donut-Hunt/#223-vine-rooms--normal-rooms)
+  - [2.3.1 Vision Radius](https://github.com/pedroacamargo/Donut-Hunt/#231-vision-radius)
+  - [2.3.2 Colors](https://github.com/pedroacamargo/Donut-Hunt/#232-colors)
+  - [2.4.1 Item Types](https://github.com/pedroacamargo/Donut-Hunt/#241-item-types)
+  - [2.4.2 Item Spawn Chances](https://github.com/pedroacamargo/Donut-Hunt/#242-item-spawn-chances)
+  - [2.4.3 Backpack](https://github.com/pedroacamargo/Donut-Hunt/#243-backpack)
+  - [2.5.1 Monster Types & Spawn Rate](https://github.com/pedroacamargo/Donut-Hunt/#251-monster-types--spawn-rate)
+  - [2.5.2 Monster Stats](https://github.com/pedroacamargo/Donut-Hunt/#252-monster-stats)
+- [3. How To Install](https://github.com/pedroacamargo/Donut-Hunt/#3-how-to-install)
+- [4. Contributors](https://github.com/pedroacamargo/Donut-Hunt/#4-contributors)
+
 
 
 # 1. Objetivos minimos
