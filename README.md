@@ -116,7 +116,6 @@ Existem três tipos de monstros: **Esqueletos, Goblins e Dragões**.\
 >&nbsp;
 
 ## 3.2 Tenha certeza que você tem o ncurses instalado
-sudo apt-get install libncurses5-dev libncursesw5-dev
 >&nbsp;
 >```cmd
 > Ubuntu
