@@ -1,0 +1,27 @@
+INSTRUCOES DO JOGO       
+                                  
+                                  
+                                  
+@ -> Jogador             
+                         
+    --MAPA--             
+# -> Parede              
+. -> Sala                
++ -> Corredor            
+$ -> Ervas altas
+                                  
+    --MOBS--             
+S -> Esqueleto           
+G -> Goblin              
+D -> Dragao
+                                       
+    --TECLADO--          
+W -> Andar para frente   
+S -> Andar para tras     
+D -> Andar para direita  
+A -> Andar para esquerda 
+                         
+Y -> Aceder ao inventario
+B -> Abrir mochila       
+                         
+Q -> Voltar              

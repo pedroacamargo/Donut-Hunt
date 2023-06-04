@@ -7,35 +7,70 @@
 
 void closeMenu(int n_escolhas, MENU *menu, ITEM **itens) {
 
-    unpost_menu(menu);
-    free_menu(menu);
+    unpost_menu(menu); //desativa/remove o menu da tela
+    free_menu(menu); //libera a memória alocada para o menu
 
     for(int i = 0; i < n_escolhas; i++) {
-        free_item(itens[i]);
+        free_item(itens[i]); //liberar a memória alocada para cada item
     }
 
-    endwin();
+    endwin(); //encerra o modo janela do ncurses
 }
 
 int help() {
 
-    curs_set(FALSE);
     raw();
 	noecho();
+    curs_set(FALSE);
 	keypad(stdscr,true);
 	refresh();
 	clear();
+    int x, y;
+    getmaxyx(stdscr,y,x);
 
     start_color();
     init_pair(3, COLOR_WHITE, COLOR_BLACK);
 
+
+    FILE *src;
+    src = fopen ("data/instructions.txt", "r+");
+    char text[28][26];
+    
+
+
+
     int c;
     attron(COLOR_PAIR(3));
-    mvprintw(0,0, "Help");
+
+    for(int l = 0; l < 28; l++) {
+        for(int i = 0; i < 26; i++) {
+            char temp = (char) fgetc(src);
+            text[l][i] = temp;
+
+        }
+      
+    }
+
+    fclose (src);
+
+    for(int l = 0; l < 28; l++) {
+        for(int i = 0; i < 26; i++) {
+            mvprintw((y/2) - 12 + l, (x/2) - 12 +i, "%c", text[l][i]);
+        
+        }
+    }
+   
     while (( c = getch()) != 'q') {
-        mvprintw(0,0,"Help");
+
+
+    for(int l = 0; l < 28; l++) {
+        for(int i = 0; i < 26; i++) {
+            mvprintw((y/2) - 12 + l, (x/2) - 12 + i, "%c", text[l][i]);
+        }
+    }
     }
     attroff(COLOR_PAIR(3));
+
 
     return 0;
 }
@@ -44,38 +79,56 @@ int help() {
 
 int inicio() {
     
-    curs_set(FALSE);
+
     initscr(); //determina o tipo de terminal e inicializa todas as data structures do curses
     cbreak();
     noecho();
+    curs_set(FALSE);
     keypad(stdscr, TRUE);
+
+    int x,y;
+    getmaxyx(stdscr, y,x);
+
+
 
 
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_BLACK);
     int c ;
 
+    FILE *src;
+    src = fopen("data/title.txt", "r+");
+    char title[7][61];
+
+    for(int l = 0; l < 7; l++) {
+        for(int i = 0; i < 61; i++) {
+            char temp = (char) fgetc(src);
+            title[l][i] = temp;
+        }
+    }
+    fclose(src);
+
+    
+
+
     attron(COLOR_PAIR(1));
-    mvprintw(16,70,"######    #####   ###  ##  ##   ##  ########          ### ###  ##   ##  ###  ##  ########");
-    mvprintw(17,70," ## ###  ### ###   ### ##   #   ##  ## ## ##           ## ##    #   ##   ### ##  ## ## ##");
-    mvprintw(18,70," ##  ##  ##   ##   ######  ##   ##     ##              ## ##   ##   ##   ######     ##   ");
-    mvprintw(19,70," ##  ##  ##   ##   ## ###  ##   ##     ##              #####   ##   ##   ## ###     ##   ");
-    mvprintw(20,70," ##  ##  ##   ##   ##  ##  ##   ##     ##              #  ##   ##   ##   ##  ##     ##   ");
-    mvprintw(21,70," ## ###  ### ###   ##  ##  ### ###     ##              ## ##   ### ###   ##  ##     ##   ");
-    mvprintw(22,70,"######    #####   ###  ##   #####     ####            ### ###   #####   ###  ##    ####  ");
- 
-    mvprintw(28,105, "Press ENTER");
+    
+    for(int l = 0; l < 7; l++) {
+        for(int i= 0; i < 61; i++) {
+            mvprintw((y/2)-3+l, (x/2) - 30+i, "%c", title[l][i]);
+        }
+    }
+    mvprintw((y/2)+10,(x/2)-8, "Press <ENTER>");
 
 
     while((c = getch()) != 10) {
-        mvprintw(16,70,"######    #####   ###  ##  ##   ##  ########          ### ###  ##   ##  ###  ##  ########");
-        mvprintw(17,70," ## ###  ### ###   ### ##   #   ##  ## ## ##           ## ##    #   ##   ### ##  ## ## ##");
-        mvprintw(18,70," ##  ##  ##   ##   ######  ##   ##     ##              ## ##   ##   ##   ######     ##   ");
-        mvprintw(19,70," ##  ##  ##   ##   ## ###  ##   ##     ##              #####   ##   ##   ## ###     ##   ");
-        mvprintw(20,70," ##  ##  ##   ##   ##  ##  ##   ##     ##              #  ##   ##   ##   ##  ##     ##   ");
-        mvprintw(21,70," ## ###  ### ###   ##  ##  ### ###     ##              ## ##   ### ###   ##  ##     ##   ");
-        mvprintw(22,70,"######    #####   ###  ##   #####     ####            ### ###   #####   ###  ##    ####  ");
-        mvprintw(28,105, "Press ENTER");
+
+        for(int l = 0; l < 7; l++) {
+            for(int i= 0; i < 61; i++) {
+                mvprintw((y/2)-3+l, (x/2) - 30+i, "%c", title[l][i]);
+            }
+        }
+        mvprintw((y/2)+10,(x/2)-8, "Press <ENTER>");
     }
     attroff(COLOR_PAIR(1));
     clear();
@@ -85,12 +138,14 @@ int inicio() {
 
 
 int menu(int n_escolhas, char *escolhas[]) {
-    ITEM **itens = malloc(sizeof(**itens) *n_escolhas); //criar um array de n_choices ponteiros para estruturas ITEM de tamanho variável, permite criar um menu com um número flexível de opções 
+    ITEM **itens = malloc(sizeof(**itens) *n_escolhas); //criar um array de n_escolhas ponteiros para estruturas ITEM de tamanho variável, permite criar um menu com um número flexível de opções 
     WINDOW *menu_win; //criar a variável para a janela
     MENU *menu; //criar a variável para o menu
     ITEM *current; //criar uma variável para o item atual
     int index;
+    int x,y;
 
+    getmaxyx(stdscr, y, x);
 
 
     //Iniciar o Curses
@@ -122,14 +177,15 @@ int menu(int n_escolhas, char *escolhas[]) {
 
 
 
-    //Criar a janela do menu
-
-    menu_win = newwin(10, 40, 20, 105);
-    keypad(menu_win, TRUE);
 
 
-    set_menu_win(menu, menu_win);
-    set_menu_sub(menu, derwin(menu_win, 6, 38, 3, 1));
+    menu_win = newwin(y, x, 0, 0); // cria uma janela para exibir o menu ( altura, largura, y, x)
+    keypad(menu_win, TRUE); //Habilita o processamento de teclas na janela do menu
+
+
+    set_menu_win(menu, menu_win); // associa a janela menu_win ao menu
+    set_menu_sub(menu, derwin(menu_win, 4, 15, (y/2)-1, (x/2)-5)); // define uma subjanela da janela do menu para exibir os itens
+    // (janela, linhas, colunas, y, x)
 
     wattron(menu_win, COLOR_PAIR(2));
 
@@ -139,13 +195,9 @@ int menu(int n_escolhas, char *escolhas[]) {
 
 
     refresh();
-  
 
 
-
-    
-
-
+    //exibe o menu na tela
     post_menu(menu);
     wrefresh(menu_win);
 
@@ -153,7 +205,7 @@ int menu(int n_escolhas, char *escolhas[]) {
     //MENU DRIVER
 
 
-    while(TRUE) {
+    while(TRUE) { //criar um ciclo infinito
         int c;
         c = getch();
 
@@ -178,9 +230,5 @@ int menu(int n_escolhas, char *escolhas[]) {
                 return index;
         }
     }
-
-
-
-
-    
+ 
 }
