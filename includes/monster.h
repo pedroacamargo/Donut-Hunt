@@ -5,7 +5,7 @@ Monster * spawnMonster (Tile ** map, NormalRoom room, Player* player);
 
 int manhattanDistance (Monster* monster, Player* player);
 
-void moveMonsters(Tile **map, Player* player, int cols, Monster * monsters, int monstersAmount);
+void moveMonsters(Tile **map, Player* player, int cols, Monster * monsters, int monstersAmount, int * mem_monster);
 
 Monster *createSkeleton();
 

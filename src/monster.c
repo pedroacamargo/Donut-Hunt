@@ -68,7 +68,7 @@ int manhattanDistance (Monster* monster, Player* player){
 }
 
 
-void moveMonsters(Tile **map, Player* player, int cols, Monster * monsters, int monstersAmount) {
+void moveMonsters(Tile **map, Player* player, int cols, Monster * monsters, int monstersAmount, int * mem_monster) {
   Monster * monster;
 
   // Esse ciclo for vai acessar todos os monstros presentes no mapa, que estão dentro do array monsters
@@ -77,7 +77,8 @@ void moveMonsters(Tile **map, Player* player, int cols, Monster * monsters, int 
     int oldX = monster->pos.x;
     int oldY = monster->pos.y;
     int randomDirection = rand() % 2; // 0 - horizontal | 1 - vertical
-    if (mode_combat(map, monster) == 1) { // encontram um monstro
+    if (mode_combat(map, monster) == 1 || *mem_monster > 0) { // encontram um monstro
+      if(mode_combat(map,monster) == 1) *mem_monster = 10;
 
       int distance = manhattanDistance(monster, player); // USE THE MANHATTAN DISTANCE TO MAKE THE COMBAT MODE (IF DISTANCE <= 2, DEAL DAMAGE TO THE PLAYER)
     
@@ -155,6 +156,7 @@ void moveMonsters(Tile **map, Player* player, int cols, Monster * monsters, int 
 
 
   }
+  *mem_monster -= 1;
 }
 
 // Fixes: Monsters can overwrite others, make a test that if monsters pos == monster2 pos

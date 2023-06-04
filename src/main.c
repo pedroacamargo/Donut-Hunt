@@ -61,6 +61,7 @@ void gameLoop() {
   int mem_sawAMonster = 0;
   int mem_erosion = 0;
   int mem_sawAnItem = 0;
+  int mem_monster = 10; // monster will remember last place you've been
   int erosion = 0; // Tiles that were updated during erosion
 
 	// Variables
@@ -105,7 +106,7 @@ void gameLoop() {
       sideMenuLoop(&isSideMenuOpened,user,cols,rows,map);
     } else if (!isSideMenuOpened) {
 		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster, &sawAnItem,firstPosition,maxRooms,wnd, monsters, &monstersAmount);
-      moveMonsters(map,user, cols, monsters, monstersAmount); // move os monstros
+      moveMonsters(map,user, cols, monsters, monstersAmount, &mem_monster); // move os monstros
       
     }
 

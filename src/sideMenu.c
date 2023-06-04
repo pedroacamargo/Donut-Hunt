@@ -88,7 +88,7 @@ int addActions(int cols2, char action[], int lines, int color) {
   // reset the whole line
   mvprintw(lines + startAreaActions,cols2 + 2, "                        ");
   attron(COLOR_PAIR(color));
-  mvprintw(startAreaActions + lines,cols2 + 2, action);
+  mvprintw(startAreaActions + lines,cols2 + 2,  "%s", action);
   attroff(COLOR_PAIR(color));
   if (lines == 7) return 0;
   return lines + 1;
