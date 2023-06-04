@@ -96,6 +96,10 @@ void gameLoop() {
 	while(1) {
     printMap(rows,cols,map,user);
 		int ch = getch();
+    if (ch == 'H' || ch == 'h') {
+      user->life += 50;
+      updateStats(user,cols);
+    }
     if (ch == 'q' || ch == 'Q' || user->life == 0) break;
     else if (ch == 'y' || ch == 'Y') {
       sideMenuLoop(&isSideMenuOpened,user,cols,rows,map);
