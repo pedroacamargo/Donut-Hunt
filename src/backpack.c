@@ -300,6 +300,19 @@ void printItem(Item * item, WINDOW * popUp) {
         mvwprintw(popUp,15,35,"Rarity: %d",item->rarity);
         mvwprintw(popUp,16,35,"Buffs: %s",item->buffDescription);
         mvwprintw(popUp,17,35,"Level: %d",item->level);
+        if (item->ID == 1) {
+            if (item->buff == 0) {
+                wattron(popUp,COLOR_PAIR(5));
+                mvwprintw(popUp,18,35,"Armor buff: %d armor",item->buff);
+                wattroff(popUp,COLOR_PAIR(5));
+
+            } else {
+                wattron(popUp,COLOR_PAIR(4));
+                mvwprintw(popUp,18,35,"Armor buff: %d armor",item->buff);
+                wattroff(popUp,COLOR_PAIR(4));
+
+            }
+        }
     } else {
         mvwprintw(popUp,14,35,"Name: ");
         mvwprintw(popUp,15,35,"Rarity: ");
