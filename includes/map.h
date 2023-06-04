@@ -21,7 +21,7 @@ NormalRoom createNormalRoom(int *rows, int *cols);
 void drawRoom(NormalRoom room,Tile ** map,int cols, int rows);
 // This function will write in the window the given room at the given position, with it's door in a random position
 
-Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition, int cols, int rows, Player * user);
+Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition, int cols, int rows, Player * user, Monster * monsters, int * monstersAmount);
 
 int createErosion(Tile ** map, int cols, int rows);
 

@@ -17,7 +17,7 @@ Player * playerSetUp() {
   "None, superficial protection from monsters bites",  // item buff description
   "Where am I? I'm STARVING, I need to find a donut...", // item lore
    1, // rarity
-   0, // buff in number
+   10, // buff in number
    1, // level (room floor)
    1  // ID
    );
@@ -45,8 +45,8 @@ Player * playerSetUp() {
 */
 
   newPlayer->life = 100;
-  newPlayer->armor = 0;
-  newPlayer->damage = 0;
+  newPlayer->armor = defaultArmor->buff;
+  newPlayer->damage = 10;
   newPlayer->dungeonFloor = 1;
   newPlayer->monstersKilled = 0;
   newPlayer->activeItems = playerInventory;
@@ -69,62 +69,70 @@ Player * playerSetUp() {
 
 
 
-Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int *linesActions, bool *sawAVine, bool * sawAMonster, bool * sawAnItem, int firstPosition, int maxRooms, WINDOW * wnd) {
+Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, int *linesActions, bool *sawAVine, bool * sawAMonster, bool * sawAnItem, int firstPosition, int maxRooms, WINDOW * wnd, Monster * monsters, int * monstersAmount) {
 
   int newX, newY;
 
   newY = y + user->pos.y;
   newX = x + user->pos.x;
-  
-  switch (map[newY][newX].ch) {
-    case '#':
-      *linesActions = addActions(cols,"Can't pass", *linesActions, 5);
-      break;
-    case '|':
-    case '-':
-      move(user->pos.y,user->pos.x);
-      break;
-    case '$':
-      *linesActions = addActions(cols,"You cut a vine", *linesActions, 4);
-      map[user->pos.y][user->pos.x].ch = '.';
-      map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
-      user->pos.x += x;
-      user->pos.y += y;
-      map[user->pos.y][user->pos.x].transparent = true;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
-      break;
-    case '.':
-      map[user->pos.y][user->pos.x].ch = '.';
-      map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
-      user->pos.x += x;
-      user->pos.y += y;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
-      break;
-    case '+':
-    case ' ':
-      map[user->pos.y][user->pos.x].ch = '+';
-      map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
-      user->pos.x += x;
-      user->pos.y += y;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
-      break;
-    case 'v':
-      resetMap(rows,cols,map,user);
-      map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
-      updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster,sawAnItem);
-      user->dungeonFloor++;
-      updateStats(user, cols);
-      printMap(rows,cols,map,user);
-      *linesActions = addActions(cols,"Difficulty increased!", *linesActions,3);
-      return map;
-    case '?':
-      map[user->pos.y][user->pos.x].ch = '.';
-      user->pos.x += x;
-      user->pos.y += y;
-      updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
-      //getItem(map,user,cols);
-      addItemBackpack(user->activeItems->backpack,map[user->pos.y][user->pos.x].item);
-      break;
+
+  if (map[newY][newX].monster != NULL) {
+   combat(map,user,map[newY][newX].monster);
+   updateStats(user,cols);
+
+  } else {
+
+    switch (map[newY][newX].ch) {
+      case '#':
+        *linesActions = addActions(cols,"Can't pass", *linesActions, 5);
+        break;
+      case '|':
+      case '-':
+        move(user->pos.y,user->pos.x);
+        break;
+      case '$':
+        *linesActions = addActions(cols,"You cut a vine", *linesActions, 4);
+        map[user->pos.y][user->pos.x].ch = '.';
+        map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
+        user->pos.x += x;
+        user->pos.y += y;
+        map[user->pos.y][user->pos.x].transparent = true;
+        updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
+        break;
+      case '.':
+        map[user->pos.y][user->pos.x].ch = '.';
+        map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
+        user->pos.x += x;
+        user->pos.y += y;
+
+        updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
+        break;
+      case '+':
+      case ' ':
+        map[user->pos.y][user->pos.x].ch = '+';
+        map[user->pos.y][user->pos.x].color = COLOR_PAIR(5);
+        user->pos.x += x;
+        user->pos.y += y;
+        updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
+        break;
+      case 'v':
+        resetMap(rows,cols,map,user);
+        map = createMap(wnd,maxRooms,firstPosition,cols,rows,user,monsters,monstersAmount);
+        updatePlayerPosition(user,cols,rows,map,linesActions,sawAVine, sawAMonster,sawAnItem);
+        user->dungeonFloor++;
+        updateStats(user, cols);
+        printMap(rows,cols,map,user);
+        *linesActions = addActions(cols,"Difficulty increased!", *linesActions,3);
+        return map;
+      case '?':
+        map[user->pos.y][user->pos.x].ch = '.';
+        user->pos.x += x;
+        user->pos.y += y;
+        updatePlayerPosition(user,cols, rows, map, linesActions, sawAVine, sawAMonster, sawAnItem);
+        //getItem(map,user,cols);
+        addItemBackpack(user->activeItems->backpack,map[user->pos.y][user->pos.x].item);
+        break;
+    }
   }
   return map;
 }

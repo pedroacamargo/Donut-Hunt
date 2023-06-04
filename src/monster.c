@@ -4,12 +4,12 @@
 #include <math.h>
 
 
-void spawnMonster(Tile** map, NormalRoom room, Player* player){
-  Monster monster;
+Monster * spawnMonster(Tile** map, NormalRoom room, Player* player) {
+  Monster * monster;
   int chance = rand() % 1000;
 
-  if (player->dungeonFloor >= 1 && player->dungeonFloor < 5){
-    if (chance < 800) monster = createSkeleton();  // 80% de nascer esqueletos 20% goblins
+  if (player->dungeonFloor >= 1 && player->dungeonFloor < 5) {
+    if (chance < 950) monster = createSkeleton();  // 80% de nascer esqueletos 20% goblins
     else monster = createGoblin();
   } else if (player->dungeonFloor >= 5 && player->dungeonFloor < 10){
     if (chance < 700) monster = createSkeleton();
@@ -26,64 +26,138 @@ void spawnMonster(Tile** map, NormalRoom room, Player* player){
     
   }
 
-  monster.pos.x = (rand() % room.width) + (room.pos.x);
-  monster.pos.y = (rand() % room.height) + (room.pos.y);
+  monster->pos.x = ((rand() % room.width) + 1) + (room.pos.x);
+  monster->pos.y = ((rand() % room.height) + 1) + (room.pos.y);
 
-  map[monster.pos.y][monster.pos.x].monster = monster;
-
+  map[monster->pos.y][monster->pos.x].monster = monster;
+  return monster;
 }
 
-Monster createSkeleton(){
-  Monster monster;
-  monster.color = COLOR_PAIR(5);
-  monster.type = 'S';
-  monster.life = 50;
-  monster.damage = 5;
+Monster * createSkeleton() {
+  Monster * monster = malloc(sizeof(Monster));
+  monster->color = COLOR_PAIR(13);
+  monster->type = 'S';
+  monster->life = 50;
+  monster->damage = 5;
 
   return monster;
 }
 
-Monster createGoblin(){
-  Monster monster;
-  monster.color = COLOR_PAIR(12);
-  monster.type = 'G';
-  monster.life = 75;
-  monster.damage = 15;
+Monster * createGoblin(){
+  Monster * monster = malloc(sizeof(Monster));;
+  monster->color = COLOR_PAIR(12);
+  monster->type = 'G';
+  monster->life = 75;
+  monster->damage = 10;
 
   return monster;
 }
 
-Monster createDragon(){ 
-  Monster monster;
-  monster.color = COLOR_PAIR(11);
-  monster.type = 'D';
-  monster.life = 500;
-  monster.damage = 35;
+Monster * createDragon(){ 
+  Monster * monster = malloc(sizeof(Monster));;
+  monster->color = COLOR_PAIR(11);
+  monster->type = 'D';
+  monster->life = 500;
+  monster->damage = 50;
 
   return monster;
 }
 
-void moveMonsters(Tile **map, int cols, int rows) {
-  for (int y = 0; y < rows; y++) { // estes ciclos percorrem o mapa e verifica se existe um monstro nessa posição. 
-    for (int x = 0; x < cols; x++) {
-      if (map[y][x].monster.type != '\0') { // encontram um monstro
-        int newX, newY;
-        do {
-          // colocam uma nova posição para o monstro
-          newX = x + rand() % 3 - 1;
-          newY = y + rand() % 3 - 1;
-        } while (newX < 0 || newY < 0 || newX >= cols || newY >= rows || !map[newY][newX].walkable); // isto é para verificar se é possivel ir para a nova posição
-        // move o monstro para a nova posição
-        map[newY][newX].monster = map[y][x].monster;
-        map[y][x].monster.type = '\0'; // posição anterior é liberada e é colocado o char correspondente
-        map[newY][newX].walkable = false;  // coloca o monstro parado nessa ronda 
-        map[y][x].walkable = true; // e coloca o char anterior onde estava o monstro caminhavel 
+int manhattanDistance (Monster* monster, Player* player){
+    return abs(monster->pos.x - player->pos.x) + abs(monster->pos.y - player->pos.y);
+}
+
+
+void moveMonsters(Tile **map, Player* player, int cols, Monster * monsters, int monstersAmount) {
+  Monster * monster;
+
+  // Esse ciclo for vai acessar todos os monstros presentes no mapa, que estão dentro do array monsters
+  for (int i = 0; i < monstersAmount; i++) {
+    monster = &monsters[i]; // pointer para o monstro
+    int oldX = monster->pos.x;
+    int oldY = monster->pos.y;
+    int randomDirection = rand() % 2; // 0 - horizontal | 1 - vertical
+    if (mode_combat(map, monster) == 1) { // encontram um monstro
+
+      int distance = manhattanDistance(monster, player); // USE THE MANHATTAN DISTANCE TO MAKE THE COMBAT MODE (IF DISTANCE <= 2, DEAL DAMAGE TO THE PLAYER)
+    
+      if (distance <= 2) {
+        if (player->armor > 0) {
+          player->activeItems->armorSlot->buff -= monster->damage;
+
+          if(player->activeItems->armorSlot->buff < 0) player->activeItems->armorSlot->buff = 0;
+          player->armor = player->activeItems->armorSlot->buff;
+        } else {
+          player->life -= monster->damage;
+          if(player->life < 0) player->life = 0;
+        }
+        updateStats(player,cols);
       }
-    }
+
+
+
+      // erase the monster tile in the old position
+      map[monster->pos.y][monster->pos.x].monster = NULL;
+
+      if (randomDirection == 0) {
+        if (monster->pos.x < player->pos.x) {
+          if (map[monster->pos.y][monster->pos.x + 1].monster == NULL && (map[monster->pos.y][monster->pos.x + 1].ch == '.' || map[monster->pos.y][monster->pos.x + 1].ch == '+')) {
+            // x movimentation
+              monster->pos.x++;
+          }
+        } else if (monster->pos.x > player->pos.x){
+          if (map[monster->pos.y][monster->pos.x - 1].monster == NULL && (map[monster->pos.y][monster->pos.x - 1].ch == '.' || map[monster->pos.y][monster->pos.x - 1].ch == '+')) {
+            // x movimentation
+            monster->pos.x--;
+          } 
+        } else {
+            int randomX = rand() % 2;
+            if (randomX == 0 && (map[monster->pos.y][monster->pos.x + 1].monster == NULL && 
+            (map[monster->pos.y + 1][monster->pos.x].monster != NULL || map[monster->pos.y - 1][monster->pos.x].monster != NULL)) && 
+            (map[monster->pos.y][monster->pos.x + 1].ch == '.' || map[monster->pos.y][monster->pos.x + 1].ch == '+')) monster->pos.x++;
+
+
+            else if ((map[monster->pos.y][monster->pos.x - 1].monster == NULL && (map[monster->pos.y + 1][monster->pos.x].monster != NULL || map[monster->pos.y - 1][monster->pos.x].monster != NULL)) && (map[monster->pos.y][monster->pos.x - 1].ch == '.' || map[monster->pos.y][monster->pos.x - 1].ch == '+')) monster->pos.x--;
+        }
+
+      } else {
+        if (monster->pos.y < player->pos.y) {
+          if (map[monster->pos.y + 1][monster->pos.x].monster == NULL && (map[monster->pos.y + 1][monster->pos.x].ch == '.' || map[monster->pos.y + 1][monster->pos.x].ch == '+')) {
+            // x movimentation
+            monster->pos.y++;
+          }
+        } else if (monster->pos.y > player->pos.y){
+          if (map[monster->pos.y - 1][monster->pos.x].monster == NULL && (map[monster->pos.y - 1][monster->pos.x].ch == '.' || map[monster->pos.y - 1][monster->pos.x].ch == '+')) {
+            // x movimentation
+            monster->pos.y--;
+          } 
+        } else {
+            int randomY = rand() % 2;
+            if (randomY == 0 && (map[monster->pos.y + 1][monster->pos.x].monster == NULL && (map[monster->pos.y][monster->pos.x + 1].monster != NULL || map[monster->pos.y][monster->pos.x - 1].monster != NULL)) && (map[monster->pos.y + 1][monster->pos.x].ch == '.' || map[monster->pos.y + 1][monster->pos.x].ch == '+')) monster->pos.y++;
+
+
+            else if ((map[monster->pos.y - 1][monster->pos.x].monster == NULL && (map[monster->pos.y][monster->pos.x + 1].monster != NULL || map[monster->pos.y][monster->pos.x - 1].monster != NULL)) && (map[monster->pos.y - 1][monster->pos.x].ch == '.' || map[monster->pos.y - 1][monster->pos.x].ch == '+')) monster->pos.y--;
+        }
+      }
+
+      // If near the player, won't overwrite player and will replace the tile erased before wit the monster
+      if (map[monster->pos.y][monster->pos.x].ch == map[player->pos.y][player->pos.x].ch) {
+        map[oldY][oldX].monster = monster;
+        monster->pos.x = oldX;
+        monster->pos.y = oldY;
+      } else {
+        map[monster->pos.y][monster->pos.x].monster = monster;
+      }
+    } /* Else if mode_combat(map,monster) == 0 */
+
+    // fazer um else if para quando o monstro está idle
+ 
+
+
   }
 }
 
-
+// Fixes: Monsters can overwrite others, make a test that if monsters pos == monster2 pos
 
 
 

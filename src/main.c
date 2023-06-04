@@ -38,19 +38,22 @@ void gameLoop() {
   init_color(232,31,31,31);
   init_color (58,372,372,0);
   init_color(119,529,1000,372);
+  init_color(244,501,501,501);
+
   /* Colors */
   init_pair(1, COLOR_WHITE, COLOR_BLACK);  // cor do que é visivel
   init_pair(2, COLOR_BLUE, COLOR_BLACK); // cor do que foi visto
   init_pair(3, COLOR_YELLOW, COLOR_BLACK); // cor menu stats
   init_pair(4, COLOR_GREEN, COLOR_BLACK); 
   init_pair(6, COLOR_CYAN, COLOR_BLACK);
+  init_pair(5,COLOR_RED,COLOR_BLACK); 
   init_pair(7,96,COLOR_BLACK); // Plum 4
   init_pair(8,117,COLOR_BLACK); // SkyBlue 1
   init_pair(9,237,COLOR_BLACK); // dark grey
   init_pair(10,138,COLOR_BLACK); // Salmon
-  init_pair(5,COLOR_RED,COLOR_BLACK); // grey Skeleton
   init_pair(11,58,COLOR_BLACK); // orange dragon
   init_pair(12,119,COLOR_BLACK); // light green goblins
+  init_pair(13,244,COLOR_BLACK); // grey Skeleton
   
 
   /* Player memory */
@@ -72,7 +75,8 @@ void gameLoop() {
   bool sawAnItem = false;
   WINDOW * wnd = newwin(rows, cols2, 0, 0); // game window
   WINDOW * wnd2 = newwin(rows, 50, 0, cols2); // menu window
-
+  Monster monsters[maxRooms * 3];
+  int monstersAmount = 0;
 	// Setup ncurses window in CLI
 	windowSetUp(wnd, wnd2);
   createMenu(cols2,rows);
@@ -85,19 +89,24 @@ void gameLoop() {
   // getch();
 
   // create the whole map
-  Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user);
+  Tile ** map = createMap(wnd,maxRooms,firstPosition,cols,rows,user,monsters,&monstersAmount);
   updatePlayerPosition(user,cols,rows,map,&linesActions,&sawAVine, &sawAMonster, &sawAnItem);
-    
+
 	// game loop
 	while(1) {
     printMap(rows,cols,map,user);
 		int ch = getch();
-    if (ch == 'q' || ch == 'Q') break;
+    if (ch == 'H' || ch == 'h') {
+      user->life += 50;
+      updateStats(user,cols);
+    }
+    if (ch == 'q' || ch == 'Q' || user->life == 0) break;
     else if (ch == 'y' || ch == 'Y') {
       sideMenuLoop(&isSideMenuOpened,user,cols,rows,map);
     } else if (!isSideMenuOpened) {
-		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster, &sawAnItem,firstPosition,maxRooms,wnd);
-      moveMonsters(map, cols, rows); // move os monstros
+		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster, &sawAnItem,firstPosition,maxRooms,wnd, monsters, &monstersAmount);
+      moveMonsters(map,user, cols, monsters, monstersAmount); // move os monstros
+      
     }
 
     /* Player memory */
@@ -126,7 +135,6 @@ void gameLoop() {
   resetMap(rows,cols,map,user);
   delwin(wnd);
   delwin(wnd2);
-
 }
 
 

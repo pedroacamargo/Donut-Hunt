@@ -112,6 +112,11 @@ void updateStats(Player * user, int cols2) {
   int line3Start = 9 + cols2;
   int line4Start = 19 + cols2;
   int line5Start = 9 + cols2;
+  mvprintw(startAreaStats, line1Start,"        ");
+  mvprintw(startAreaStats + 1, line2Start, "        ");
+  mvprintw(startAreaStats + 2, line3Start, "        ");
+  mvprintw(startAreaStats + 3, line4Start, "        ");
+  mvprintw(startAreaStats + 4, line5Start, "        ");
   attron(COLOR_PAIR(3));
   mvprintw(startAreaStats, line1Start,"%d",user->life);
   mvprintw(startAreaStats + 1, line2Start, "%d",user->damage);
