@@ -35,7 +35,7 @@ Monster * spawnMonster(Tile** map, NormalRoom room, Player* player) {
 
 Monster * createSkeleton() {
   Monster * monster = malloc(sizeof(Monster));
-  monster->color = COLOR_PAIR(5);
+  monster->color = COLOR_PAIR(13);
   monster->type = 'S';
   monster->life = 50;
   monster->damage = 5;

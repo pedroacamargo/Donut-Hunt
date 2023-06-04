@@ -53,7 +53,7 @@ void gameLoop() {
   init_pair(10,138,COLOR_BLACK); // Salmon
   init_pair(11,58,COLOR_BLACK); // orange dragon
   init_pair(12,119,COLOR_BLACK); // light green goblins
-  init_pair(13,244,COLOR_BLACK); // grey Skeleton// grey Skeleton
+  init_pair(13,244,COLOR_BLACK); // grey Skeleton
   
 
   /* Player memory */
