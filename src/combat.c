@@ -17,12 +17,24 @@ int mode_combat(Tile** map, Monster* monster){
     return 0;
 }
 
-void combat(Player* player, Monster* monster){
-
-    while (player->life > 0 || monster->life > 0){
-        
+void removeMonster(Tile** map, Monster* monster){
+    while (monster->life == 0){
+        map[monster->pos.y][monster->pos.x].monster = NULL;
     }
-
 }
+
+
+void combat(Tile** map, Player* player, Monster* monster){
+    
+    while (manhattanDistance(monster, player) == 1){
+      if (monster->life != 0){
+        monster->life -= player->damage;
+    } else{   
+        removeMonster(map,monster);
+      }
+    }
+}
+
+
 
 

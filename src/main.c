@@ -99,6 +99,7 @@ void gameLoop() {
     } else if (!isSideMenuOpened) {
 		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster, &sawAnItem,firstPosition,maxRooms,wnd, monsters, &monstersAmount);
       moveMonsters(map,user, cols, rows, monsters, monstersAmount); // move os monstros
+      
     }
 
     /* Player memory */
