@@ -137,7 +137,7 @@ void moveMonsters(Tile **map, Player* player, int cols, int rows, Monster * mons
     } /* Else if mode_combat(map,monster) == 0 */
 
     // fazer um else if para quando o monstro está idle
-    combat(map,player,monster);
+ 
 
 
   }

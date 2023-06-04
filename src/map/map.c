@@ -11,7 +11,7 @@ Tile ** matrixSetup(int rows, int cols) {
 
   for (int i = 0; i < rows; i++)
     for (int j = 0; j < cols; j++) {
-      map[i][j].ch = ' ';
+      map[i][j].ch = ' '; 
     }
 
   return map;

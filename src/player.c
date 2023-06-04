@@ -46,7 +46,7 @@ Player * playerSetUp() {
 
   newPlayer->life = 100;
   newPlayer->armor = 0;
-  newPlayer->damage = 100;
+  newPlayer->damage = 10;
   newPlayer->dungeonFloor = 1;
   newPlayer->monstersKilled = 0;
   newPlayer->activeItems = playerInventory;
@@ -76,10 +76,9 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
   newY = y + user->pos.y;
   newX = x + user->pos.x;
 
-  if (map[newY][newX].monster) {
+  if (map[newY][newX].monster != NULL) {
+   combat(map,user,map[newY][newX].monster);
 
-
-    return map;
   } else {
 
     switch (map[newY][newX].ch) {

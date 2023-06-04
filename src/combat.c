@@ -18,14 +18,18 @@ int mode_combat(Tile** map, Monster* monster){
 }
 
 void removeMonster(Tile** map, Monster* monster){
-    while (monster->life == 0){
-        map[monster->pos.y][monster->pos.x].monster = NULL;
-    }
+    map[monster->pos.y][monster->pos.x].monster = NULL;
+    monster->pos.x = 0;
+    monster->pos.y = 0;
+    map[monster->pos.y][monster->pos.x].monster = monster;
 }
 
-void combat(Tile** map, Player* player, Monster* monster){
 
-    map[player->pos.y][player->pos.x] == 
+void combat(Tile** map, Player* player, Monster* monster){
+    monster->life -= player->damage;
+    if(monster->life <= 0){
+        removeMonster(map,monster);
+    }
 }
 
 
