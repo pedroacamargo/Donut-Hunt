@@ -23,18 +23,22 @@ void removeMonster(Tile** map, Monster* monster){
     }
 }
 
-
 void combat(Tile** map, Player* player, Monster* monster){
-    
-    while (manhattanDistance(monster, player) == 1){
-      if (monster->life != 0){
-        monster->life -= player->damage;
-    } else{   
-        removeMonster(map,monster);
-      }
-    }
+
+    map[player->pos.y][player->pos.x] == 
 }
 
 
 
 
+
+   /* int distance = manhattanDistance(monster,player);
+    if (distance == 0){
+      if (monster->life != 0){
+        monster->life -= player->damage;
+    } else{   
+        removeMonster(map,monster);
+        distance = 1;
+      }
+    } 
+    */
