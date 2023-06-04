@@ -96,12 +96,12 @@ void gameLoop() {
 	while(1) {
     printMap(rows,cols,map,user);
 		int ch = getch();
-    if (ch == 'q' || ch == 'Q') break;
+    if (ch == 'q' || ch == 'Q' || user->life == 0) break;
     else if (ch == 'y' || ch == 'Y') {
       sideMenuLoop(&isSideMenuOpened,user,cols,rows,map);
     } else if (!isSideMenuOpened) {
 		  map = getInput(ch, user,cols,rows, map,&linesActions, &sawAVine, &sawAMonster, &sawAnItem,firstPosition,maxRooms,wnd, monsters, &monstersAmount);
-      moveMonsters(map,user, cols, rows, monsters, monstersAmount); // move os monstros
+      moveMonsters(map,user, cols, monsters, monstersAmount); // move os monstros
       
     }
 

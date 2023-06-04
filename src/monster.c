@@ -9,7 +9,7 @@ Monster * spawnMonster(Tile** map, NormalRoom room, Player* player) {
   int chance = rand() % 1000;
 
   if (player->dungeonFloor >= 1 && player->dungeonFloor < 5) {
-    if (chance < 800) monster = createSkeleton();  // 80% de nascer esqueletos 20% goblins
+    if (chance < 950) monster = createSkeleton();  // 80% de nascer esqueletos 20% goblins
     else monster = createGoblin();
   } else if (player->dungeonFloor >= 5 && player->dungeonFloor < 10){
     if (chance < 700) monster = createSkeleton();
@@ -48,7 +48,7 @@ Monster * createGoblin(){
   monster->color = COLOR_PAIR(12);
   monster->type = 'G';
   monster->life = 75;
-  monster->damage = 15;
+  monster->damage = 10;
 
   return monster;
 }
@@ -68,7 +68,7 @@ int manhattanDistance (Monster* monster, Player* player){
 }
 
 
-void moveMonsters(Tile **map, Player* player, int cols, int rows, Monster * monsters, int monstersAmount) {
+void moveMonsters(Tile **map, Player* player, int cols, Monster * monsters, int monstersAmount) {
   Monster * monster;
 
   // Esse ciclo for vai acessar todos os monstros presentes no mapa, que estão dentro do array monsters
@@ -77,10 +77,24 @@ void moveMonsters(Tile **map, Player* player, int cols, int rows, Monster * mons
     int oldX = monster->pos.x;
     int oldY = monster->pos.y;
     int randomDirection = rand() % 2; // 0 - horizontal | 1 - vertical
-
     if (mode_combat(map, monster) == 1) { // encontram um monstro
 
       int distance = manhattanDistance(monster, player); // USE THE MANHATTAN DISTANCE TO MAKE THE COMBAT MODE (IF DISTANCE <= 2, DEAL DAMAGE TO THE PLAYER)
+    
+      if (distance <= 2) {
+        if (player->armor > 0) {
+          player->activeItems->armorSlot->buff -= monster->damage;
+
+          if(player->activeItems->armorSlot->buff < 0) player->activeItems->armorSlot->buff = 0;
+          player->armor = player->activeItems->armorSlot->buff;
+        } else {
+          player->life -= monster->damage;
+          if(player->life < 0) player->life = 0;
+        }
+        updateStats(player,cols);
+      }
+
+
 
       // erase the monster tile in the old position
       map[monster->pos.y][monster->pos.x].monster = NULL;

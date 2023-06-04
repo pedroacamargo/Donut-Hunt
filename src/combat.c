@@ -29,6 +29,7 @@ void combat(Tile** map, Player* player, Monster* monster){
     monster->life -= player->damage;
     if(monster->life <= 0){
         removeMonster(map,monster);
+        player->monstersKilled += 1;
     }
 }
 
