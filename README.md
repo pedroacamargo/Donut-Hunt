@@ -1,11 +1,16 @@
 <h3 align="center"><img src="https://github.com/pedroacamargo/Donut-Hunt/blob/main/imgs/DonutHunt.png"></img></h3> <hr>
 <p>
-  <strong>Donut Hunt</strong> - Roguelike desenvolvido em C, baseado somente em caracteres da tabela ASCII, onde o objetivo é sobreviver, passar os diferentes níveis e, talvez, achar o seu tão desejado donut. O jogo foi desenvolvido para a disciplina "Laboratórios de Algoritmia 1" do curso de Ciências da Computação na Universidade do Minho, onde <strong>Donut Hunt</strong> foi o projeto de finalização da UC.
+  <strong>Donut Hunt</strong> - Roguelike desenvolvido em C, baseado somente em caracteres da tabela ASCII, onde o objetivo é sobreviver, passar os diferentes níveis e, talvez, achar o seu tão desejado donut. O jogo foi desenvolvido para a disciplina "Laboratórios de Algoritmia 1" do curso de Ciências da Computação na Universidade do Minho, onde <strong>Donut Hunt</strong> foi o projeto final.
 </p>
 
 <hr>
 
-## 1. Objetivos mínimos
+# Index
+
+- [Objetivos Minimos](https://github.com/pedroacamargo/Donut-Hunt/#1.-objetivos-minimos)
+
+
+# 1. Objetivos minimos
 >&nbsp;
 >* Fazer uma geração de mapas de forma aleatória, utilizando algum algoritmo de **procedural generation**
 >* Fazer a movimentação do jogador com __WASD__ ou __ARROWS__
@@ -55,9 +60,78 @@ Com as cores surgem 5 raridades de itens:
 * Vermelho - Itens ultimate
 
 ## 2.4 Items - [Pedro Camargo](https://github.com/pedroacamargo) & [Bernardo Moniz](https://github.com/bernazyzz)
-### 2.4.1
+### 2.4.1 Item Types
+Existem 3 tipos de itens:
+* **Armor** -> Vai te dar armadura, quando os monstros tentarem hitar o player, caso você tenha armadura, irá reduzir a armadura ao invés da vida. Caso o jogador não possua uma armadura, a vida irá reduzir.
+* **Sword** -> Aumenta o dano do jogador.
+* **Aneis** -> Dão variados bônus.
+Existem 10 itens de cada tipo
 
+### 2.4.2 Item spawn chances
+Nas Normal Rooms, existe 30% de chance de spawnar um item variado. Nas Vine Rooms, existe 70% de chance de spawnar um item variado dentro das vinhas.\
+**A raridade dos itens quando spawnados é crescente** -> Lvl 1 - 4, raridade 1 - 3. Lvl 4 - 8, raridade 2 - 4. Lvl 9-15, raridade 3 - 5. Lvl > 15, raridade 5.\
+Os itens estarão presentes no mapa como '?'.
 
+### 2.4.3 Backpack
+O jogo possui um sistema de mochila. Quando o player passa por um '?', um item aleatório daquela raridade irá aparecer na mochila, para equipar basta pressionar **(ENTER)**. Na mochilá conseguirá ver o gasto da armadura, caso queira destruir a armadura gasta, pressione **(T)**. Para movimentar dentro da mochila, utilize o **(A)** ou **(D)**. 
 
-<p><samp>To create the ./play executable: <code><strong>make build</strong></code> or just <code><strong>make</strong></code></samp> <br>
-<samp>To reset all files and delete the executable:  </samp><code><strong>make clean</strong></code> </p> 
+## 2.5 Monsters - [Pedro Camargo](https://github.com/pedroacamargo) & [Tiago Machado](https://github.com/Maloco02)
+### 2.5.1 Monster Types & Spawn Rate
+Existem três tipos de monstros: **Esqueletos, Goblins e Dragões**.\
+* **Esqueletos** -> 95% Pisos 1 - 4 | 70% Pisos 5 - 9 | 50% Pisos 10 - 14 | 30% Pisos > 15
+* **Goblins** -> 5% Pisos 1 - 4 | 25% Pisos 5 - 9 | 40% Pisos 10 - 14 | 30% Pisos > 15
+* **Dragões** -> 0% Pisos 1 - 4 | 5% Pisos 5 - 9 | 10% Pisos 10 - 14 | 40% Pisos > 15
+
+### 2.5.2 Monsters Stats
+
+<table align="center">
+  <tr><th>Monster</th><th>Char</th><th>Life</th><th>Damage</th></tr>
+  <tr align="center"><td>Skeleton</td><td>'S'</td><td>50</td><td>5</td></tr>
+  <tr align="center"><td>Goblin</td><td>'G'</td><td>75</td><td>10</td></tr>
+  <tr align="center"><td>Dragon</td><td>'D'</td><td>500</td><td>50</td></tr>
+</table>
+
+# 3. How to install
+## 3.1 Clone o repositório para algum diretório local
+>&nbsp;
+>```cmd
+>> git clone https://github.com/pedroacamargo/Donut-Hunt
+>```
+>&nbsp;
+
+## 3.2 Tenha certeza que você tem o ncurses instalado
+sudo apt-get install libncurses5-dev libncursesw5-dev
+>&nbsp;
+>```cmd
+> Ubuntu
+>> sudo apt-get install libncurses5-dev libncursesw5-dev
+>
+> Arch Linux based distros
+>> sudo pacman -S ncurses
+>```
+>&nbsp;
+
+## 3.3 Instale o jogo e jogue
+>&nbsp;
+>```cmd
+>> make
+>> ./play
+>```
+>&nbsp;
+
+# 4. Contributors
+
+<table>
+<tr>
+ <th><strong><a href="https://github.com/pedroacamargo">Pedro Camargo</a></strong></th>
+ <th><strong><a href="https://github.com/Sousini">João Sousa</a></strong></th>
+ <th><strong><a href="https://github.com/Maloco02">Tiago Machado</a></strong></th>
+ <th><strong><a href="https://github.com/bernazyzz">Bernardo Moniz</a></strong></th>
+</tr>
+<tr>
+ <td align="center"><img src="https://avatars.githubusercontent.com/u/98715404?s=400&u=1d27a23534700cfa2fb02fc716db89b023abb54d&v=4" width="150"></td>
+  <td align="center"><img src="https://avatars.githubusercontent.com/u/116192076?v=4" width="150"></td>
+  <td align="center"><img src="https://avatars.githubusercontent.com/u/115084153?v=4" width="150"></td>
+  <td align="center"><img src="https://avatars.githubusercontent.com/u/114089668?v=4" width="150"></td>
+</tr>
+</table>
