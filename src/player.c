@@ -78,6 +78,7 @@ Tile ** playerMove(int y, int x, int cols, int rows, Player *user, Tile ** map, 
 
   if (map[newY][newX].monster != NULL) {
    combat(map,user,map[newY][newX].monster);
+   updateStats(user,cols);
 
   } else {
 

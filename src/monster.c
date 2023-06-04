@@ -9,7 +9,7 @@ Monster * spawnMonster(Tile** map, NormalRoom room, Player* player) {
   int chance = rand() % 1000;
 
   if (player->dungeonFloor >= 1 && player->dungeonFloor < 5) {
-    if (chance < 800) monster = createSkeleton();  // 80% de nascer esqueletos 20% goblins
+    if (chance < 950) monster = createSkeleton();  // 80% de nascer esqueletos 20% goblins
     else monster = createGoblin();
   } else if (player->dungeonFloor >= 5 && player->dungeonFloor < 10){
     if (chance < 700) monster = createSkeleton();
@@ -68,7 +68,7 @@ int manhattanDistance (Monster* monster, Player* player){
 }
 
 
-void moveMonsters(Tile **map, Player* player, int cols, int rows, Monster * monsters, int monstersAmount) {
+void moveMonsters(Tile **map, Player* player, int cols, Monster * monsters, int monstersAmount) {
   Monster * monster;
 
   // Esse ciclo for vai acessar todos os monstros presentes no mapa, que estão dentro do array monsters

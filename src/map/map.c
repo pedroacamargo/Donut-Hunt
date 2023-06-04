@@ -185,7 +185,7 @@ Tile ** createMap(WINDOW * wnd, int maxRooms, int firstPosition,int cols, int ro
   int j = 0;
   int cont = 0;
   while(1) {
-    randomAmount = rand() % 4;
+    randomAmount = rand() % 3;
     while (cont < randomAmount) {
       monsters[i] = *spawnMonster(map,rooms[j],user);
       *monstersAmount += 1;

@@ -152,16 +152,16 @@ Item * createRandomItem(Player * user) {
 		};
 
 		int buff[10] = {
-			4 + (user->dungeonFloor * 3),
-			5 + (user->dungeonFloor * 3),
-			6 + (user->dungeonFloor * 3),
-			7 + (user->dungeonFloor * 3),
 			14 + (user->dungeonFloor * 3),
-			25 + (user->dungeonFloor * 3),
+			15 + (user->dungeonFloor * 3),
+			16 + (user->dungeonFloor * 3),
+			17 + (user->dungeonFloor * 3),
+			24 + (user->dungeonFloor * 3),
 			35 + (user->dungeonFloor * 3),
 			45 + (user->dungeonFloor * 3),
-			80 + (user->dungeonFloor * 3),
-			120 + (user->dungeonFloor * 5)
+			55 + (user->dungeonFloor * 3),
+			90 + (user->dungeonFloor * 3),
+			130 + (user->dungeonFloor * 5)
 		};
 
 		item = createItem(ch,name[randomItem],buffDescription[randomItem],lore[randomItem],rarity[randomItem],buff[randomItem],user->dungeonFloor,ID);

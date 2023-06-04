@@ -27,7 +27,7 @@ void makeFov(Player *user, int cols, int rows, Tile** map, int * linesActions, b
                     *sawAVine = 1;
                 }
                 if (map[y][x].monster != NULL) {
-                    if ((map[y][x].monster->type == 'E' || map[y][x].monster->type == 'G' || map[y][x].monster->type == 'D') && (*sawAMonster == false)) {
+                    if ((map[y][x].monster->type == 'S' || map[y][x].monster->type == 'G' || map[y][x].monster->type == 'D') && (*sawAMonster == false)) {
                         *linesActions = addActions(cols, "Be careful, a monster!", *linesActions,5);
                         *sawAMonster = 1;
                     }
