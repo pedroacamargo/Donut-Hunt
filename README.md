@@ -134,7 +134,10 @@ Existem três tipos de monstros: **Esqueletos, Goblins e Dragões**.\
 >```
 >&nbsp;
 
+
+
 # 4. Contributors
+### Nota final: __19__
 
 <table>
 <tr>
